@@ -54,7 +54,7 @@ chmod +x "$HOOK_SCRIPT2"
 cat > "$HOOK_SCRIPT2" <<EOF
 #!/bin/bash
 
-valid_branch_regex=\"^(main|dev|staging|(feat|tests|(bug|hot)fix)(\/[a-z0-9]+(-[a-z0-9]+)*){1,2})$\"
+valid_branch_regex=\'^(main|dev|staging|(feat|tests|(bug|hot)fix)(\/[a-z0-9]+(-[a-z0-9]+)*){1,2})$\'
 
 local_branch=\$(git rev-parse --abbrev-ref HEAD)
 
