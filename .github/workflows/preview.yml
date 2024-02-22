@@ -33,7 +33,7 @@ jobs:
         working-directory: back  
 
   front:
-    needs: prepare
+    needs: back
     runs-on: ubuntu-latest
 
     steps:
