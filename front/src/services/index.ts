@@ -4,7 +4,7 @@ import axios from "axios";
 
 export const HealthCheck = () => {
   axios
-    .get(import.meta.env.VITE_BACKEND_URL)
+    .get(`${import.meta.env.VITE_BACKEND_URL}/healthz`)
     .then((response) => {
       // Handle successful response
       console.log("Health check successful:", response.data);
