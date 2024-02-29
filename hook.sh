@@ -51,19 +51,16 @@ touch "$HOOK_SCRIPT2"
 
 chmod +x "$HOOK_SCRIPT2"
 
-cat > "$HOOK_SCRIPT2" <<EOF
-#!/bin/bash
+echo '#!/bin/bash' > $HOOK_SCRIPT2
 
-valid_branch_regex=\'^(main|dev|staging|(feat|tests|(bug|hot)fix)(\/[a-z0-9]+(-[a-z0-9]+)*){1,2})$\'
+echo 'VALID_MODELS_BRANCH="^(main|dev|staging|(feat|tests|(bug|hot)fix)(\/[a-z0-9]+(-[a-z0-9]+)*){1,2})$"' >> $HOOK_SCRIPT2
+echo 'LOCAL_BRANCH=$(git rev-parse --abbrev-ref HEAD)' >> $HOOK_SCRIPT2
 
-local_branch=\$(git rev-parse --abbrev-ref HEAD)
-
-if [[ ! \$local_branch =~ \$valid_branch_regex ]]; then
+echo 'if [[ ! "$LOCAL_BRANCH" =~ $VALID_MODELS_BRANCH ]]; then
     echo \"This branch violates the branch naming rules. Please rename your branch.\"
     exit 1
-fi
+fi' >> $HOOK_SCRIPT2
 
-exit 0
-EOF
+echo 'exit 0' >> $HOOK_SCRIPT2
 
 echo "Hook script created: $HOOK_SCRIPT2"
