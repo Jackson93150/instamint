@@ -1,5 +1,5 @@
 import { Body, Controller, Post } from '@nestjs/common';
-import { MinterEntity } from 'src/models';
+import { MinterEntity } from '../../models';
 import { MinterService } from './minter.service';
 
 @Controller('minter')

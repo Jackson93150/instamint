@@ -2,8 +2,8 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
-import { MinterEntity } from 'src/models';
-import { EMAIL_REGEX } from 'src/constants';
+import { MinterEntity } from '../../models';
+import { EMAIL_REGEX } from '../../constants';
 import * as bcrypt from 'bcrypt';
 
 @Injectable()
