@@ -1,6 +1,7 @@
 import { ChangeEvent, useState } from 'react';
 
 import { BubbleParticle } from '@/components';
+import { createMinter } from '@/services';
 import { Button } from '@/ui';
 
 export const RegistrationPage = () => {
@@ -11,6 +12,8 @@ export const RegistrationPage = () => {
     termsAccepted: false,
   });
 
+  const [isError, setIsError] = useState(false);
+
   const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
     const { name, value, type, checked } = e.target;
     const val = type === 'checkbox' ? checked : value;
@@ -18,6 +21,21 @@ export const RegistrationPage = () => {
       ...formData,
       [name]: val,
     });
+  };
+
+  const handleSubmit = async () => {
+    if (formData.termsAccepted) {
+      const minterData = {
+        username: formData.username,
+        email: formData.email,
+        password: formData.password,
+      };
+      try {
+        await createMinter(minterData);
+      } catch (error) {
+        setIsError(true);
+      }
+    }
   };
 
   return (
@@ -30,7 +48,7 @@ export const RegistrationPage = () => {
           Let’s Create An Account
         </p>
 
-        <form className="gap-4U mt-8U flex flex-col">
+        <div className="gap-4U mt-8U flex flex-col">
           <div className="gap-1U flex w-full flex-col">
             <label className="text-body text-gray-400">Username</label>
             <input
@@ -65,6 +83,8 @@ export const RegistrationPage = () => {
             />
           </div>
 
+          {isError && <span className="text-small text-red-500">Email is invalid or already taken</span>}
+
           <div className="mt-8U gap-4U mobile:flex-row flex flex-col items-center justify-between">
             <div className="gap-1U flex items-center">
               <input
@@ -76,14 +96,14 @@ export const RegistrationPage = () => {
               />
               <label className="text-small flex leading-none">I accept the terms & conditions</label>
             </div>
-            <Button color="green" content="Sign Up" />
+            <Button color="green" content="Sign Up" onClick={handleSubmit} />
           </div>
 
           <div className="gap-1U mt-8U flex w-full justify-center">
             <span className="text-body text-gray-400">Own an account?</span>
             <span className="text-body font-bold text-black">Sign In</span>
           </div>
-        </form>
+        </div>
       </div>
     </div>
   );
