@@ -5,7 +5,7 @@ export class AppController {
   // eslint-disable-next-line @typescript-eslint/no-empty-function
   constructor() {}
 
-  @Get('/healthz')
+  @Get('/health')
   healthcheck() {
     return {
       healthy: true,
