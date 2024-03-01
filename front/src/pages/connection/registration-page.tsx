@@ -1,10 +1,12 @@
 import { ChangeEvent, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 
 import { BubbleParticle } from '@/components';
 import { createMinter } from '@/services';
 import { Button } from '@/ui';
 
 export const RegistrationPage = () => {
+  const navigate = useNavigate();
   const [formData, setFormData] = useState({
     username: '',
     email: '',
@@ -32,6 +34,7 @@ export const RegistrationPage = () => {
       };
       try {
         await createMinter(minterData);
+        navigate('/');
       } catch (error) {
         setIsError(true);
       }
