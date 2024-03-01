@@ -2,6 +2,10 @@ export default {
   content: ['./src/**/*.{js,ts,jsx,tsx}', './lib/ui/src/**/*.{js,ts,jsx,tsx}'],
   theme: {
     extend: {
+      borderWidth: {
+        '1/4U': '1px',
+        '1/2U': '2px',
+      },
       colors: {
         green: {
           100: '#151D20',
@@ -14,6 +18,7 @@ export default {
           100: '#4a504d',
           200: '#b7c8ba',
           300: '#e0f0e4',
+          400: '#4A504D',
         },
       },
       fontSize: {
@@ -48,6 +53,13 @@ export default {
           },
         ],
       },
+      screens: {
+        desktop: '1440px',
+        'desktop-s': '1280px',
+        'tablet-l': '1024px',
+        tablet: '844px',
+        mobile: '480px',
+      },
       spacing: {
         '1U': '4px',
         '1.5U': '6px',
@@ -70,6 +82,9 @@ export default {
         '18U': '72px',
         '19U': '76px',
         '20U': '80px',
+      },
+      zIndex: {
+        navbar: '100',
       },
     },
   },
