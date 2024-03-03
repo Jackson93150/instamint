@@ -1,6 +1,8 @@
 import { ChangeEvent, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 
+import EyeHide from '@/assets/icons/eye-hide.svg?react';
+import Eye from '@/assets/icons/eye.svg?react';
 import { BubbleParticle } from '@/components';
 import { createMinter } from '@/services';
 import { Button } from '@/ui';
@@ -15,6 +17,7 @@ export const RegistrationPage = () => {
   });
 
   const [isError, setIsError] = useState(false);
+  const [showPassword, setShowPassword] = useState(false);
 
   const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
     const { name, value, type, checked } = e.target;
@@ -57,7 +60,7 @@ export const RegistrationPage = () => {
             <input
               type="text"
               name="username"
-              className="border-b-1/4U border-black outline-none focus:border-green-300"
+              className="border-b-1/4U py-1U border-black outline-none focus:border-green-300"
               value={formData.username}
               onChange={handleChange}
               required
@@ -68,7 +71,7 @@ export const RegistrationPage = () => {
             <input
               type="email"
               name="email"
-              className="border-b-1/4U border-black outline-none focus:border-green-300"
+              className="border-b-1/4U py-1U border-black outline-none focus:border-green-300"
               value={formData.email}
               onChange={handleChange}
               required
@@ -76,14 +79,21 @@ export const RegistrationPage = () => {
           </div>
           <div className="gap-1U flex w-full flex-col">
             <label className="text-body text-gray-400">Password</label>
-            <input
-              type="password"
-              name="password"
-              className="border-b-1/4U border-black outline-none focus:border-green-300"
-              value={formData.password}
-              onChange={handleChange}
-              required
-            />
+            <div className="relative w-full">
+              <input
+                type={showPassword ? 'text' : 'password'}
+                name="password"
+                className="border-b-1/4U py-1U w-full border-black outline-none focus:border-green-300"
+                value={formData.password}
+                onChange={handleChange}
+                required
+              />
+              {showPassword ? (
+                <Eye className="absolute right-0 top-0 cursor-pointer" onClick={() => setShowPassword(false)} />
+              ) : (
+                <EyeHide className="absolute right-0 top-0 cursor-pointer" onClick={() => setShowPassword(true)} />
+              )}
+            </div>
           </div>
 
           {isError && <span className="text-small text-red-500">Email is invalid or already taken</span>}
