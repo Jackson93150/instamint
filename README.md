@@ -3,7 +3,7 @@
 - Jackson ANTHONIPILLAI (Jackson93150) <anthonipillaijackson@gmail.com>
 - Emmanuel TCHATCHOUANG (etchatchouang) <tchatchouangemmanuelandrel@gmail.com>
 - Thomas Roux (thomasRouxGithub) <thomas.roux.cesi@gmail.com>
-- Dhia BEN AHMED (dhia1599) <mohamed-dhia.ben-ahmed@supdevinci-edu.fr>
+- Mohamed Dhia BEN AHMED (dhia1599) <mohamed-dhia.ben-ahmed@supdevinci-edu.fr>
 
 ## Resume
 As a developer in a dynamic digital agency, we're diving into a project to create a unique social sharing platform for NFTs. This platform will blend the essence of Instagram with web3 technologies. We're utilizing React Nest to bring this vision to life, ensuring a seamless integration of NFT features with an intuitive user interface. Our goal is to exceed expectations and deliver a pioneering platform that revolutionizes social sharing in the NFT space.
