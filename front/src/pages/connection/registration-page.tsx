@@ -17,6 +17,7 @@ export const RegistrationPage = () => {
   });
 
   const [isError, setIsError] = useState(false);
+  const [isTermsError, setIsTermsError] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
 
   const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
@@ -30,6 +31,7 @@ export const RegistrationPage = () => {
 
   const handleSubmit = async () => {
     if (formData.termsAccepted) {
+      setIsTermsError(false);
       const minterData = {
         username: formData.username,
         email: formData.email,
@@ -41,6 +43,8 @@ export const RegistrationPage = () => {
       } catch (error) {
         setIsError(true);
       }
+    } else {
+      setIsTermsError(true);
     }
   };
 
@@ -97,6 +101,7 @@ export const RegistrationPage = () => {
           </div>
 
           {isError && <span className="text-small text-red-500">Email is invalid or already taken</span>}
+          {isTermsError && <span className="text-small text-red-500">Please accept the terms & conditions</span>}
 
           <div className="mt-8U gap-4U mobile:flex-row flex flex-col items-center justify-between">
             <div className="gap-1U flex items-center">
