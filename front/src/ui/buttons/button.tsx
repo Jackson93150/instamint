@@ -17,7 +17,7 @@ export const Button = ({ size = 'regular', color, content, className, fullWidth,
   });
 
   const getBgAndBorderClass = cx({
-    'bg-green-400 border-1/4U border-green-300 text-white hover:border-green-200': color === 'green',
+    'bg-green-300 border-1/4U border-green-400 text-white hover:border-green-200': color === 'green',
     'bg-transparent border-1/4U border-green-400 text-green-400 hover:border-green-300 hover:text-green-300':
       color === 'transparent',
   });
