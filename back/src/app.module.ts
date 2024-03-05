@@ -1,8 +1,10 @@
 import { Module } from '@nestjs/common';
-import { AppController } from './app.controller';
 import { ConfigModule } from '@nestjs/config';
 import { TypeOrmModule } from '@nestjs/typeorm';
+
+import { AppController } from './app.controller';
 import { MinterModule } from './modules';
+import { AuthModule } from './modules/auth/auth.module';
 
 @Module({
   imports: [
@@ -20,6 +22,7 @@ import { MinterModule } from './modules';
       synchronize: true,
     }),
     MinterModule,
+    AuthModule,
   ],
   controllers: [AppController],
 })

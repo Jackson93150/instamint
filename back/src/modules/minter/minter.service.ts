@@ -1,10 +1,10 @@
-// content.service.ts
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { Repository } from 'typeorm';
-import { MinterEntity } from '../../models';
-import { EMAIL_REGEX } from '../../constants';
 import * as bcrypt from 'bcrypt';
+import { Repository } from 'typeorm';
+
+import { EMAIL_REGEX } from '../../constants';
+import { MinterEntity } from '../../models';
 
 @Injectable()
 export class MinterService {
@@ -35,5 +35,16 @@ export class MinterService {
 
     const createdMinter = await this.minterRepository.save(newMinter);
     return createdMinter;
+  }
+
+  async getMinterByEmail(email: string): Promise<MinterEntity | undefined> {
+    return this.minterRepository.findOne({ where: { email: email } });
+  }
+
+  async getMinterByEmailAndId(
+    email: string,
+    id: number,
+  ): Promise<MinterEntity | undefined> {
+    return this.minterRepository.findOne({ where: { email: email, id: id } });
   }
 }
