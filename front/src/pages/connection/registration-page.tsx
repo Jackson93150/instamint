@@ -114,7 +114,7 @@ export const RegistrationPage = () => {
               />
               <label className="text-small flex leading-none">I accept the terms & conditions</label>
             </div>
-            <Button color="green" content="Sign Up" onClick={handleSubmit} />
+            <Button color={formData.termsAccepted ? 'green' : 'gray'} content="Sign Up" onClick={handleSubmit} />
           </div>
 
           <div className="gap-1U mt-8U flex w-full justify-center">
