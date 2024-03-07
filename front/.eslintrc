@@ -67,6 +67,7 @@
     "react/jsx-props-no-spreading": "off",
     "react/jsx-key": "warn",
     "react/display-name": "off",
+    "tailwindcss/no-custom-classname": "off",
     "import/named": "off",
     "import/no-extraneous-dependencies": [
       "error",
@@ -114,6 +115,9 @@
     },
     "react": {
       "version": "detect"
+    },
+    "tailwindcss": {
+      "config": "./tailwind-config.js"
     }
   }
 }
