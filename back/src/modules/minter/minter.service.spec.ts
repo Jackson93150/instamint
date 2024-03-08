@@ -1,9 +1,11 @@
 import { Test, TestingModule } from '@nestjs/testing';
-import { MinterService } from './minter.service';
-import { MinterEntity } from '../../models';
 import { getRepositoryToken } from '@nestjs/typeorm';
-import { Repository } from 'typeorm';
 import * as bcrypt from 'bcrypt';
+import { Repository } from 'typeorm';
+
+import { MinterService } from './minter.service';
+
+import { MinterEntity } from '../../models';
 
 describe('MinterService', () => {
   let service: MinterService;

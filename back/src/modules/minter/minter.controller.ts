@@ -1,6 +1,8 @@
 import { Body, Controller, Post } from '@nestjs/common';
-import { MinterEntity } from '../../models';
+
 import { MinterService } from './minter.service';
+
+import { MinterEntity } from '../../models';
 
 @Controller('minter')
 export class MinterController {
