@@ -4,6 +4,7 @@ import { useNavigate } from 'react-router-dom';
 import EyeHide from '@/assets/icons/eye-hide.svg?react';
 import Eye from '@/assets/icons/eye.svg?react';
 import { BubbleParticle } from '@/components';
+import { PASSWORD_REGEX } from '@/constants';
 import { createMinter } from '@/services';
 import { Button } from '@/ui';
 
@@ -17,7 +18,7 @@ export const RegistrationPage = () => {
   });
 
   const [isError, setIsError] = useState(false);
-  const [isTermsError, setIsTermsError] = useState(false);
+  const [textError, setTextError] = useState('');
   const [showPassword, setShowPassword] = useState(false);
 
   const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
@@ -30,21 +31,29 @@ export const RegistrationPage = () => {
   };
 
   const handleSubmit = async () => {
-    if (formData.termsAccepted) {
-      setIsTermsError(false);
-      const minterData = {
-        username: formData.username,
-        email: formData.email,
-        password: formData.password,
-      };
-      try {
-        await createMinter(minterData);
-        navigate('/');
-      } catch (error) {
-        setIsError(true);
-      }
-    } else {
-      setIsTermsError(true);
+    if (!formData.termsAccepted) {
+      setTextError('Please accept the terms & conditions');
+      setIsError(true);
+      return;
+    }
+
+    setIsError(true);
+    const minterData = {
+      username: formData.username,
+      email: formData.email,
+      password: formData.password,
+    };
+
+    if (!PASSWORD_REGEX.test(formData.password)) {
+      setTextError('Password must contain at least 8 characters and one number');
+      return;
+    }
+
+    try {
+      await createMinter(minterData);
+      navigate('/');
+    } catch (error) {
+      setTextError('Email is invalid or already taken');
     }
   };
 
@@ -100,8 +109,7 @@ export const RegistrationPage = () => {
             </div>
           </div>
 
-          {isError && <span className="text-small text-red-500">Email is invalid or already taken</span>}
-          {isTermsError && <span className="text-small text-red-500">Please accept the terms & conditions</span>}
+          {isError && <span className="text-small text-red-500">{textError}</span>}
 
           <div className="mt-8U gap-4U mobile:flex-row flex flex-col items-center justify-between">
             <div className="gap-1U flex items-center">
@@ -119,7 +127,14 @@ export const RegistrationPage = () => {
 
           <div className="gap-1U mt-8U flex w-full justify-center">
             <span className="text-body text-gray-400">Own an account?</span>
-            <span className="text-body font-bold text-black">Sign In</span>
+            <span
+              className="text-body cursor-pointer font-bold text-black"
+              onClick={() => {
+                navigate('/login');
+              }}
+            >
+              Sign In
+            </span>
           </div>
         </div>
       </div>

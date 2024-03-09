@@ -6,7 +6,7 @@ function App() {
   return (
     <Routes>
       <Route index element={<HomePage />} />
-      <Route path="/registration" element={<RegistrationPage />} />
+      <Route path="/register" element={<RegistrationPage />} />
       <Route path="/login" element={<LoginPage />} />
     </Routes>
   );

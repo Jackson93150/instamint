@@ -82,7 +82,14 @@ export const LoginPage = () => {
 
           <div className="gap-1U mt-8U flex w-full justify-center">
             <span className="text-body text-gray-400">Don&apos;t have an account?</span>
-            <span className="text-body font-bold text-black">Sign Up</span>
+            <span
+              className="text-body cursor-pointer font-bold text-black"
+              onClick={() => {
+                navigate('/register');
+              }}
+            >
+              Sign Up
+            </span>
           </div>
         </div>
       </div>
