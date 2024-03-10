@@ -77,7 +77,7 @@ export const LoginPage = () => {
           {isError && <span className="text-small text-red-500">Email or Password is incorrect</span>}
 
           <div className="mt-8U flex items-center justify-center">
-            <Button color="green" content="Sign Up" onClick={handleSubmit} />
+            <Button color="green" content="Sign In" onClick={handleSubmit} />
           </div>
 
           <div className="gap-1U mt-8U flex w-full justify-center">
