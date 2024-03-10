@@ -1,4 +1,5 @@
 import cx from 'classnames';
+import Tilt from 'react-parallax-tilt';
 
 interface Props {
   picture: string;
@@ -8,7 +9,8 @@ interface Props {
 
 export const HomeNftCard = ({ picture, size, classname }: Props) => {
   return (
-    <div
+    <Tilt
+      perspective={3000}
       className={cx('p-2U size-fit rounded-[15px] border border-white/50 bg-white/10 backdrop-blur-[25px]', classname)}
     >
       <img
@@ -21,6 +23,6 @@ export const HomeNftCard = ({ picture, size, classname }: Props) => {
         src={picture}
         alt=""
       />
-    </div>
+    </Tilt>
   );
 };
