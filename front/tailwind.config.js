@@ -83,6 +83,12 @@ export default {
         '19U': '76px',
         '20U': '80px',
       },
+      boxShadow: {
+        greenCircle: '0 35px 60px -15px rgba(85, 255, 153, 0.5)',
+      },
+      backgroundImage: {
+        'green-gradient': 'linear-gradient(180deg, #27ab5c, #16502d)',
+      },
       zIndex: {
         navbar: '100',
       },
