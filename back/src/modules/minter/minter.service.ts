@@ -3,7 +3,7 @@ import { InjectRepository } from '@nestjs/typeorm';
 import * as bcrypt from 'bcrypt';
 import { Repository } from 'typeorm';
 
-import { EMAIL_REGEX } from '../../constants';
+import { EMAIL_REGEX, PASSWORD_REGEX } from '../../constants';
 import { MinterEntity } from '../../models';
 
 @Injectable()
@@ -24,6 +24,10 @@ export class MinterService {
 
     if (!EMAIL_REGEX.test(minter.email)) {
       throw new Error('The email must be in valid format.');
+    }
+
+    if (!PASSWORD_REGEX.test(minter.password)) {
+      throw new Error('Password must be in valid format.');
     }
 
     const hashedPassword = await bcrypt.hash(minter.password, 10);
