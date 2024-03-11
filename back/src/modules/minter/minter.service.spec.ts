@@ -37,7 +37,7 @@ describe('MinterService', () => {
       const minter: MinterEntity = {
         username: 'testuser',
         email: 'test@example.com',
-        password: 'testpassword',
+        password: 'testpassword123',
         id: 0,
         phone: null,
         bio: null,
@@ -64,7 +64,7 @@ describe('MinterService', () => {
       const minter: MinterEntity = {
         username: 'testuser',
         email: 'test@example.com',
-        password: 'testpassword',
+        password: 'testpassword123',
         id: 0,
         phone: null,
         bio: null,
@@ -88,7 +88,7 @@ describe('MinterService', () => {
       const minter: MinterEntity = {
         username: 'testuser',
         email: 'invalidemail',
-        password: 'testpassword',
+        password: 'testpassword123',
         id: 0,
         phone: null,
         bio: null,
@@ -105,6 +105,30 @@ describe('MinterService', () => {
 
       await expect(service.createMinter(minter)).rejects.toThrowError(
         'The email must be in valid format.',
+      );
+    });
+
+    it('should throw error if password format is invalid', async () => {
+      const minter: MinterEntity = {
+        username: 'testuser',
+        email: 'test@example.com',
+        password: 'testpassword',
+        id: 0,
+        phone: null,
+        bio: null,
+        pictureUrl: null,
+        uniqueUrl: null,
+        isPrivate: false,
+        twoFactorEnabled: false,
+        twoFactorSecret: null,
+        createdAt: undefined,
+        updatedAt: undefined,
+      };
+
+      jest.spyOn(repository, 'findOne').mockResolvedValueOnce(null);
+
+      await expect(service.createMinter(minter)).rejects.toThrowError(
+        'Password must be in valid format.',
       );
     });
   });
