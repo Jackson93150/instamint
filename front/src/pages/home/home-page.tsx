@@ -1,7 +1,8 @@
+import { HomeHeaderSection } from '@/components';
 export const HomePage = () => {
   return (
-    <div>
-      <p>React Template test</p>
+    <div className="flex h-fit w-screen flex-col">
+      <HomeHeaderSection />
     </div>
   );
 };
