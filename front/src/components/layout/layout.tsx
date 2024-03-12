@@ -1,4 +1,4 @@
-import { ReactNode } from 'react';
+import React, { ReactNode } from 'react';
 
 import { Navbar } from '../navbar/navbar';
 
@@ -8,9 +8,9 @@ interface Props {
 
 export const Layout = ({ children }: Props) => {
   return (
-    <>
+    <React.Fragment>
       <Navbar />
-      {children}
-    </>
+      <main className="h-fit w-full">{children}</main>
+    </React.Fragment>
   );
 };

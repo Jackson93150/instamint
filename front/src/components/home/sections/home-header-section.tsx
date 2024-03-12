@@ -15,7 +15,7 @@ import 'swiper/swiper-bundle.css';
 export const HomeHeaderSection = () => {
   return (
     <div className="tablet:items-center flex h-screen w-screen overflow-hidden bg-green-100 px-[5%]">
-      <div className="tablet:flex-row tablet:mt-[-10%] tablet:justify-between mobile:gap-5U mt-[5%] flex w-full flex-col items-center gap-[20vw]">
+      <div className="tablet:flex-row tablet:mt-[-10%] tablet:justify-between mobile:gap-5U mt-[60px] flex w-full flex-col items-center gap-[20vw]">
         <div className="tablet:items-start flex size-fit flex-col items-center">
           <span className="tablet:text-[96px] mobile:text-[8vw] text-[10vw] font-bold leading-none text-white">
             Welcome To

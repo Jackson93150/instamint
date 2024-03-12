@@ -5,13 +5,15 @@ import { HomePage, RegistrationPage, LoginPage } from '@/pages';
 
 function App() {
   return (
-    <Routes>
-      <Route path="/register" element={<RegistrationPage />} />
-      <Route path="/login" element={<LoginPage />} />
-      <Route element={<Layout />}>
+    <Layout>
+      <Routes>
         <Route index element={<HomePage />} />
-      </Route>
-    </Routes>
+      </Routes>
+      <Routes>
+        <Route path="/register" element={<RegistrationPage />} />
+        <Route path="/login" element={<LoginPage />} />
+      </Routes>
+    </Layout>
   );
 }
 
