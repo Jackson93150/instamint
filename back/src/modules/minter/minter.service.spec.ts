@@ -131,5 +131,30 @@ describe('MinterService', () => {
         'Password must be in valid format.',
       );
     });
+    it('should handle finding a minter by email correctly, including not found case', async () => {
+      const minter: MinterEntity = {
+        username: 'testuser',
+        email: 'test@example.com',
+        password: 'testpassword',
+        id: 0,
+        phone: null,
+        bio: null,
+        pictureUrl: null,
+        uniqueUrl: null,
+        isPrivate: false,
+        twoFactorEnabled: false,
+        twoFactorSecret: null,
+        createdAt: undefined,
+        updatedAt: undefined,
+      };
+
+      jest.spyOn(repository, 'findOne').mockResolvedValueOnce(minter);
+      let result = await service.getMinterByEmail('test@example.com');
+      expect(result).toEqual(minter);
+
+      jest.spyOn(repository, 'findOne').mockResolvedValueOnce(undefined);
+      result = await service.getMinterByEmail('nonexistent@example.com');
+      expect(result).toBeUndefined();
+    });
   });
 });

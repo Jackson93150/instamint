@@ -1,4 +1,4 @@
-import { Body, Controller, Post } from '@nestjs/common';
+import { Body, Controller, Post, Patch } from '@nestjs/common';
 
 import { MinterService } from './minter.service';
 
@@ -11,5 +11,14 @@ export class MinterController {
   @Post()
   createMinter(@Body() minter: MinterEntity): Promise<MinterEntity> {
     return this.minterService.createMinter(minter);
+  }
+  @Patch('/visibility')
+  async changeVisibility(
+    @Body() changeVisibilityDto: MinterEntity,
+  ): Promise<any> {
+    return this.minterService.updateProfileVisibility(
+      changeVisibilityDto.id,
+      changeVisibilityDto.isPrivate,
+    );
   }
 }
