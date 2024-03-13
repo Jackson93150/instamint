@@ -10,7 +10,7 @@ export const Instances = ({ material }: any) => {
   const [sphereRefs] = useState<any[]>(() => []);
   const initialPositions: any[][] = [];
 
-  for (let i = 0; i < 50; i++) {
+  for (let i = 0; i < 75; i++) {
     const position = [
       Math.floor(Math.random() * 49) - 24,
       Math.floor(Math.random() * 49) - 24,
@@ -23,7 +23,7 @@ export const Instances = ({ material }: any) => {
   useFrame((state, delta) => {
     sphereRefs.forEach((el, index) => {
       el.position.y += delta * initialPositions[index][3];
-      if (el.position.y > 32) el.position.y = -32;
+      if (el.position.y > 28) el.position.y = -28;
       el.rotation.x += 0.02;
       el.rotation.y += 0.04;
       el.rotation.z += 0.04;
@@ -85,16 +85,10 @@ export const SparklingWater = () => {
         <Environment preset="lobby" />
         <Scene />
         <EffectComposer multisampling={0} enableNormalPass>
-          <DepthOfField focusDistance={0.005} focalLength={0.1} bokehScale={5} />
+          <DepthOfField focusDistance={0.005} focalLength={0.1} bokehScale={3} />
           <ChromaticAberration offset={new Vector2(0.008, 0.003)} radialModulation={true} modulationOffset={0.5} />
-          <Bloom
-            luminanceThreshold={0.1}
-            luminanceSmoothing={0.3}
-            height={800}
-            opacity={2}
-            blendFunction={BlendFunction.SCREEN}
-          />
-          <Noise premultiply opacity={0.2} blendFunction={BlendFunction.AVERAGE} />
+          <Bloom luminanceThreshold={0.1} luminanceSmoothing={0.3} opacity={2} blendFunction={BlendFunction.SCREEN} />
+          <Noise premultiply opacity={0.3} blendFunction={BlendFunction.AVERAGE} />
           <Vignette offset={0.2} darkness={0.3} />
         </EffectComposer>
       </Canvas>
