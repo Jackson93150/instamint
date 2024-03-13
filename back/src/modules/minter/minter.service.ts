@@ -51,28 +51,17 @@ export class MinterService {
   ): Promise<MinterEntity | undefined> {
     return this.minterRepository.findOne({ where: { email: email, id: id } });
   }
-  async setProfileVisibility(
-    minterId: number,
-    isPrivate: boolean,
-  ): Promise<void> {
-    await this.minterRepository.update(minterId, { isPrivate });
-  }
 
   async updateProfileVisibility(
-    userId: number,
-    makePublic: boolean,
+    minterId: number,
+    isPrivate: boolean,
   ): Promise<MinterEntity> {
-    const user = await this.minterRepository.findOneBy({ id: userId });
-    if (!user) {
-      throw new Error('User not found');
+    const minter = await this.minterRepository.findOneBy({ id: minterId });
+    if (!minter) {
+      throw new Error('Minter not found');
     }
-    if (makePublic && !user.isPrivate) {
-      await this.setProfileVisibility.apply(
-        { toUserId: userId, status: 'PENDING' },
-        { status: 'ACCEPTED' },
-      );
-    }
-    user.isPrivate = makePublic;
-    return this.minterRepository.save(user);
+
+    minter.isPrivate = isPrivate;
+    return this.minterRepository.save(minter);
   }
 }

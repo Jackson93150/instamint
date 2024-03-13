@@ -1,4 +1,13 @@
-import { Body, Controller, Post, Patch } from '@nestjs/common';
+import {
+  Controller,
+  Post,
+  Put,
+  Req,
+  UseGuards,
+  BadRequestException,
+  Body,
+} from '@nestjs/common';
+import { AuthGuard } from '@nestjs/passport';
 
 import { MinterService } from './minter.service';
 
@@ -12,13 +21,24 @@ export class MinterController {
   createMinter(@Body() minter: MinterEntity): Promise<MinterEntity> {
     return this.minterService.createMinter(minter);
   }
-  @Patch('/visibility')
+  @UseGuards(AuthGuard('jwt'))
+  @Put('visibility')
   async changeVisibility(
-    @Body() changeVisibilityDto: MinterEntity,
+    @Req() req,
+    @Body('minterId') minterId: number,
+    @Body('isPrivate') isPrivate: boolean,
   ): Promise<any> {
-    return this.minterService.updateProfileVisibility(
-      changeVisibilityDto.id,
-      changeVisibilityDto.isPrivate,
-    );
+    if (req.user.minterId !== minterId) {
+      throw new BadRequestException(
+        'You can only change visibility for your own profile',
+      );
+    }
+
+    try {
+      await this.minterService.updateProfileVisibility(minterId, isPrivate);
+      return { success: true, message: 'Visibility updated successfully' };
+    } catch (error) {
+      throw new BadRequestException(error.message);
+    }
   }
 }
