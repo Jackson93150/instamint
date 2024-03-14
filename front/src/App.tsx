@@ -1,7 +1,7 @@
 import { Route, Routes } from 'react-router-dom';
 
 import { Layout } from './components';
-import { HomePage, RegistrationPage, LoginPage } from '@/pages';
+import { HomePage, RegistrationPage, LoginPage, ConfirmationPage } from '@/pages';
 
 function App() {
   return (
@@ -10,6 +10,7 @@ function App() {
         <Route index element={<HomePage />} />
         <Route path="/register" element={<RegistrationPage />} />
         <Route path="/login" element={<LoginPage />} />
+        <Route path="/confirm" element={<ConfirmationPage />} />
       </Routes>
     </Layout>
   );

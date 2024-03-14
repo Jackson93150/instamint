@@ -5,7 +5,7 @@ import EyeHide from '@/assets/icons/eye-hide.svg?react';
 import Eye from '@/assets/icons/eye.svg?react';
 import { BubbleParticle } from '@/components';
 import { PASSWORD_REGEX } from '@/constants';
-import { createMinter } from '@/services';
+import { createMinter, sendVerificationMail } from '@/services';
 import { Button } from '@/ui';
 
 export const RegistrationPage = () => {
@@ -17,6 +17,7 @@ export const RegistrationPage = () => {
     termsAccepted: false,
   });
 
+  const [isValidate, setIsValidate] = useState(false);
   const [isError, setIsError] = useState(false);
   const [textError, setTextError] = useState('');
   const [showPassword, setShowPassword] = useState(false);
@@ -50,8 +51,9 @@ export const RegistrationPage = () => {
     }
 
     try {
-      await createMinter(minterData);
-      navigate('/');
+      const minter = await createMinter(minterData);
+      await sendVerificationMail({ email: minter.email });
+      setIsValidate(true);
     } catch (error) {
       setTextError('Email is invalid or already taken');
     }
@@ -109,7 +111,8 @@ export const RegistrationPage = () => {
             </div>
           </div>
 
-          {isError && <span className="text-small text-red-500">{textError}</span>}
+          {isError && !isValidate && <span className="text-small text-red-500">{textError}</span>}
+          {isValidate && <span className="text-small text-green-300">An email as been send to your boxmail</span>}
 
           <div className="mt-8U gap-4U mobile:flex-row flex flex-col items-center justify-between">
             <div className="gap-1U flex items-center">

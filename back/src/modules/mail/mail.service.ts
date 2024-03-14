@@ -13,12 +13,14 @@ export class MailService {
 
   async sendUserConfirmation(minterMail: string): Promise<void> {
     const payload = { email: minterMail };
-    const token = this.jwtService.sign(payload);
+    const token = this.jwtService.sign(payload, {
+      secret: process.env.JWT_EMAIL_KEY,
+    });
     const url = `${process.env.APP_URL}/confirm?token=${token}`;
 
     await this.mailService.sendMail({
       to: minterMail,
-      from: process.env.USER_MAILER,
+      from: process.env.SMTP,
       subject: 'Instamint - please confirm your email',
       text: 'Instamint -  please confirm your email',
       html: EMAIL_CONFIRMATION_TEMPLATE(url),
