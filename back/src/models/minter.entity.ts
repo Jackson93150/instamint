@@ -30,6 +30,9 @@ export class MinterEntity {
   isPrivate: boolean;
 
   @Column({ default: false })
+  isValidate: boolean;
+
+  @Column({ default: false })
   twoFactorEnabled: boolean;
 
   @Column({ nullable: true })

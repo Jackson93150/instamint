@@ -8,6 +8,8 @@ import * as bcrypt from 'bcrypt';
 
 import { MinterService } from '../minter/minter.service';
 
+import { MinterEntity } from '../../models/minter.entity';
+
 @Injectable()
 export class AuthService {
   constructor(
@@ -15,8 +17,13 @@ export class AuthService {
     private readonly minterService: MinterService,
   ) {}
 
-  async validateUser(email: string, minterId: number): Promise<any> {
+  async validateUser(email: string, minterId: number): Promise<MinterEntity> {
     const minter = this.minterService.getMinterByEmailAndId(email, minterId);
+    return minter;
+  }
+
+  async validateEmail(email: string): Promise<MinterEntity> {
+    const minter = this.minterService.getMinterByEmail(email);
     return minter;
   }
 
