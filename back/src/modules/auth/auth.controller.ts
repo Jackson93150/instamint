@@ -24,14 +24,12 @@ export class AuthController {
   @Get('me')
   @UseGuards(AuthGuard('jwt'))
   async me(@Request() req: any) {
-    console.log(req);
     return req.user;
   }
 
   @Post('confirm')
   @UseGuards(EmailVerificationGuard)
   async validateEmail(@Request() req: any): Promise<void> {
-    console.log(req);
     await this.minterService.validateMinter(req.user.id);
   }
 
@@ -42,7 +40,6 @@ export class AuthController {
     @Res({ passthrough: true }) res: Response,
   ): Promise<void> {
     const { accessToken } = await this.authService.login(email, password);
-    console.log(accessToken);
     try {
       res.cookie('accessToken', accessToken, {
         sameSite: 'strict',

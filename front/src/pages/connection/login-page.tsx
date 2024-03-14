@@ -4,7 +4,7 @@ import { useNavigate } from 'react-router-dom';
 import EyeHide from '@/assets/icons/eye-hide.svg?react';
 import Eye from '@/assets/icons/eye.svg?react';
 import { Bubbles } from '@/components';
-import { login } from '@/services';
+import { connectedMinter, login, sendVerificationMail } from '@/services';
 import { Button } from '@/ui';
 
 export const LoginPage = () => {
@@ -15,6 +15,7 @@ export const LoginPage = () => {
   });
 
   const [isError, setIsError] = useState(false);
+  const [isConfirm, setIsConfirm] = useState(true);
   const [showPassword, setShowPassword] = useState(false);
 
   const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
@@ -32,7 +33,13 @@ export const LoginPage = () => {
     };
     try {
       await login(loginData);
-      navigate('/');
+      const minter = await connectedMinter();
+      if (minter.data.isValidate) {
+        navigate('/');
+      } else {
+        await sendVerificationMail({ email: minter.data.email });
+        setIsConfirm(false);
+      }
     } catch (error) {
       setIsError(true);
     }
@@ -76,7 +83,12 @@ export const LoginPage = () => {
             </div>
           </div>
 
-          {isError && <span className="text-small text-red-500">Email or Password is incorrect</span>}
+          {isError && isConfirm && <span className="text-small text-red-500">Email or Password is incorrect</span>}
+          {!isConfirm && (
+            <span className="text-small word-break w-full text-center text-red-500">
+              You didn&apos;t activate your account. <br /> An activation link will be send to your email{' '}
+            </span>
+          )}
 
           <div className="mt-8U flex items-center justify-center">
             <Button color="green" content="Sign In" onClick={handleSubmit} />
