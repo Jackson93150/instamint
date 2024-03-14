@@ -8,8 +8,6 @@ function App() {
     <Layout>
       <Routes>
         <Route index element={<HomePage />} />
-      </Routes>
-      <Routes>
         <Route path="/register" element={<RegistrationPage />} />
         <Route path="/login" element={<LoginPage />} />
       </Routes>
