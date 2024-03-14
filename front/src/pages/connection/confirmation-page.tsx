@@ -16,7 +16,7 @@ export const ConfirmationPage = () => {
       await confirm(token);
       setIsError(false);
       setTimeout(() => {
-        navigate('/');
+        navigate('/login');
       }, 3000);
     } catch (error) {
       setIsError(true);
