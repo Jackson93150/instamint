@@ -134,8 +134,8 @@ describe('MinterService', () => {
   });
   describe('updateProfileVisibility', () => {
     it('should update the profile visibility of a minter', async () => {
-      const id = 1;
       const isPrivate = true;
+      const id = 1;
 
       const updateResult: UpdateResult = {
         raw: {},

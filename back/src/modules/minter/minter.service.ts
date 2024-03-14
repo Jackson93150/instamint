@@ -51,7 +51,6 @@ export class MinterService {
   ): Promise<MinterEntity | undefined> {
     return this.minterRepository.findOne({ where: { email: email, id: id } });
   }
-
   async updateProfileVisibility(id: number, isPrivate: boolean): Promise<void> {
     await this.minterRepository.update(id, { isPrivate });
   }
