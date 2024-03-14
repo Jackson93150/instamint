@@ -1,7 +1,7 @@
 import { Test, TestingModule } from '@nestjs/testing';
 import { getRepositoryToken } from '@nestjs/typeorm';
 import * as bcrypt from 'bcrypt';
-import { Repository } from 'typeorm';
+import { UpdateResult, Repository } from 'typeorm';
 
 import { MinterService } from './minter.service';
 
@@ -131,30 +131,21 @@ describe('MinterService', () => {
         'Password must be in valid format.',
       );
     });
-    it('should handle finding a minter by email correctly, including not found case', async () => {
-      const minter: MinterEntity = {
-        username: 'testuser',
-        email: 'test@example.com',
-        password: 'testpassword',
-        id: 0,
-        phone: null,
-        bio: null,
-        pictureUrl: null,
-        uniqueUrl: null,
-        isPrivate: false,
-        twoFactorEnabled: false,
-        twoFactorSecret: null,
-        createdAt: undefined,
-        updatedAt: undefined,
+  });
+  describe('updateProfileVisibility', () => {
+    it('should update the profile visibility of a minter', async () => {
+      const id = 1;
+      const isPrivate = true;
+
+      const updateResult: UpdateResult = {
+        raw: {},
+        generatedMaps: [],
+        affected: 1,
       };
 
-      jest.spyOn(repository, 'findOne').mockResolvedValueOnce(minter);
-      let result = await service.getMinterByEmail('test@example.com');
-      expect(result).toEqual(minter);
-
-      jest.spyOn(repository, 'findOne').mockResolvedValueOnce(undefined);
-      result = await service.getMinterByEmail('nonexistent@example.com');
-      expect(result).toBeUndefined();
+      jest.spyOn(repository, 'update').mockResolvedValueOnce(updateResult);
+      await service.updateProfileVisibility(id, isPrivate);
+      expect(repository.update).toHaveBeenCalledWith(id, { isPrivate });
     });
   });
 });

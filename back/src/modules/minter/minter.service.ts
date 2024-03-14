@@ -52,16 +52,7 @@ export class MinterService {
     return this.minterRepository.findOne({ where: { email: email, id: id } });
   }
 
-  async updateProfileVisibility(
-    minterId: number,
-    isPrivate: boolean,
-  ): Promise<MinterEntity> {
-    const minter = await this.minterRepository.findOneBy({ id: minterId });
-    if (!minter) {
-      throw new Error('Minter not found');
-    }
-
-    minter.isPrivate = isPrivate;
-    return this.minterRepository.save(minter);
+  async updateProfileVisibility(id: number, isPrivate: boolean): Promise<void> {
+    await this.minterRepository.update(id, { isPrivate });
   }
 }

@@ -10,6 +10,6 @@ import { MinterEntity } from '../../models';
   imports: [TypeOrmModule.forFeature([MinterEntity])],
   controllers: [MinterController],
   providers: [MinterService],
-  exports: [MinterModule, MinterService],
+  exports: [MinterService],
 })
 export class MinterModule {}
