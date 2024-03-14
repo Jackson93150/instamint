@@ -16,6 +16,20 @@ This route allows creating a new minter.
   | `email`   | string | Email of the minter   |
   | `password`| string | Password of the minter|
 
+### Change Minter Profile Visibility
+
+This route allows changing the visibility of a minter's profile.
+
+- **URL:** `/minter/visibility`
+- **Method:** `PATCH`
+- **Request Body:**
+- **Authentication:** Requires a valid JWT token in the request headers.
+
+  | Parameter   | Type    | Description                                       |
+  |-------------|---------|---------------------------------------------------|
+  | `id`        | number  | The ID of the minter whose visibility is to be changed. |
+  | `isPrivate` | boolean | The new visibility status of the minter's profile. |
+
 ## Authentication
 
 ### Retrieve Current User

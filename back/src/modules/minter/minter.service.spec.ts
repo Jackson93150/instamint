@@ -1,7 +1,7 @@
 import { Test, TestingModule } from '@nestjs/testing';
 import { getRepositoryToken } from '@nestjs/typeorm';
 import * as bcrypt from 'bcrypt';
-import { Repository } from 'typeorm';
+import { UpdateResult, Repository } from 'typeorm';
 
 import { MinterService } from './minter.service';
 
@@ -130,6 +130,22 @@ describe('MinterService', () => {
       await expect(service.createMinter(minter)).rejects.toThrowError(
         'Password must be in valid format.',
       );
+    });
+  });
+  describe('updateProfileVisibility', () => {
+    it('should update the profile visibility of a minter', async () => {
+      const isPrivate = true;
+      const id = 1;
+
+      const updateResult: UpdateResult = {
+        raw: {},
+        generatedMaps: [],
+        affected: 1,
+      };
+
+      jest.spyOn(repository, 'update').mockResolvedValueOnce(updateResult);
+      await service.updateProfileVisibility(id, isPrivate);
+      expect(repository.update).toHaveBeenCalledWith(id, { isPrivate });
     });
   });
 });
