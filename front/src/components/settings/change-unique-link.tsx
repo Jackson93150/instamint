@@ -1,8 +1,10 @@
 import { useEffect, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 
 import getMinterDetails from '@/utils/minterDetails';
 
 const ChangeLinkComponent = () => {
+  const navigate = useNavigate();
   const [currentUrl, setCurrentUrl] = useState('');
   const [newUrl, setNewUrl] = useState('');
   const [minterId, setMinterId] = useState(null);
@@ -24,15 +26,14 @@ const ChangeLinkComponent = () => {
 
   const updateUniqueUrl = async () => {
     if (!minterId) {
-      setStatusMessage('Minter ID is missing.'); // Gestion ID minter manquant
-      return;
+      navigate('/login');
     }
     if (newUrl.trim() === '') {
-      setStatusMessage('Please insert a valid URL.'); // Aucun changement détecté
+      setStatusMessage('Please insert a valid URL.');
       return;
     }
     if (newUrl.trim() === currentUrl || newUrl === '') {
-      setStatusMessage('No changes detected in the URL.'); // Aucun changement détecté
+      setStatusMessage('No changes detected in the URL.');
       return;
     }
 
@@ -50,8 +51,8 @@ const ChangeLinkComponent = () => {
         throw new Error(`Failed to update minter URL, status code: ${response.status}`);
       }
       const updatedURL = await response.json();
-      setCurrentUrl(updatedURL.uniqueUrl); // Mettez à jour l'URL actuel avec le nouvel URL
-      setStatusMessage('URL updated successfully!'); // Mise à jour réussie
+      setCurrentUrl(updatedURL.uniqueUrl);
+      setStatusMessage('URL updated successfully!');
     } catch (error) {
       setStatusMessage('Error updating unique URL.');
     }
