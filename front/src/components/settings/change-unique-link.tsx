@@ -27,8 +27,11 @@ const ChangeLinkComponent = () => {
       setStatusMessage('Minter ID is missing.'); // Gestion ID minter manquant
       return;
     }
-
-    if (newUrl.trim() === currentUrl) {
+    if (newUrl.trim() === '') {
+      setStatusMessage('Please insert a valid URL.'); // Aucun changement détecté
+      return;
+    }
+    if (newUrl.trim() === currentUrl || newUrl === '') {
       setStatusMessage('No changes detected in the URL.'); // Aucun changement détecté
       return;
     }
