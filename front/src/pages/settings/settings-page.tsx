@@ -1,6 +1,6 @@
 import { ChangeLinkComponent } from '@/components/settings/change-unique-link';
 
-const SettingsPage = () => {
+export const SettingsPage = () => {
   return (
     <div className="min-h-screen bg-gray-900 p-4 text-white sm:p-8">
       <header className="mb-12 rounded-lg bg-gray-800 p-4 shadow sm:mb-16">
@@ -10,5 +10,3 @@ const SettingsPage = () => {
     </div>
   );
 };
-
-export default SettingsPage;

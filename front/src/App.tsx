@@ -2,8 +2,7 @@ import { Suspense } from 'react';
 import { Route, Routes } from 'react-router-dom';
 
 import { Layout, Loading } from './components';
-import SettingsPage from './pages/settings/settings-page';
-import { HomePage, RegistrationPage, LoginPage, ConfirmationPage, OriginalContentPage } from '@/pages';
+import { HomePage, RegistrationPage, LoginPage, SettingsPage, ConfirmationPage, OriginalContentPage } from '@/pages';
 
 function App() {
   return (
