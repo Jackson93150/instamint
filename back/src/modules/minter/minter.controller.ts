@@ -1,13 +1,4 @@
-import {
-  Controller,
-  Post,
-  Put,
-  Req,
-  UseGuards,
-  Body,
-  Patch,
-  Param,
-} from '@nestjs/common';
+import { Controller, Post, Put, Req, UseGuards, Body } from '@nestjs/common';
 import { AuthGuard } from '@nestjs/passport';
 
 import { MinterService } from './minter.service';
@@ -37,11 +28,14 @@ export class MinterController {
     }
     await this.minterService.updateProfileVisibility(id, isPrivate);
   }
-  @Patch(':id')
+
+  @Put('unique-url')
+  @UseGuards(AuthGuard('jwt'))
   async updateUniqueUrl(
-    @Param('id') id: number,
+    @Req() req: any,
     @Body('uniqueUrl') newUrl: string,
-  ): Promise<MinterEntity> {
-    return this.minterService.updateUniqueUrl(id, newUrl);
+  ): Promise<void> {
+    console.log(req);
+    await this.minterService.updateUniqueUrl(req.user.id, newUrl);
   }
 }

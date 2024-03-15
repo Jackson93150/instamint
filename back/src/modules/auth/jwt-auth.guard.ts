@@ -11,6 +11,8 @@ export class JwtStrategy extends PassportStrategy(Strategy) {
     super({
       jwtFromRequest: (req: Request) => {
         if (req && req.cookies) {
+          console.log('-------------------------------------');
+          console.log(req.cookies['accessToken']);
           return req.cookies['accessToken'];
         }
         return null;
@@ -24,6 +26,7 @@ export class JwtStrategy extends PassportStrategy(Strategy) {
       payload.email,
       payload.minterId,
     );
+    console.log(minter);
     if (!minter) {
       throw new UnauthorizedException();
     }

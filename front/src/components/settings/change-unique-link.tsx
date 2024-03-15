@@ -1,68 +1,59 @@
 import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 
-import getMinterDetails from '@/utils/minterDetails';
+import { connectedMinter, updateUniqueUrl } from '@/services';
+import { Button } from '@/ui';
 
 const ChangeLinkComponent = () => {
   const navigate = useNavigate();
   const [currentUrl, setCurrentUrl] = useState('');
   const [newUrl, setNewUrl] = useState('');
-  const [minterId, setMinterId] = useState(null);
+  //const [minterId, setMinterId] = useState(null);
   const [statusMessage, setStatusMessage] = useState('');
 
   useEffect(() => {
     const fetchData = async () => {
-      const details = await getMinterDetails();
-      if (details) {
-        setMinterId(details.id);
-        setCurrentUrl(details.uniqueUrl);
-      } else {
-        setStatusMessage('Failed to fetch minter details.');
+      try {
+        const details = await connectedMinter();
+        if (details.data) {
+          setCurrentUrl(details.data.uniqueUrl);
+        } else {
+          setStatusMessage('Failed to fetch minter details.');
+        }
+      } catch (error) {
+        console.error(error);
+        navigate('/login');
       }
     };
 
     fetchData();
-  }, []);
+  }, [navigate]);
 
-  const updateUniqueUrl = async () => {
-    if (!minterId) {
-      navigate('/login');
-    }
+  const handleUpdateUniqueUrl = async () => {
     if (newUrl.trim() === '') {
       setStatusMessage('Please insert a valid URL.');
       return;
     }
-    if (newUrl.trim() === currentUrl || newUrl === '') {
+    if (newUrl.trim() === currentUrl) {
       setStatusMessage('No changes detected in the URL.');
       return;
     }
 
     try {
-      const response = await fetch(`${import.meta.env.VITE_BACKEND_URL}/minter/${minterId}`, {
-        method: 'PATCH',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({ uniqueUrl: newUrl }),
-        credentials: 'include',
-      });
-
-      if (!response.ok) {
-        throw new Error(`Failed to update minter URL, status code: ${response.status}`);
-      }
-      const updatedURL = await response.json();
-      setCurrentUrl(updatedURL.uniqueUrl);
+      await updateUniqueUrl(newUrl.trim());
+      setCurrentUrl(newUrl.trim());
       setStatusMessage('URL updated successfully!');
     } catch (error) {
+      console.error(error);
       setStatusMessage('Error updating unique URL.');
     }
   };
 
   return (
     <div className="mx-auto max-w-full sm:max-w-md">
-      <div className="rounded-lg bg-gray-800 p-4 shadow-xl sm:p-6">
+      <div className="rounded-lg bg-gray-400 p-4 shadow-xl sm:p-6">
         <div className="flex flex-col items-center space-y-4 sm:flex-row sm:space-x-4 sm:space-y-0">
-          <label htmlFor="uniqueUrl" className="block text-lg sm:inline-block">
+          <label htmlFor="uniqueUrl" className="text-body block sm:inline-block">
             Unique URL :
           </label>
           <input
@@ -70,16 +61,13 @@ const ChangeLinkComponent = () => {
             id="newUrl"
             value={newUrl}
             onChange={(e) => setNewUrl(e.target.value)}
-            className="flex-1 rounded-lg p-2 text-gray-700"
+            className="flex-1 rounded-lg p-2 text-gray-100"
             placeholder={currentUrl}
           />
         </div>
-        <button
-          className="mt-4 w-full rounded-lg bg-green-600 px-4 py-2 font-bold text-white transition duration-150 ease-in-out hover:-translate-y-1 hover:bg-green-700"
-          onClick={updateUniqueUrl}
-        >
-          Update
-        </button>
+        <div className="mt-8U flex items-center justify-center">
+          <Button color="green" content="Sign In" onClick={handleUpdateUniqueUrl} />
+        </div>
         {statusMessage && <p className="mt-4 text-center text-white">{statusMessage}</p>}
       </div>
     </div>

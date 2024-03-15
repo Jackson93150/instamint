@@ -59,22 +59,8 @@ export class MinterService {
   async updateProfileVisibility(id: number, isPrivate: boolean): Promise<void> {
     await this.minterRepository.update(id, { isPrivate });
   }
-  async updateUniqueUrl(id: number, newUrl: string): Promise<MinterEntity> {
-    const oldUrl = await this.minterRepository.findOne({
-      where: { uniqueUrl: newUrl },
-    });
 
-    if (oldUrl) {
-      throw new Error('This URL is already in use.');
-    }
-
-    const minterToUpdate = await this.minterRepository.findOne({
-      where: { id: id },
-    });
-
-    minterToUpdate.uniqueUrl = newUrl;
-    await this.minterRepository.save(minterToUpdate);
-
-    return minterToUpdate;
+  async updateUniqueUrl(id: number, uniqueUrl: string): Promise<void> {
+    await this.minterRepository.update(id, { uniqueUrl });
   }
 }
