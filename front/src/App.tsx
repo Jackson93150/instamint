@@ -2,6 +2,7 @@ import { Suspense } from 'react';
 import { Route, Routes } from 'react-router-dom';
 
 import { Layout, Loading } from './components';
+import SettingsPage from './pages/settings/settings-page';
 import { HomePage, RegistrationPage, LoginPage, ConfirmationPage, OriginalContentPage } from '@/pages';
 
 function App() {
@@ -14,7 +15,8 @@ function App() {
           <Route path="/login" element={<LoginPage />} />
           <Route path="/confirm" element={<ConfirmationPage />} />
           <Route path="/content" element={<OriginalContentPage />} />
-        </Routes>
+          <Route path="/settings" element={<SettingsPage />} />
+      </Routes>
       </Layout>
     </Suspense>
   );
