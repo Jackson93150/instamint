@@ -90,6 +90,7 @@ export default {
         'green-gradient': 'linear-gradient(180deg, #27ab5c, #16502d)',
       },
       zIndex: {
+        ray: '90',
         navbar: '100',
       },
     },
