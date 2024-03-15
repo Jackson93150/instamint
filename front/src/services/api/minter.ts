@@ -1,11 +1,9 @@
 import axios from 'axios';
 
 interface Minter {
-  id: number;
   username: string;
   email: string;
   password: string;
-  uniqueUrl: string;
 }
 
 export const createMinter = async (minter: Minter) => {
