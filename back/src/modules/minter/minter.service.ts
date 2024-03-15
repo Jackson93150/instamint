@@ -65,7 +65,7 @@ export class MinterService {
     });
 
     if (oldUrl) {
-      throw new Error('This unique URL is already in use.');
+      throw new Error('This URL is already in use.');
     }
 
     const minterToUpdate = await this.minterRepository.findOne({
