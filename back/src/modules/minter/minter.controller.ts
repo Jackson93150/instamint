@@ -1,4 +1,12 @@
-import { Controller, Post, Put, Req, UseGuards, Body } from '@nestjs/common';
+import {
+  Controller,
+  Post,
+  Put,
+  Req,
+  UseGuards,
+  Body,
+  Request,
+} from '@nestjs/common';
 import { AuthGuard } from '@nestjs/passport';
 
 import { MinterService } from './minter.service';
@@ -26,5 +34,18 @@ export class MinterController {
       );
     }
     await this.minterService.updateProfileVisibility(id, isPrivate);
+  }
+
+  @Put('password')
+  @UseGuards(AuthGuard('jwt'))
+  async updateMinterPassword(
+    @Request() req: any,
+    @Body('password') password: string,
+  ): Promise<void> {
+    if (req.user.id) {
+      await this.minterService.updatePassword(req.user.id, password);
+    } else {
+      throw new Error('Invalid Token');
+    }
   }
 }

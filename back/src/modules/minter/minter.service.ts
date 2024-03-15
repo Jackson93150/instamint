@@ -52,6 +52,11 @@ export class MinterService {
     return this.minterRepository.findOne({ where: { email, id } });
   }
 
+  async updatePassword(id: number, newPassword: string): Promise<void> {
+    const hashedPassword = await bcrypt.hash(newPassword, 10);
+    await this.minterRepository.update(id, { password: hashedPassword });
+  }
+
   async validateMinter(id: number): Promise<void> {
     await this.minterRepository.update({ id }, { isValidate: true });
   }

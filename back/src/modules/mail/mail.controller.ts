@@ -10,4 +10,12 @@ export class MailController {
   async sendVerificationMail(@Body('email') email: string): Promise<void> {
     await this.mailService.sendUserConfirmation(email);
   }
+
+  @Post('send-password')
+  async sendPasswordReset(
+    @Body('email') email: string,
+    @Body('id') minterId: number,
+  ): Promise<void> {
+    await this.mailService.sendPasswordReset(email, minterId);
+  }
 }
