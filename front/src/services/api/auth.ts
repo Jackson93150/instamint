@@ -33,3 +33,11 @@ export const connectedMinter = async () => {
   });
   return minter;
 };
+
+export const confirm = async (token: string) => {
+  await axios.post(`${import.meta.env.VITE_BACKEND_URL}/auth/confirm`, null, {
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  });
+};

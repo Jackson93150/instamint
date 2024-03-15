@@ -6,6 +6,7 @@ import { PassportModule } from '@nestjs/passport';
 import { AuthController } from './auth.controller';
 import { AuthService } from './auth.service';
 import { JwtStrategy } from './jwt-auth.guard';
+import { EmailVerificationGuard } from './jwt-mail-auth.guard';
 import { MinterModule } from '../minter/minter.module';
 
 @Module({
@@ -19,7 +20,7 @@ import { MinterModule } from '../minter/minter.module';
     MinterModule,
   ],
   controllers: [AuthController],
-  providers: [AuthService, JwtStrategy],
-  exports: [AuthService, JwtStrategy],
+  providers: [AuthService, JwtStrategy, EmailVerificationGuard],
+  exports: [AuthService, JwtStrategy, EmailVerificationGuard],
 })
 export class AuthModule {}

@@ -48,6 +48,7 @@ describe('MinterService', () => {
         twoFactorSecret: null,
         createdAt: undefined,
         updatedAt: undefined,
+        isValidate: false,
       };
       const hashedPassword = await bcrypt.hash(minter.password, 10);
 
@@ -75,6 +76,7 @@ describe('MinterService', () => {
         twoFactorSecret: null,
         createdAt: undefined,
         updatedAt: undefined,
+        isValidate: false,
       };
 
       jest.spyOn(repository, 'findOne').mockResolvedValueOnce(minter);
@@ -99,6 +101,7 @@ describe('MinterService', () => {
         twoFactorSecret: null,
         createdAt: undefined,
         updatedAt: undefined,
+        isValidate: false,
       };
 
       jest.spyOn(repository, 'findOne').mockResolvedValueOnce(null);
@@ -123,6 +126,7 @@ describe('MinterService', () => {
         twoFactorSecret: null,
         createdAt: undefined,
         updatedAt: undefined,
+        isValidate: false,
       };
 
       jest.spyOn(repository, 'findOne').mockResolvedValueOnce(null);

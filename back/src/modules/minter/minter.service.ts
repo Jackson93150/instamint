@@ -42,14 +42,18 @@ export class MinterService {
   }
 
   async getMinterByEmail(email: string): Promise<MinterEntity | undefined> {
-    return this.minterRepository.findOne({ where: { email: email } });
+    return this.minterRepository.findOne({ where: { email } });
   }
 
   async getMinterByEmailAndId(
     email: string,
     id: number,
   ): Promise<MinterEntity | undefined> {
-    return this.minterRepository.findOne({ where: { email: email, id: id } });
+    return this.minterRepository.findOne({ where: { email, id } });
+  }
+
+  async validateMinter(id: number): Promise<void> {
+    await this.minterRepository.update({ id }, { isValidate: true });
   }
   async updateProfileVisibility(id: number, isPrivate: boolean): Promise<void> {
     await this.minterRepository.update(id, { isPrivate });
