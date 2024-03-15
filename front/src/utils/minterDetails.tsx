@@ -1,6 +1,6 @@
 const getMinterDetails = async () => {
   try {
-    const response = await fetch('http://localhost:3001/auth/me', {
+    const response = await fetch(`${import.meta.env.VITE_BACKEND_URL}/auth/me`, {
       credentials: 'include',
     });
 

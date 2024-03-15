@@ -38,7 +38,7 @@ const ChangeLinkComponent = () => {
     }
 
     try {
-      const response = await fetch(`http://localhost:3001/minter/${minterId}`, {
+      const response = await fetch(`${import.meta.env.VITE_BACKEND_URL}/minter/${minterId}`, {
         method: 'PATCH',
         headers: {
           'Content-Type': 'application/json',
