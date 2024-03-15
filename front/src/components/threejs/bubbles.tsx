@@ -13,8 +13,6 @@ import { BlendFunction } from 'postprocessing';
 import { useState } from 'react';
 import { Vector2 } from 'three';
 
-import { GodRays } from './gods-ray';
-
 const Instances = ({ material }: any) => {
   const [sphereRefs] = useState<any[]>(() => []);
   const initialPositions: number[][] = [];
@@ -94,7 +92,6 @@ export const Bubbles = () => {
         <fog color="#161616" attach="fog" near={2} far={50} />
         <Environment preset="lobby" />
         <Scene />
-        <GodRays />
         <EffectComposer multisampling={0} enableNormalPass>
           <DepthOfField focusDistance={0.05} focalLength={0.1} bokehScale={3} />
           <ChromaticAberration offset={new Vector2(0.005, 0.003)} radialModulation={true} modulationOffset={0.5} />
