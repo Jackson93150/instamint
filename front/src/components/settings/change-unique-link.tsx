@@ -21,7 +21,6 @@ const ChangeLinkComponent = () => {
           setStatusMessage('Failed to fetch minter details.');
         }
       } catch (error) {
-        console.error(error);
         navigate('/login');
       }
     };
@@ -44,7 +43,6 @@ const ChangeLinkComponent = () => {
       setCurrentUrl(newUrl.trim());
       setStatusMessage('URL updated successfully!');
     } catch (error) {
-      console.error(error);
       setStatusMessage('Error updating unique URL.');
     }
   };
