@@ -1,7 +1,14 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { Icosahedron, MeshDistortMaterial, Environment } from '@react-three/drei';
 import { Canvas, useFrame } from '@react-three/fiber';
-import { EffectComposer, DepthOfField, Vignette, ChromaticAberration, Bloom, Noise } from '@react-three/postprocessing';
+import {
+  EffectComposer,
+  DepthOfField,
+  ChromaticAberration,
+  Bloom,
+  Noise,
+  BrightnessContrast,
+} from '@react-three/postprocessing';
 import { BlendFunction } from 'postprocessing';
 import { useState } from 'react';
 import { Vector2 } from 'three';
@@ -10,7 +17,7 @@ import { GodRays } from './gods-ray';
 
 const Instances = ({ material }: any) => {
   const [sphereRefs] = useState<any[]>(() => []);
-  const initialPositions: any[][] = [];
+  const initialPositions: number[][] = [];
 
   for (let i = 0; i < 100; i++) {
     const position = [
@@ -62,7 +69,7 @@ const Scene = () => {
         transmission={0.65}
         color={'#55ff99'}
         emissive={'#55ff99'}
-        emissiveIntensity={0.2}
+        emissiveIntensity={0.25}
       />
       {material && <Instances material={material} />}
     </mesh>
@@ -92,8 +99,8 @@ export const Bubbles = () => {
           <DepthOfField focusDistance={0.05} focalLength={0.1} bokehScale={3} />
           <ChromaticAberration offset={new Vector2(0.005, 0.003)} radialModulation={true} modulationOffset={0.5} />
           <Bloom luminanceThreshold={0.1} luminanceSmoothing={0.3} opacity={2} blendFunction={BlendFunction.SCREEN} />
-          <Noise premultiply opacity={0.2} blendFunction={BlendFunction.AVERAGE} />
-          <Vignette offset={0.2} darkness={0.3} />
+          <Noise premultiply opacity={0.2} blendFunction={BlendFunction.SOFT_LIGHT} />
+          <BrightnessContrast contrast={-0.25} />
         </EffectComposer>
       </Canvas>
     </div>
