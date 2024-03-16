@@ -16,10 +16,7 @@
         "PUT",
         "DELETE",
         "OPTIONS"
-      ],
-      "headers": {
-        "Access-Control-Allow-Origin": "*"
-      }
+      ]
     }
   ]
 }

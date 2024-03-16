@@ -42,8 +42,9 @@ export class AuthController {
     const { accessToken } = await this.authService.login(email, password);
     try {
       res.cookie('accessToken', accessToken, {
-        sameSite: 'strict',
+        sameSite: 'none',
         httpOnly: true,
+        secure: true,
       });
     } catch (error) {
       throw error;
