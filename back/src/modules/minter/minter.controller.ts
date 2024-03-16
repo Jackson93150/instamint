@@ -27,4 +27,18 @@ export class MinterController {
     }
     await this.minterService.updateProfileVisibility(id, isPrivate);
   }
+  @Put('changePassword')
+  @UseGuards(AuthGuard('jwt'))
+  async updateProfilePassword(
+    @Req() req: any,
+    @Body('id') id: number,
+    @Body('password') password: string,
+  ): Promise<void> {
+    if (req.user.id !== id) {
+      throw new Error(
+        'You are not authorized to update this profile visibility',
+      );
+    }
+    await this.minterService.updateProfilePassword(id, password);
+  }
 }

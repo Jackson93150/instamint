@@ -58,4 +58,11 @@ export class MinterService {
   async updateProfileVisibility(id: number, isPrivate: boolean): Promise<void> {
     await this.minterRepository.update(id, { isPrivate });
   }
+  async updateProfilePassword(id: number, password: string): Promise<void> {
+    if (!PASSWORD_REGEX.test(password)) {
+      throw new Error('Password must be in valid format.');
+    }
+    const hashedPassword: string = await bcrypt.hash(password, 10);
+    await this.minterRepository.update(id, { password: hashedPassword });
+  }
 }
