@@ -11,7 +11,8 @@ export const Layout = ({ children }: Props) => {
   return (
     <React.Fragment>
       <Navbar />
-      <div className="z-ray absolute left-0 top-0 h-screen w-full">
+      <main className="h-fit w-full">{children}</main>
+      <div className="pointer-events-none absolute left-0 top-0 h-screen w-full">
         <Canvas
           dpr={1}
           camera={{ position: [0, 0, 3] }}
@@ -23,7 +24,6 @@ export const Layout = ({ children }: Props) => {
           <GodRays />
         </Canvas>
       </div>
-      <main className="h-fit w-full">{children}</main>
     </React.Fragment>
   );
 };
