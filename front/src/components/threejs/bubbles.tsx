@@ -1,23 +1,15 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { Icosahedron, MeshDistortMaterial, Environment } from '@react-three/drei';
+import { Icosahedron, MeshDistortMaterial, Environment, PerformanceMonitor } from '@react-three/drei';
 import { Canvas, useFrame } from '@react-three/fiber';
-import {
-  EffectComposer,
-  DepthOfField,
-  ChromaticAberration,
-  Bloom,
-  Noise,
-  BrightnessContrast,
-} from '@react-three/postprocessing';
+import { EffectComposer, DepthOfField, Bloom, Noise, BrightnessContrast } from '@react-three/postprocessing';
 import { BlendFunction } from 'postprocessing';
 import { useState } from 'react';
-import { Vector2 } from 'three';
 
 const Instances = ({ material }: any) => {
   const [sphereRefs] = useState<any[]>(() => []);
   const initialPositions: number[][] = [];
 
-  for (let i = 0; i < 100; i++) {
+  for (let i = 0; i < 75; i++) {
     const position = [
       Math.floor(Math.random() * 49) - 24,
       Math.floor(Math.random() * 49) - 24,
@@ -75,30 +67,32 @@ const Scene = () => {
 };
 
 export const Bubbles = () => {
+  const [dpr, setDpr] = useState(1);
+
   return (
     <div className="fixed left-0 top-0 h-screen w-full">
       <Canvas
-        dpr={1}
+        dpr={dpr}
         camera={{ position: [0, 0, 3] }}
         gl={{
           powerPreference: 'high-performance',
           alpha: false,
           stencil: false,
-          depth: true,
         }}
         linear
       >
-        <color attach="background" args={['#16502d']} />
-        <fog color="#161616" attach="fog" near={2} far={50} />
-        <Environment preset="lobby" />
-        <Scene />
-        <EffectComposer multisampling={0} enableNormalPass>
-          <DepthOfField focusDistance={0.05} focalLength={0.1} bokehScale={3} />
-          <ChromaticAberration offset={new Vector2(0.005, 0.003)} radialModulation={true} modulationOffset={0.5} />
-          <Bloom luminanceThreshold={0.1} luminanceSmoothing={0.3} opacity={2} blendFunction={BlendFunction.SCREEN} />
-          <Noise premultiply opacity={0.2} blendFunction={BlendFunction.SOFT_LIGHT} />
-          <BrightnessContrast contrast={-0.25} />
-        </EffectComposer>
+        <PerformanceMonitor onDecline={() => setDpr(0.5)}>
+          <color attach="background" args={['#16502d']} />
+          <fog color="#161616" attach="fog" near={1} far={50} />
+          <Environment preset="lobby" />
+          <Scene />
+          <EffectComposer multisampling={0} enableNormalPass>
+            <DepthOfField focusDistance={0.05} focalLength={0.1} bokehScale={3} />
+            <Bloom luminanceThreshold={0.1} luminanceSmoothing={0.2} opacity={2} blendFunction={BlendFunction.SCREEN} />
+            <Noise premultiply opacity={0.2} blendFunction={BlendFunction.SOFT_LIGHT} />
+            <BrightnessContrast contrast={-0.25} />
+          </EffectComposer>
+        </PerformanceMonitor>
       </Canvas>
     </div>
   );

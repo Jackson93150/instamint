@@ -14,7 +14,7 @@ export const Layout = ({ children }: Props) => {
       <main className="h-fit w-full">{children}</main>
       <div className="pointer-events-none absolute left-0 top-0 h-screen w-full">
         <Canvas
-          dpr={1}
+          dpr={0.5}
           camera={{ position: [0, 0, 3] }}
           gl={{
             powerPreference: 'high-performance',
