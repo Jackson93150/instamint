@@ -1,4 +1,12 @@
-import { Controller, Post, Put, Req, UseGuards, Body } from '@nestjs/common';
+import {
+  Controller,
+  Get,
+  Post,
+  Put,
+  Req,
+  UseGuards,
+  Body,
+} from '@nestjs/common';
 import { AuthGuard } from '@nestjs/passport';
 
 import { MinterService } from './minter.service';
@@ -31,14 +39,23 @@ export class MinterController {
   @UseGuards(AuthGuard('jwt'))
   async updateProfilePassword(
     @Req() req: any,
-    @Body('id') id: number,
-    @Body('password') password: string,
+    @Body('oldPassword') oldPassword: string,
+    @Body('newPassword') newPassword: string,
   ): Promise<void> {
-    if (req.user.id !== id) {
-      throw new Error(
-        'You are not authorized to update this profile visibility',
-      );
-    }
-    await this.minterService.updateProfilePassword(id, password);
+    const minterId = req.user.id;
+    await this.minterService.updateProfilePassword(
+      minterId,
+      oldPassword,
+      newPassword,
+    );
+  }
+  @Get('profile')
+  @UseGuards(AuthGuard('jwt'))
+  async getUserProfile(
+    @Req() req: any,
+  ): Promise<{ username: string; email: string }> {
+    const id = req.user.id;
+    const minterProfile = await this.minterService.getUserProfile(id);
+    return { username: minterProfile.username, email: minterProfile.email };
   }
 }

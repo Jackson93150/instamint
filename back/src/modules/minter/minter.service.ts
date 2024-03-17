@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, HttpStatus, HttpException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import * as bcrypt from 'bcrypt';
 import { Repository } from 'typeorm';
@@ -58,11 +58,38 @@ export class MinterService {
   async updateProfileVisibility(id: number, isPrivate: boolean): Promise<void> {
     await this.minterRepository.update(id, { isPrivate });
   }
-  async updateProfilePassword(id: number, password: string): Promise<void> {
-    if (!PASSWORD_REGEX.test(password)) {
-      throw new Error('Password must be in valid format.');
+  async updateProfilePassword(
+    id: number,
+    oldPassword: string,
+    newPassword: string,
+  ): Promise<void> {
+    const minter = await this.minterRepository.findOne({ where: { id: id } });
+
+    const passwordMatch = await bcrypt.compare(oldPassword, minter.password);
+    if (!passwordMatch) {
+      throw new HttpException(
+        'Old Password is incorrect.',
+        HttpStatus.UNAUTHORIZED,
+      );
     }
-    const hashedPassword: string = await bcrypt.hash(password, 10);
+
+    if (!PASSWORD_REGEX.test(newPassword)) {
+      throw new HttpException(
+        'New Password must be in valid format.',
+        HttpStatus.UNPROCESSABLE_ENTITY,
+      );
+    }
+
+    const hashedPassword: string = await bcrypt.hash(newPassword, 10);
     await this.minterRepository.update(id, { password: hashedPassword });
+  }
+  async getUserProfile(
+    id: number,
+  ): Promise<Pick<MinterEntity, 'username' | 'email'>> {
+    const minter = await this.minterRepository.findOne({ where: { id: id } });
+    if (!minter) {
+      throw new Error('User not found');
+    }
+    return { username: minter.username, email: minter.email };
   }
 }

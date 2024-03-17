@@ -37,7 +37,11 @@ export const Navbar = () => {
         {minterData ? (
           <div className="gap-5U flex items-center justify-center">
             <Notification />
-            <ProfilePicture />
+            <ProfilePicture
+              onClick={() => {
+                navigate('/profile');
+              }}
+            />
             <BurgerMenu />
           </div>
         ) : (
