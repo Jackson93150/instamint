@@ -58,4 +58,13 @@ export class MinterController {
     const minterProfile = await this.minterService.getUserProfile(id);
     return { username: minterProfile.username, email: minterProfile.email };
   }
+  @Put('changeEmail')
+  @UseGuards(AuthGuard('jwt'))
+  async updateProfileEmail(
+    @Req() req: any,
+    @Body('newEmail') newEmail: string,
+  ): Promise<void> {
+    const id = req.user.id;
+    await this.minterService.updateProfileEmail(id, newEmail);
+  }
 }

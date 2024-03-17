@@ -1,14 +1,16 @@
 import { AxiosError } from 'axios';
 import { useEffect, useState } from 'react';
 
-import { getUserProfile, updatePassword } from '@/services';
+import { getUserProfile, updatePassword, updateEmail } from '@/services';
 
 export const ProfilePage = () => {
   const [username, setUsername] = useState('');
   const [email, setEmail] = useState('');
   const [showChangePasswordForm, setShowChangePasswordForm] = useState(false);
+  const [showChangeEmailForm, setShowChangeEmailForm] = useState(false);
   const [oldPassword, setOldPassword] = useState('');
   const [newPassword, setNewPassword] = useState('');
+  const [newEmail, setNewEmail] = useState('');
   const [errorMessage, setErrorMessage] = useState('');
   const [successMessage, setsuccessMessage] = useState('');
 
@@ -16,7 +18,7 @@ export const ProfilePage = () => {
     setShowChangePasswordForm((prevShowChangePasswordForm) => !prevShowChangePasswordForm);
   };
 
-  const handleFormSubmit = async (event: { preventDefault: () => void }) => {
+  const handleFormPasswordSubmit = async (event: { preventDefault: () => void }) => {
     event.preventDefault();
     try {
       await updatePassword({ oldPassword, newPassword });
@@ -34,6 +36,22 @@ export const ProfilePage = () => {
       setTimeout(() => {
         setErrorMessage('');
       }, 5000);
+    }
+  };
+
+  const handleChangeEmail = () => {
+    setShowChangeEmailForm((prevShowChangeEmailForm) => !prevShowChangeEmailForm);
+  };
+  const handleFormEmailSubmit = async (event: { preventDefault: () => void }) => {
+    event.preventDefault();
+    try {
+      await updateEmail({ newEmail });
+      setNewEmail('');
+      window.location.href = '/login';
+    } catch (error) {
+      if (error instanceof AxiosError) {
+        setErrorMessage(error.response?.data.message);
+      }
     }
   };
 
@@ -65,11 +83,14 @@ export const ProfilePage = () => {
             <span className="mr-2">Email:</span>
             <span>{email}</span>
           </div>
-          <button className="rounded bg-blue-500 px-4 py-2 text-white hover:bg-blue-600" onClick={handleChangePassword}>
+          <button
+            className="mt-4 rounded bg-blue-500 px-4 py-2 text-white hover:bg-blue-600"
+            onClick={handleChangePassword}
+          >
             Change my password
           </button>
           {showChangePasswordForm && (
-            <form onSubmit={handleFormSubmit} className="mt-4">
+            <form onSubmit={handleFormPasswordSubmit} className="mt-4">
               <input
                 type="password"
                 placeholder="Old password"
@@ -83,6 +104,27 @@ export const ProfilePage = () => {
                 placeholder="New password"
                 value={newPassword}
                 onChange={(e) => setNewPassword(e.target.value)}
+                required
+                className="mr-2 rounded border border-gray-300 px-3 py-2"
+              />
+              <button type="submit" className="rounded bg-blue-500 px-4 py-2 text-white hover:bg-blue-600">
+                Submit
+              </button>
+            </form>
+          )}
+          <button
+            className="mt-4 rounded bg-blue-500 px-4 py-2 text-white hover:bg-blue-600"
+            onClick={handleChangeEmail}
+          >
+            Change my email
+          </button>
+          {showChangeEmailForm && (
+            <form onSubmit={handleFormEmailSubmit} className="mt-4">
+              <input
+                type="email"
+                placeholder="New Email"
+                value={newEmail}
+                onChange={(e) => setNewEmail(e.target.value)}
                 required
                 className="mr-2 rounded border border-gray-300 px-3 py-2"
               />

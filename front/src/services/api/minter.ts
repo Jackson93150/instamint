@@ -16,6 +16,10 @@ interface UpdatePasswordMinter {
   newPassword: string;
 }
 
+interface UpdateEmailMinter {
+  newEmail: string;
+}
+
 export const createMinter = async (minter: Minter) => {
   const response = await axios.post(`${import.meta.env.VITE_BACKEND_URL}/minter`, minter);
   return response.data;
@@ -33,6 +37,13 @@ export const getUserProfile = async (): Promise<MinterProfile> => {
 
 export const updatePassword = async (data: UpdatePasswordMinter) => {
   const response = await axios.put(`${import.meta.env.VITE_BACKEND_URL}/minter/changePassword`, data, {
+    withCredentials: true,
+  });
+  return response.data;
+};
+
+export const updateEmail = async (data: UpdateEmailMinter) => {
+  const response = await axios.put(`${import.meta.env.VITE_BACKEND_URL}/minter/changeEmail`, data, {
     withCredentials: true,
   });
   return response.data;

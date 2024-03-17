@@ -76,7 +76,7 @@ export class MinterService {
     if (!PASSWORD_REGEX.test(newPassword)) {
       throw new HttpException(
         'New Password must be in valid format.',
-        HttpStatus.UNPROCESSABLE_ENTITY,
+        HttpStatus.BAD_REQUEST,
       );
     }
 
@@ -91,5 +91,28 @@ export class MinterService {
       throw new Error('User not found');
     }
     return { username: minter.username, email: minter.email };
+  }
+
+  async updateProfileEmail(id: number, newEmail: string): Promise<void> {
+    const isMinterAlreadyCreated = await this.minterRepository.findOne({
+      where: { email: newEmail },
+    });
+
+    if (isMinterAlreadyCreated) {
+      throw new HttpException(
+        'This email is already used.',
+        HttpStatus.BAD_REQUEST,
+      );
+    }
+
+    if (!EMAIL_REGEX.test(newEmail)) {
+      throw new HttpException(
+        'The email must be in valid format.',
+        HttpStatus.BAD_REQUEST,
+      );
+    }
+
+    await this.minterRepository.update(id, { email: newEmail });
+    await this.minterRepository.update({ id }, { isValidate: false });
   }
 }
