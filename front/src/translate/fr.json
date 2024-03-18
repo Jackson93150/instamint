@@ -1,0 +1,16 @@
+{
+  "home-header-section": {
+    "Title": "Bienvenue Sur",
+    "SubTitle": "La plateforme pour créer, acheter et vendre des NFT"
+  },
+  "profile-page": {
+    "Title": "Mon Profile",
+    "Username":"Nom d'utilisateur",
+    "ChangeMyPassword":"Changer mon mot de passe",
+    "ChangeMyEmail":"Changer mon email",
+    "OldPassword":"Ancien mot de passe",
+    "NewPassword":"Nouveau mot de passe",
+    "NewEmail":"Nouvelle email",
+    "SubmitBtn": "Envoyer"
+  }
+}

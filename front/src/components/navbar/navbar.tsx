@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'react';
+import { useTranslation } from 'react-i18next';
 import { useLocation, useNavigate } from 'react-router-dom';
 
 import BurgerMenu from '@/assets/icons/burger-menu.svg?react';
@@ -12,6 +13,7 @@ export const Navbar = () => {
   const navigate = useNavigate();
   const [minterData, setMinterData] = useState(null);
   const location = useLocation();
+  const { i18n } = useTranslation();
 
   useEffect(() => {
     if (!minterData) {
@@ -22,6 +24,11 @@ export const Navbar = () => {
       fetchMinter();
     }
   }, [location.pathname, minterData]);
+
+  const switchLanguage = (lang: string) => {
+    i18n.changeLanguage(lang);
+    window.location.reload();
+  };
 
   return (
     <div className="z-navbar px-5U py-2U fixed left-0 top-0 flex w-screen justify-between bg-transparent">
@@ -65,6 +72,18 @@ export const Navbar = () => {
             />
           </>
         )}
+        <button
+          className="mr-2 rounded bg-blue-500 px-2 py-1 text-white hover:bg-blue-600"
+          onClick={() => switchLanguage('en')}
+        >
+          EN
+        </button>
+        <button
+          className="rounded bg-blue-500 px-2 py-1 text-white hover:bg-blue-600"
+          onClick={() => switchLanguage('fr')}
+        >
+          FR
+        </button>
       </div>
     </div>
   );

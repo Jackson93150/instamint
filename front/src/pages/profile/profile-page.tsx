@@ -1,4 +1,5 @@
 import { AxiosError } from 'axios';
+import { t } from 'i18next';
 import { useEffect, useState } from 'react';
 
 import { getUserProfile, updatePassword, updateEmail } from '@/services';
@@ -72,11 +73,11 @@ export const ProfilePage = () => {
   return (
     <div className="flex h-screen w-screen items-center justify-center overflow-hidden bg-green-100">
       <div className="py-6U px-8U mobile:py-8U mobile:px-10U mobile:w-fit z-10 flex w-[90%] flex-col rounded-[8px] border border-white/25 bg-white/10 backdrop-blur-[40px]">
-        <h1 className="mb-4 text-2xl font-bold text-white">My Profile</h1>
+        <h1 className="mb-4 text-2xl font-bold text-white">{t('profile-page.Title')}</h1>
 
         <section className="mb-4 rounded-md p-4">
           <div className="mb-2 flex items-center text-white">
-            <span className="mr-2">Username:</span>
+            <span className="mr-2">{t('profile-page.Username')}:</span>
             <span>{username}</span>
           </div>
           <div className="mb-4 flex items-center text-white">
@@ -87,13 +88,13 @@ export const ProfilePage = () => {
             className="mt-4 rounded bg-blue-500 px-4 py-2 text-white hover:bg-blue-600"
             onClick={handleChangePassword}
           >
-            Change my password
+            {t('profile-page.ChangeMyPassword')}
           </button>
           {showChangePasswordForm && (
             <form onSubmit={handleFormPasswordSubmit} className="mt-4">
               <input
                 type="password"
-                placeholder="Old password"
+                placeholder={t('profile-page.OldPassword')}
                 value={oldPassword}
                 onChange={(e) => setOldPassword(e.target.value)}
                 required
@@ -101,14 +102,14 @@ export const ProfilePage = () => {
               />
               <input
                 type="password"
-                placeholder="New password"
+                placeholder={t('profile-page.NewPassword')}
                 value={newPassword}
                 onChange={(e) => setNewPassword(e.target.value)}
                 required
                 className="mr-2 rounded border border-gray-300 px-3 py-2"
               />
               <button type="submit" className="rounded bg-blue-500 px-4 py-2 text-white hover:bg-blue-600">
-                Submit
+                {t('profile-page.SubmitBtn')}
               </button>
             </form>
           )}
@@ -116,20 +117,20 @@ export const ProfilePage = () => {
             className="mt-4 rounded bg-blue-500 px-4 py-2 text-white hover:bg-blue-600"
             onClick={handleChangeEmail}
           >
-            Change my email
+            {t('profile-page.ChangeMyEmail')}
           </button>
           {showChangeEmailForm && (
             <form onSubmit={handleFormEmailSubmit} className="mt-4">
               <input
                 type="email"
-                placeholder="New Email"
+                placeholder={t('profile-page.NewEmail')}
                 value={newEmail}
                 onChange={(e) => setNewEmail(e.target.value)}
                 required
                 className="mr-2 rounded border border-gray-300 px-3 py-2"
               />
               <button type="submit" className="rounded bg-blue-500 px-4 py-2 text-white hover:bg-blue-600">
-                Submit
+                {t('profile-page.SubmitBtn')}
               </button>
             </form>
           )}

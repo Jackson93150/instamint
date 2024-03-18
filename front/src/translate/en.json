@@ -1,0 +1,17 @@
+{
+    "home-header-section": {
+      "Title": "Welcome To",
+      "SubTitle": "The platform for minting, buying, and selling NFTs"
+    },
+    "profile-page": {
+      "Title": "My Profile",
+      "Username":"Username",
+      "ChangeMyPassword":"Change my password",
+      "ChangeMyEmail":"Change my email",
+      "OldPassword":"Old password",
+      "NewPassword":"New password",
+      "NewEmail": "New email",
+      "SubmitBtn": "Submit"
+    }
+}
+  

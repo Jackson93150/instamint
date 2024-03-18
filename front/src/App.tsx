@@ -3,7 +3,7 @@ import { Route, Routes } from 'react-router-dom';
 import { Layout } from './components';
 import { ProfilePage } from './pages/profile/profile-page';
 import { HomePage, RegistrationPage, LoginPage, ConfirmationPage } from '@/pages';
-
+import './i18n';
 function App() {
   return (
     <Layout>
