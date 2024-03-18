@@ -15,7 +15,7 @@ import 'swiper/swiper-bundle.css';
 export const HomeHeaderSection = () => {
   return (
     <div className="tablet:items-center flex h-screen w-screen overflow-hidden bg-green-100 px-[5%]">
-      <div className="tablet:flex-row tablet:mt-[-10%] tablet:justify-between mobile:gap-5U mt-[60px] flex w-full flex-col items-center gap-[20vw]">
+      <div className="tablet:flex-row tablet:mt-[-10%] tablet:justify-between tablet:gap-5U mt-[60px] flex w-full flex-col items-center gap-[30vh]">
         <div className="tablet:items-start flex size-fit flex-col items-center">
           <span className="tablet:text-[96px] mobile:text-[8vw] text-[10vw] font-bold leading-none text-white">
             Welcome To
@@ -28,11 +28,11 @@ export const HomeHeaderSection = () => {
           </p>
           <span className="tablet:size-[500px] absolute left-[-450px] top-[-400px] size-[300px] rounded-full bg-green-400 blur-[450px]" />
         </div>
-        <div className="mobile:w-[410px] relative flex h-[420px] w-[95vw] items-center">
+        <div className="mobile:w-[410px] relative flex h-fit w-[95vw] items-center">
           <HomeNftCard picture={Nft1} size="large" classname="absolute z-[3]" />
           <HomeNftCard picture={Nft2} size="medium" classname="absolute ml-[15%] z-[2]" />
           <HomeNftCard picture={Nft3} size="small" classname="absolute ml-[50%] z-[1]" />
-          <span className="absolute size-[200px] translate-x-[50%] rounded-full bg-green-400 blur-[150px]" />
+          <span className="mobile:flex absolute hidden size-[200px] translate-x-[50%] rounded-full bg-green-400 blur-[150px]" />
         </div>
       </div>
       <div className="bottom-5U absolute left-0 w-full">
