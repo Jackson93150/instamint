@@ -3,7 +3,6 @@ import { useNavigate, useSearchParams } from 'react-router-dom';
 
 import Check from '@/assets/icons/check.svg?react';
 import Cross from '@/assets/icons/cross.svg?react';
-import { BubbleParticle } from '@/components';
 import { confirm } from '@/services';
 
 export const ConfirmationPage = () => {
@@ -32,7 +31,6 @@ export const ConfirmationPage = () => {
 
   return (
     <div className="flex h-screen w-screen items-center justify-center overflow-hidden bg-green-100">
-      <BubbleParticle />
       <div className="py-6U px-8U mobile:py-8U mobile:px-10U mobile:w-fit z-10 flex w-[90%] flex-col rounded-[8px] bg-white">
         <p className="text-heading mobile:text-title text-center">Verification</p>
         <div className="gap-4U mt-8U flex flex-col">

@@ -87,7 +87,11 @@ export default {
         greenCircle: '0 35px 60px -15px rgba(85, 255, 153, 0.5)',
       },
       backgroundImage: {
+        'gray-gradient': 'linear-gradient(0deg, #afafaf, #fff)',
         'green-gradient': 'linear-gradient(180deg, #27ab5c, #16502d)',
+        'green-bg-gradient': 'linear-gradient(0deg, #151D20, #0f1a13)',
+        'rainbow-gradient':
+          'radial-gradient(circle at -15% 107%, #fdf497 0%, #fdf497 5%, #fd5949 45%,#d6249f 60%,#285AEB 90%);',
       },
       zIndex: {
         ray: '90',
