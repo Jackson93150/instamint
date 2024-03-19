@@ -1,3 +1,4 @@
+import { t } from 'i18next';
 import { ChangeEvent, memo, useMemo, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 
@@ -51,10 +52,10 @@ export const LoginPage = () => {
     <div className="flex h-screen w-screen items-center justify-center overflow-hidden bg-green-100">
       <MemoizedBubbles />
       <div className="py-6U px-8U mobile:py-8U mobile:px-10U mobile:w-fit z-10 flex w-[90%] flex-col rounded-[8px] border border-white/25 bg-white/10 backdrop-blur-[40px]">
-        <p className="text-heading mobile:text-title text-center text-white">Login</p>
+        <p className="text-heading mobile:text-title text-center text-white">{t('connection.Login')}</p>
         <div className="gap-4U mt-8U flex flex-col">
           <div className="gap-1U flex w-full flex-col">
-            <label className="text-body text-white/50">Email</label>
+            <label className="text-body text-white/50">{t('connection.Email')}</label>
             <input
               type="email"
               name="email"
@@ -65,7 +66,7 @@ export const LoginPage = () => {
             />
           </div>
           <div className="gap-1U flex w-full flex-col">
-            <label className="text-body text-white/50">Password</label>
+            <label className="text-body text-white/50">{t('connection.Password')}</label>
             <div className="relative w-full">
               <input
                 type={showPassword ? 'text' : 'password'}
@@ -83,26 +84,28 @@ export const LoginPage = () => {
             </div>
           </div>
 
-          {isError && isConfirm && <span className="text-small text-red-500">Email or Password is incorrect</span>}
+          {isError && isConfirm && (
+            <span className="text-small text-red-500">{t('login-page.ErrorEmailPassword')}</span>
+          )}
           {!isConfirm && (
             <span className="text-small word-break w-full text-center text-red-500">
-              You didn&apos;t activate your account. <br /> An activation link will be send to your email{' '}
+              {t('login-page.ActivateAccount1')} <br /> {t('login-page.ActivateAccount2')}{' '}
             </span>
           )}
 
           <div className="mt-8U flex items-center justify-center">
-            <Button color="green" content="Sign In" onClick={handleSubmit} />
+            <Button color="green" content={t('connection.SignIn')} onClick={handleSubmit} />
           </div>
 
           <div className="gap-1U mt-8U flex w-full justify-center">
-            <span className="text-body text-white/50">Don&apos;t have an account?</span>
+            <span className="text-body text-white/50">{t('connection.HasAccount')}?</span>
             <span
               className="text-body cursor-pointer font-bold text-white"
               onClick={() => {
                 navigate('/register');
               }}
             >
-              Sign Up
+              {t('connection.SignUp')}
             </span>
           </div>
         </div>

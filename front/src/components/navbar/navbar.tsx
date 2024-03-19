@@ -1,13 +1,16 @@
+import { t } from 'i18next';
 import { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useLocation, useNavigate } from 'react-router-dom';
 
 import BurgerMenu from '@/assets/icons/burger-menu.svg?react';
+import SelectLanguage from '@/assets/icons/globe-fill.svg?react';
 import Notification from '@/assets/icons/notification.svg?react';
 import ProfilePicture from '@/assets/icons/pp.svg?react';
 import Logo from '@/assets/logo.png';
 import { connectedMinter } from '@/services';
 import { Button } from '@/ui';
+import Dropdown from '@/ui/dropdown/dropdown';
 
 export const Navbar = () => {
   const navigate = useNavigate();
@@ -41,6 +44,14 @@ export const Navbar = () => {
         }}
       />
       <div className="gap-1U flex items-center">
+        <Dropdown
+          defaultOption={<SelectLanguage className="size-5" />}
+          options={{ en: 'en', fr: 'fr' }}
+          onSelect={(option: string) => {
+            switchLanguage(option);
+          }}
+        />
+
         {minterData ? (
           <div className="gap-5U flex items-center justify-center">
             <Notification />
@@ -56,7 +67,7 @@ export const Navbar = () => {
             <Button
               size="small"
               color="green"
-              content="Sign In"
+              content={t('connection.SignIn')}
               onClick={() => {
                 navigate('/login');
               }}
@@ -64,7 +75,7 @@ export const Navbar = () => {
             <Button
               size="small"
               color="transparent"
-              content="Sign Up"
+              content={t('connection.SignUp')}
               className="mobile:flex hidden"
               onClick={() => {
                 navigate('/register');
@@ -72,18 +83,6 @@ export const Navbar = () => {
             />
           </>
         )}
-        <button
-          className="mr-2 rounded bg-blue-500 px-2 py-1 text-white hover:bg-blue-600"
-          onClick={() => switchLanguage('en')}
-        >
-          EN
-        </button>
-        <button
-          className="rounded bg-blue-500 px-2 py-1 text-white hover:bg-blue-600"
-          onClick={() => switchLanguage('fr')}
-        >
-          FR
-        </button>
       </div>
     </div>
   );
