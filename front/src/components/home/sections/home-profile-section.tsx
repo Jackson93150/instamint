@@ -113,7 +113,7 @@ export const HomeProfileSection = () => {
           slidesPerView="auto"
           speed={1000}
           modules={[Pagination]}
-          loopAdditionalSlides={2}
+          loopAdditionalSlides={4}
           pagination
           navigation
           centeredSlides

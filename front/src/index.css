@@ -38,7 +38,6 @@ body {
   background: #55ff99;
 }
 
-
 .swiper-slide {
   width: fit-content;
 }
@@ -47,7 +46,7 @@ body {
   #home-profile-swiper .swiper-slide {
     height: 280px;
   }
-  
+
   #home-profile-swiper .swiper-slide-active {
     height: 350px;
   }
@@ -57,7 +56,7 @@ body {
   #home-profile-swiper .swiper-slide {
     height: 320px;
   }
-  
+
   #home-profile-swiper .swiper-slide-active {
     height: 400px;
   }
