@@ -2,7 +2,7 @@ import { HomeHeaderSection, HomeInfoSection, HomeProfileSection } from '@/compon
 
 export const HomePage = () => {
   return (
-    <div className="bg-green-bg-gradient flex h-fit w-screen flex-col">
+    <div className="bg-green-bg-gradient flex h-fit w-full flex-col">
       <HomeHeaderSection />
       <HomeInfoSection />
       <HomeProfileSection />

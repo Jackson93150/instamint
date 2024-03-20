@@ -6,7 +6,7 @@ import { useState, useRef } from 'react';
 import { Navigation, Pagination } from 'swiper/modules';
 import { Swiper, SwiperSlide } from 'swiper/react';
 
-import Heart from '@/assets/icons/heart.png';
+import Mint from '@/assets/icons/mint.png';
 import { FEATURED_PROFILE } from '@/constants';
 import { formatThousand } from '@/utils';
 
@@ -159,11 +159,11 @@ export const HomeProfileSection = () => {
                           </div>
                           <div className="flex flex-col items-center justify-center">
                             <span className="bg-gray-gradient text-body mobile:text-subheading bg-clip-text font-bold text-transparent">
-                              Like
+                              Mint
                             </span>
-                            <div className="flex items-center justify-center">
+                            <div className="gap-1U flex items-center justify-center">
                               <span className="text-small mobile:text-body text-white">{formatThousand(nft.nft)}</span>
-                              <img className="size-3U" src={Heart} alt="heart" />
+                              <img className="mobile:size-4U size-2U" src={Mint} alt="heart" />
                             </div>
                           </div>
                         </div>

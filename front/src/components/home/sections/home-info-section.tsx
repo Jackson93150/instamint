@@ -102,7 +102,7 @@ export const HomeInfoSection = () => {
     >
       <div className="relative size-fit">
         <img
-          className={cx('gsapNFT', 'tablet-l:size-[380px] mobile:size-[300px] size-[80vw] rotate-6 rounded-[100px]')}
+          className={cx('gsapNFT', 'tablet-l:size-[380px] mobile:size-[300px] size-[70vw] rotate-6 rounded-[100px]')}
           src={Nft}
           alt="NFT"
         />

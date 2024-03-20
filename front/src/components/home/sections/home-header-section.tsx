@@ -23,12 +23,19 @@ export const HomeHeaderSection = () => {
       duration: 1,
       delay: 0.3,
     });
-    gsap.to('.gsapHeaderSwiper', {
-      y: '0%',
-      opacity: 1,
-      duration: 1,
-      delay: 0.3,
-    });
+    gsap.fromTo(
+      '.gsapHeaderSwiper',
+      {
+        y: '100%',
+        opacity: 0,
+      },
+      {
+        y: '0%',
+        opacity: 1,
+        duration: 1,
+        delay: 0.3,
+      }
+    );
     gsap.to('.gsapHeaderCard', {
       x: '0%',
       rotate: '0%',
@@ -38,7 +45,7 @@ export const HomeHeaderSection = () => {
     });
   });
   return (
-    <div className="tablet:items-center z-10 flex h-screen w-screen overflow-hidden px-[5%]">
+    <div className="tablet:items-center relative z-10 flex h-screen w-full overflow-x-hidden px-[5%]">
       <div className="tablet:flex-row tablet:mt-[-10%] tablet:justify-between tablet:gap-5U mt-[60px] flex w-full flex-col items-center gap-[30vh]">
         <div
           className={cx(
@@ -69,7 +76,7 @@ export const HomeHeaderSection = () => {
           <span className="mobile:flex absolute hidden size-[200px] translate-x-1/2 rounded-full bg-green-400 blur-[150px]" />
         </div>
       </div>
-      <div className={cx('gsapHeaderSwiper', 'translate-y-[100%] opacity-0 bottom-5U absolute left-0 w-full')}>
+      <div className={cx('gsapHeaderSwiper', 'bottom-5U absolute left-0 w-full')}>
         <Swiper
           id="home-header-swiper"
           modules={[Autoplay, FreeMode]}
