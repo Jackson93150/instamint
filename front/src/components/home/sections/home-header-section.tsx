@@ -66,7 +66,7 @@ export const HomeHeaderSection = () => {
           <HomeNftCard picture={Nft1} size="large" classname="absolute z-[3]" />
           <HomeNftCard picture={Nft2} size="medium" classname="absolute ml-[15%] z-[2]" />
           <HomeNftCard picture={Nft3} size="small" classname="absolute ml-[50%] z-[1]" />
-          <span className="mobile:flex absolute hidden size-[200px] translate-x-[50%] rounded-full bg-green-400 blur-[150px]" />
+          <span className="mobile:flex absolute hidden size-[200px] translate-x-1/2 rounded-full bg-green-400 blur-[150px]" />
         </div>
       </div>
       <div className={cx('gsapHeaderSwiper', 'translate-y-[100%] opacity-0 bottom-5U absolute left-0 w-full')}>

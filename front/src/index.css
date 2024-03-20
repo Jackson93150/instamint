@@ -38,6 +38,14 @@ body {
   background: #55ff99;
 }
 
+#home-profile-swiper .swiper-button-prev {
+  color: #37c871;
+}
+
+#home-profile-swiper .swiper-button-next {
+  color: #37c871;
+}
+
 .swiper-slide {
   width: fit-content;
 }

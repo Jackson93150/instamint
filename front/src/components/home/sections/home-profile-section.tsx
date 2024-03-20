@@ -3,7 +3,7 @@ import cx from 'classnames';
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { useState, useRef } from 'react';
-import { Pagination } from 'swiper/modules';
+import { Navigation, Pagination } from 'swiper/modules';
 import { Swiper, SwiperSlide } from 'swiper/react';
 
 import Heart from '@/assets/icons/heart.png';
@@ -112,7 +112,7 @@ export const HomeProfileSection = () => {
           spaceBetween={20}
           slidesPerView="auto"
           speed={1000}
-          modules={[Pagination]}
+          modules={[Pagination, Navigation]}
           loopAdditionalSlides={4}
           pagination
           navigation

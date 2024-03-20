@@ -64,7 +64,7 @@ export const RegistrationPage = () => {
   return (
     <div className="flex h-screen w-screen items-center justify-center overflow-hidden bg-green-100">
       <MemoizedBubbles />
-      <div className="py-6U px-8U mobile:py-8U mobile:px-10U mobile:w-fit z-10 flex w-[90%] flex-col rounded-[8px] border border-white/25 bg-white/10 backdrop-blur-[40px]">
+      <div className="py-6U px-8U mobile:py-8U mobile:px-10U mobile:w-fit z-10 flex w-[90%] flex-col rounded-[8px] border border-white/25 bg-white/10 backdrop-blur-2xl">
         <p className="text-heading mobile:text-title text-center text-white">
           Welcome To Instamint!
           <br />
