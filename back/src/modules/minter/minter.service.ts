@@ -55,9 +55,11 @@ export class MinterService {
   async validateMinter(id: number): Promise<void> {
     await this.minterRepository.update({ id }, { isValidate: true });
   }
+
   async updateProfileVisibility(id: number, isPrivate: boolean): Promise<void> {
     await this.minterRepository.update(id, { isPrivate });
   }
+
   async updateProfilePassword(
     id: number,
     oldPassword: string,
@@ -83,6 +85,7 @@ export class MinterService {
     const hashedPassword: string = await bcrypt.hash(newPassword, 10);
     await this.minterRepository.update(id, { password: hashedPassword });
   }
+
   async getUserProfile(
     id: number,
   ): Promise<Pick<MinterEntity, 'username' | 'email'>> {
@@ -112,7 +115,9 @@ export class MinterService {
       );
     }
 
-    await this.minterRepository.update(id, { email: newEmail });
-    await this.minterRepository.update({ id }, { isValidate: false });
+    await this.minterRepository.update(
+      { id },
+      { email: newEmail, isValidate: false },
+    );
   }
 }

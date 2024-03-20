@@ -1,3 +1,4 @@
+/* eslint-disable max-lines */
 import { Test, TestingModule } from '@nestjs/testing';
 import { getRepositoryToken } from '@nestjs/typeorm';
 import * as bcrypt from 'bcrypt';
@@ -150,6 +151,205 @@ describe('MinterService', () => {
       jest.spyOn(repository, 'update').mockResolvedValueOnce(updateResult);
       await service.updateProfileVisibility(id, isPrivate);
       expect(repository.update).toHaveBeenCalledWith(id, { isPrivate });
+    });
+  });
+  describe('updateProfilePassword', () => {
+    it('should update the password of a minter', async () => {
+      const id = 1;
+      const oldPassword = 'oldPassword123';
+      const newPassword = 'newPassword456';
+
+      const minter: MinterEntity = {
+        id: id,
+        password: await bcrypt.hash(oldPassword, 10),
+        username: '',
+        email: '',
+        phone: '',
+        bio: '',
+        pictureUrl: '',
+        uniqueUrl: '',
+        isPrivate: false,
+        isValidate: true,
+        twoFactorEnabled: false,
+        twoFactorSecret: '',
+        createdAt: undefined,
+        updatedAt: undefined,
+      };
+
+      jest.spyOn(repository, 'findOne').mockResolvedValueOnce(minter);
+
+      const updateResult: UpdateResult = {
+        raw: {},
+        generatedMaps: [],
+        affected: 1,
+      };
+      jest.spyOn(repository, 'update').mockResolvedValueOnce(updateResult);
+
+      await service.updateProfilePassword(id, oldPassword, newPassword);
+
+      expect(repository.update).toHaveBeenCalledWith(
+        id,
+        expect.objectContaining({ password: expect.any(String) }),
+      );
+    });
+    it('should throw error if old password is incorrect', async () => {
+      const id = 1;
+      const oldPassword = 'incorrectPassword';
+      const newPassword = 'newPassword456';
+
+      const minter: MinterEntity = {
+        id: id,
+        password: await bcrypt.hash('correctPassword', 10),
+        username: '',
+        email: '',
+        phone: '',
+        bio: '',
+        pictureUrl: '',
+        uniqueUrl: '',
+        isPrivate: false,
+        isValidate: true,
+        twoFactorEnabled: false,
+        twoFactorSecret: '',
+        createdAt: undefined,
+        updatedAt: undefined,
+      };
+
+      jest.spyOn(repository, 'findOne').mockResolvedValueOnce(minter);
+
+      await expect(
+        service.updateProfilePassword(id, oldPassword, newPassword),
+      ).rejects.toThrowError('Old Password is incorrect.');
+    });
+
+    it('should throw error if new password format is invalid', async () => {
+      const id = 1;
+      const oldPassword = 'oldPassword123';
+      const newPassword = 'short';
+
+      const minter: MinterEntity = {
+        id: id,
+        password: await bcrypt.hash(oldPassword, 10),
+        username: '',
+        email: '',
+        phone: '',
+        bio: '',
+        pictureUrl: '',
+        uniqueUrl: '',
+        isPrivate: false,
+        isValidate: true,
+        twoFactorEnabled: false,
+        twoFactorSecret: '',
+        createdAt: undefined,
+        updatedAt: undefined,
+      };
+
+      jest.spyOn(repository, 'findOne').mockResolvedValueOnce(minter);
+
+      await expect(
+        service.updateProfilePassword(id, oldPassword, newPassword),
+      ).rejects.toThrowError('New Password must be in valid format.');
+    });
+  });
+  describe('getUserProfile', () => {
+    describe('getUserProfile', () => {
+      it('should return username and email of a minter', async () => {
+        const id = 1;
+        const minter: MinterEntity = {
+          id: id,
+          username: 'testuser',
+          email: 'test@example.com',
+          password: '',
+          phone: '',
+          bio: '',
+          pictureUrl: '',
+          uniqueUrl: '',
+          isPrivate: false,
+          isValidate: true,
+          twoFactorEnabled: false,
+          twoFactorSecret: '',
+          createdAt: undefined,
+          updatedAt: undefined,
+        };
+
+        jest.spyOn(repository, 'findOne').mockResolvedValueOnce(minter);
+
+        const userProfile = await service.getUserProfile(id);
+
+        expect(userProfile).toEqual({
+          username: minter.username,
+          email: minter.email,
+        });
+      });
+
+      it('should throw error if user is not found', async () => {
+        const id = 1;
+
+        jest.spyOn(repository, 'findOne').mockResolvedValueOnce(null);
+        await expect(service.getUserProfile(id)).rejects.toThrowError(
+          'User not found',
+        );
+      });
+    });
+  });
+  describe('updateProfileEmail', () => {
+    it('should update the email of a minter', async () => {
+      const id = 1;
+      const newEmail = 'new@example.com';
+
+      jest.spyOn(repository, 'findOne').mockResolvedValueOnce(null);
+
+      const updateResult: UpdateResult = {
+        raw: {},
+        generatedMaps: [],
+        affected: 1,
+      };
+
+      jest.spyOn(repository, 'update').mockResolvedValueOnce(updateResult);
+      await service.updateProfileEmail(id, newEmail);
+
+      expect(repository.update).toHaveBeenCalledWith(
+        { id },
+        { email: newEmail, isValidate: false },
+      );
+    });
+
+    it('should throw error if email is already used', async () => {
+      const id = 1;
+      const newEmail = 'used@example.com';
+
+      const minter: MinterEntity = {
+        id: id,
+        username: 'testuser',
+        email: 'used@example.com',
+        password: '',
+        phone: '',
+        bio: '',
+        pictureUrl: '',
+        uniqueUrl: '',
+        isPrivate: false,
+        isValidate: true,
+        twoFactorEnabled: false,
+        twoFactorSecret: '',
+        createdAt: undefined,
+        updatedAt: undefined,
+      };
+
+      jest.spyOn(repository, 'findOne').mockResolvedValueOnce(minter);
+
+      await expect(
+        service.updateProfileEmail(id, newEmail),
+      ).rejects.toThrowError('This email is already used.');
+    });
+
+    it('should throw error if email format is invalid', async () => {
+      const id = 1;
+      const newEmail = 'invalidemail';
+
+      jest.spyOn(repository, 'findOne').mockResolvedValueOnce(null);
+
+      await expect(
+        service.updateProfileEmail(id, newEmail),
+      ).rejects.toThrowError('The email must be in valid format.');
     });
   });
 });
