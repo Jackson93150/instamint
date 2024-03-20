@@ -39,7 +39,10 @@ const ChangeLinkComponent = () => {
     }
 
     try {
-      await updateUniqueUrl(newUrl.trim());
+      const data = {
+        uniqueUrl: newUrl.trim(),
+      };
+      await updateUniqueUrl(data);
       setCurrentUrl(newUrl.trim());
       setStatusMessage('URL updated successfully!');
     } catch (error) {
