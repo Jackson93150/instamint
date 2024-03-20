@@ -11,12 +11,12 @@ export const createMinter = async (minter: MinterRegister) => {
   return response.data;
 };
 
-export const updateUniqueUrl = async (uniqueUrl: string) => {
-  await axios.put(`${import.meta.env.VITE_BACKEND_URL}/minter/unique-url`),
-    {
-      uniqueUrl,
-    },
-    {
-      withCredentials: true,
-    };
+interface MinterChangeUniqueUrl {
+  uniqueUrl: string;
+}
+
+export const updateUniqueUrl = async (data: MinterChangeUniqueUrl) => {
+  await axios.put(`${import.meta.env.VITE_BACKEND_URL}/minter/unique-url`, data, {
+    withCredentials: true,
+  });
 };
