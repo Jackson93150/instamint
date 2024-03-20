@@ -1,0 +1,43 @@
+{
+    "home-header-section": {
+      "Title": "Welcome To",
+      "SubTitle": "The platform for minting, buying, and selling NFTs"
+    },
+    "profile-page": {
+      "Title": "My Profile",
+      "Username":"Username",
+      "ChangeMyPassword":"Change my password",
+      "ChangeMyEmail":"Change my email",
+      "OldPassword":"Old password",
+      "NewPassword":"New password",
+      "NewEmail": "New email",
+      "SubmitBtn": "Submit"
+    },
+    "connection":{
+      "Login":"Login",
+      "SignIn":"Sign In",
+      "SignUp":"Sign Up",
+      "Username":"Username",
+      "Email":"Email",
+      "Password":"Password",
+      "HasAccount":"Don't have an account",
+      "OwnAccount":"Own an account",
+      "AcceptTerms":"I accept the terms & conditions"
+    },
+    "login-page":{
+      "ErrorEmailPassword":"Email or Password is incorrect",
+      "ActivateAccount1":"You didn't activate your account.",
+      "ActivateAccount2":"An activation link will be send to your email"
+    },
+    "registration-page":{
+      "Title1":"Welcome To Instamint!",
+      "Title2":"Let’s Create An Account",
+      "EmailSend":"An email as been send to your boxmail"
+    },
+    "confirmation-page":{
+      "Title":"Verification",
+      "ErrorAccountActivated":"Your account is not activated, you confirmation link is incorrect.",
+      "SuccessAccountActivated":"Your account is activated, you will be redirect in a few seconds."
+    }
+}
+  

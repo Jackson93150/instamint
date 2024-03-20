@@ -1,8 +1,9 @@
 import { Route, Routes } from 'react-router-dom';
 
 import { Layout } from './components';
+import { ProfilePage } from './pages/profile/profile-page';
 import { HomePage, RegistrationPage, LoginPage, ConfirmationPage } from '@/pages';
-
+import './i18n';
 function App() {
   return (
     <Layout>
@@ -11,6 +12,7 @@ function App() {
         <Route path="/register" element={<RegistrationPage />} />
         <Route path="/login" element={<LoginPage />} />
         <Route path="/confirm" element={<ConfirmationPage />} />
+        <Route path="/profile" element={<ProfilePage />} />
       </Routes>
     </Layout>
   );

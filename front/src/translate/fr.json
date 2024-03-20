@@ -1,0 +1,43 @@
+{
+  "home-header-section": {
+    "Title": "Bienvenue Sur",
+    "SubTitle": "La plateforme pour créer, acheter et vendre des NFT"
+  },
+  "profile-page": {
+    "Title": "Mon Profile",
+    "Username":"Nom d'utilisateur",
+    "ChangeMyPassword":"Changer mon mot de passe",
+    "ChangeMyEmail":"Changer mon email",
+    "OldPassword":"Ancien mot de passe",
+    "NewPassword":"Nouveau mot de passe",
+    "NewEmail":"Nouvelle email",
+    "SubmitBtn": "Envoyer"
+  }, 
+  "connection":{
+    "Login":"Connexion",
+    "SignIn":"Se connecter",
+    "SignUp":"S'inscrire",
+    "Username":"Nom d'utilisateur",
+    "Email":"Email",
+    "Password":"Mot de passe",
+    "HasAccount":"Pas de compte",
+    "OwnAccount":"J'ai un compte",
+    "AcceptTerms":"J'accepte les termes & conditions"
+  },
+  "login-page":{
+    "ErrorEmailPassword":"L'e-mail ou le mot de passe est incorrect",
+    "ActivateAccount1":"Vous n'avez pas activé votre compte.",
+    "ActivateAccount2":"Un lien d'activation sera envoyé à votre e-mail"
+  },
+  "registration-page":{
+    "Title1":"Bienvenue sur Instamint!",
+    "Title2":"Créons un compte",
+    "EmailSend":"Un e-mail a été envoyé à votre boîte mail"
+  },
+  "confirmation-page":{
+    "Title":"Vérification",
+    "ErrorAccountActivated":"Votre compte n'est pas activé, le lien de confirmation est incorrect.",
+    "SuccessAccountActivated":"Votre compte est activé, vous serez redirigé dans quelques secondes."
+  }
+  
+}

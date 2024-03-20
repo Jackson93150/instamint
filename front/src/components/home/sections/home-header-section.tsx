@@ -1,3 +1,4 @@
+import { t } from 'i18next';
 import { Autoplay, FreeMode } from 'swiper/modules';
 import { Swiper, SwiperSlide } from 'swiper/react';
 
@@ -18,14 +19,12 @@ export const HomeHeaderSection = () => {
       <div className="tablet:flex-row tablet:mt-[-10%] tablet:justify-between mobile:gap-5U mt-[60px] flex w-full flex-col items-center gap-[20vw]">
         <div className="tablet:items-start flex size-fit flex-col items-center">
           <span className="tablet:text-[96px] mobile:text-[8vw] text-[10vw] font-bold leading-none text-white">
-            Welcome To
+            {t('home-header-section.Title')}
           </span>
           <span className="bg-green-gradient tablet:text-[96px] mobile:text-[12vw] bg-clip-text text-[15vw] font-bold leading-none text-transparent">
             Instamint
           </span>
-          <p className="tablet:text-[24px] text-[2vw] text-white/40">
-            The platform for minting, buying, and selling NFTs
-          </p>
+          <p className="tablet:text-[24px] text-[2vw] text-white/40">{t('home-header-section.SubTitle')}</p>
           <span className="tablet:size-[500px] absolute left-[-450px] top-[-400px] size-[300px] rounded-full bg-green-400 blur-[450px]" />
         </div>
         <div className="mobile:w-[410px] relative flex h-[420px] w-[95vw] items-center">

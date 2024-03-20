@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, HttpStatus, HttpException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import * as bcrypt from 'bcrypt';
 import { Repository } from 'typeorm';
@@ -55,7 +55,69 @@ export class MinterService {
   async validateMinter(id: number): Promise<void> {
     await this.minterRepository.update({ id }, { isValidate: true });
   }
+
   async updateProfileVisibility(id: number, isPrivate: boolean): Promise<void> {
     await this.minterRepository.update(id, { isPrivate });
+  }
+
+  async updateProfilePassword(
+    id: number,
+    oldPassword: string,
+    newPassword: string,
+  ): Promise<void> {
+    const minter = await this.minterRepository.findOne({ where: { id: id } });
+
+    const passwordMatch = await bcrypt.compare(oldPassword, minter.password);
+    if (!passwordMatch) {
+      throw new HttpException(
+        'Old Password is incorrect.',
+        HttpStatus.UNAUTHORIZED,
+      );
+    }
+
+    if (!PASSWORD_REGEX.test(newPassword)) {
+      throw new HttpException(
+        'New Password must be in valid format.',
+        HttpStatus.BAD_REQUEST,
+      );
+    }
+
+    const hashedPassword: string = await bcrypt.hash(newPassword, 10);
+    await this.minterRepository.update(id, { password: hashedPassword });
+  }
+
+  async getUserProfile(
+    id: number,
+  ): Promise<Pick<MinterEntity, 'username' | 'email'>> {
+    const minter = await this.minterRepository.findOne({ where: { id: id } });
+    if (!minter) {
+      throw new Error('User not found');
+    }
+    return { username: minter.username, email: minter.email };
+  }
+
+  async updateProfileEmail(id: number, newEmail: string): Promise<void> {
+    const isMinterAlreadyCreated = await this.minterRepository.findOne({
+      where: { email: newEmail },
+    });
+
+    if (isMinterAlreadyCreated) {
+      throw new HttpException(
+        'This email is already used.',
+        HttpStatus.BAD_REQUEST,
+      );
+    }
+
+    if (!EMAIL_REGEX.test(newEmail)) {
+      throw new HttpException(
+        'The email must be in valid format.',
+        HttpStatus.BAD_REQUEST,
+      );
+    }
+
+    await this.minterRepository.update(
+      { id },
+      { email: newEmail, isValidate: false },
+    );
   }
 }

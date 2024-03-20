@@ -30,6 +30,41 @@ This route allows changing the visibility of a minter's profile.
   | `id`        | number  | The ID of the minter whose visibility is to be changed. |
   | `isPrivate` | boolean | The new visibility status of the minter's profile. |
 
+  This route send username and email of the minter.
+
+- **URL:** `/minter/profile`
+- **Method:** `Get`
+- **Request Body:**
+- **Authentication:** Requires a valid JWT token in the request headers.
+
+  | Parameter   | Type    | Description           |
+  |-------------|---------|-----------------------|
+  | `username`  | string | Username of the minter|
+  | `email`     | string | Email of the minter   |
+
+  This route allows changing the email of a minter's profile.
+
+- **URL:** `/minter/changeEmail`
+- **Method:** `PUT`
+- **Request Body:**
+- **Authentication:** Requires a valid JWT token in the request headers.
+
+  | Parameter   | Type    | Description            |
+  |-------------|---------|------------------------|
+  | `email`     | string | New email of the minter |
+
+  This route allows changing the password of a minter's profile.
+
+- **URL:** `/minter/changePassword`
+- **Method:** `PUT`
+- **Request Body:**
+- **Authentication:** Requires a valid JWT token in the request headers.
+
+  | Parameter     | Type    | Description               |
+  |---------------|---------|---------------------------|
+  | `oldPassword` | string  | Password of the minter    |
+  | `newPassword` | string  | New password of the minter|
+
 ## Authentication
 
 ### Retrieve Current User
