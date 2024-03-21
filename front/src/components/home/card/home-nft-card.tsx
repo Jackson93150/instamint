@@ -16,9 +16,9 @@ export const HomeNftCard = ({ picture, size, classname }: Props) => {
       <img
         className={cx(
           'rounded-[10px] object-cover',
-          size === 'large' && 'h-[400px] w-[310px]',
-          size === 'medium' && 'h-[365px] w-[285px]',
-          size === 'small' && 'h-[335px] w-[260px]'
+          size === 'large' && 'h-[40vh] w-[75vw] tablet:h-[400px] mobile:h-[350px] mobile:w-[310px]',
+          size === 'medium' && 'h-[37.5vh] w-[70vw] tablet:h-[365px] mobile:h-[320px] mobile:w-[290px]',
+          size === 'small' && 'h-[35vh] w-[65vw] tablet:h-[335px] mobile:h-[280px] mobile:w-[260px]'
         )}
         src={picture}
         alt=""

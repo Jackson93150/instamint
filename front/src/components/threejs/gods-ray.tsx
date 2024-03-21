@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { useFrame, useLoader } from '@react-three/fiber';
-import { useRef } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { TextureLoader, PlaneGeometry } from 'three';
 import * as THREE from 'three';
 
@@ -8,6 +8,20 @@ import NoiseTexture from '@/assets/three/gr.jpeg';
 
 export const GodRays = () => {
   const shaderRef = useRef<any>(null!);
+  const [aspectRatio, setAspectRatio] = useState(window.innerWidth / window.innerHeight);
+
+  useEffect(() => {
+    const handleResize = () => {
+      setAspectRatio(window.innerWidth / window.innerHeight);
+    };
+
+    window.addEventListener('resize', handleResize);
+
+    return () => {
+      window.removeEventListener('resize', handleResize);
+    };
+  }, []);
+
   useFrame((state) => {
     if (shaderRef.current) {
       shaderRef.current.material.uniforms.uTime.value = state.clock.getElapsedTime();
@@ -54,7 +68,6 @@ export const GodRays = () => {
       gl_FragColor = vec4(vec3(tt),tt*0.7*fade);
     }`;
 
-  const aspectRatio = window.innerWidth / window.innerHeight;
   const geometry = new PlaneGeometry(5 * aspectRatio, 6, 100, 5);
   return (
     <mesh ref={shaderRef}>

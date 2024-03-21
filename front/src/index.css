@@ -14,12 +14,58 @@ body {
   font-family: 'Manrope';
 }
 
-.swiper-wrapper {
+#home-header-swiper .swiper-wrapper {
   -webkit-transition-timing-function: linear !important;
   -o-transition-timing-function: linear !important;
   transition-timing-function: linear !important;
 }
 
+#home-profile-swiper .swiper-wrapper {
+  display: flex;
+  align-items: center;
+}
+
+#home-profile-swiper .swiper-slide {
+  height: 400px;
+  margin-bottom: 75px;
+}
+
+#home-profile-swiper .swiper-slide-active {
+  height: 500px;
+}
+
+#home-profile-swiper .swiper-pagination-bullet-active {
+  background: #55ff99;
+}
+
+#home-profile-swiper .swiper-button-prev {
+  color: #37c871;
+}
+
+#home-profile-swiper .swiper-button-next {
+  color: #37c871;
+}
+
 .swiper-slide {
   width: fit-content;
+}
+
+@media (max-width: 480px) {
+  #home-profile-swiper .swiper-slide {
+    height: 280px;
+  }
+
+  #home-profile-swiper .swiper-slide-active {
+    height: 350px;
+  }
+}
+
+@media (max-width: 844px) {
+  #home-profile-swiper .swiper-slide {
+    height: 320px;
+  }
+
+  #home-profile-swiper .swiper-slide-active {
+    height: 400px;
+  }
 }

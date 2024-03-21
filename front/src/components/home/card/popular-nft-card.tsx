@@ -1,4 +1,4 @@
-import Like from '@/assets/icons/like.svg?react';
+import Mint from '@/assets/icons/mint.png';
 import { formatThousand } from '@/utils';
 
 interface Props {
@@ -19,7 +19,7 @@ export const PopularNftCard = ({ picture, name, minter, like }: Props) => {
         <span className="text-[12px] text-white/50">{minter}</span>
         <div className="gap-1U flex items-center">
           <span className="text-body text-white">{formatThousand(like)}</span>
-          <Like />
+          <img className="size-[20px]" src={Mint} alt="mint" />
         </div>
       </div>
     </div>

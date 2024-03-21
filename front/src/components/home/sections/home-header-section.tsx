@@ -1,3 +1,6 @@
+import cx from 'classnames';
+import gsap from 'gsap';
+import { useEffect } from 'react';
 import { Autoplay, FreeMode } from 'swiper/modules';
 import { Swiper, SwiperSlide } from 'swiper/react';
 
@@ -13,10 +16,43 @@ import 'swiper/css/autoplay';
 import 'swiper/swiper-bundle.css';
 
 export const HomeHeaderSection = () => {
+  useEffect(() => {
+    gsap.to('.gsapHeaderText', {
+      y: '0%',
+      opacity: 1,
+      duration: 1,
+      delay: 0.3,
+    });
+    gsap.fromTo(
+      '.gsapHeaderSwiper',
+      {
+        y: '100%',
+        opacity: 0,
+      },
+      {
+        y: '0%',
+        opacity: 1,
+        duration: 1,
+        delay: 0.3,
+      }
+    );
+    gsap.to('.gsapHeaderCard', {
+      x: '0%',
+      rotate: '0%',
+      opacity: 1,
+      duration: 1,
+      delay: 0.3,
+    });
+  });
   return (
-    <div className="tablet:items-center flex h-screen w-screen overflow-hidden bg-green-100 px-[5%]">
-      <div className="tablet:flex-row tablet:mt-[-10%] tablet:justify-between mobile:gap-5U mt-[60px] flex w-full flex-col items-center gap-[20vw]">
-        <div className="tablet:items-start flex size-fit flex-col items-center">
+    <div className="tablet:items-center relative z-10 flex h-screen w-full overflow-x-hidden px-[5%]">
+      <div className="tablet:flex-row tablet:mt-[-10%] tablet:justify-between tablet:gap-5U mt-[60px] flex w-full flex-col items-center gap-[30vh]">
+        <div
+          className={cx(
+            'gsapHeaderText',
+            'tablet:items-start flex size-fit translate-y-[-100%] flex-col items-center opacity-0'
+          )}
+        >
           <span className="tablet:text-[96px] mobile:text-[8vw] text-[10vw] font-bold leading-none text-white">
             Welcome To
           </span>
@@ -28,15 +64,21 @@ export const HomeHeaderSection = () => {
           </p>
           <span className="tablet:size-[500px] absolute left-[-450px] top-[-400px] size-[300px] rounded-full bg-green-400 blur-[450px]" />
         </div>
-        <div className="mobile:w-[410px] relative flex h-[420px] w-[95vw] items-center">
+        <div
+          className={cx(
+            'gsapHeaderCard',
+            'mobile:w-[410px] relative flex h-fit w-[95vw] items-center translate-x-[200%] rotate-[50deg]'
+          )}
+        >
           <HomeNftCard picture={Nft1} size="large" classname="absolute z-[3]" />
           <HomeNftCard picture={Nft2} size="medium" classname="absolute ml-[15%] z-[2]" />
           <HomeNftCard picture={Nft3} size="small" classname="absolute ml-[50%] z-[1]" />
-          <span className="absolute size-[200px] translate-x-[50%] rounded-full bg-green-400 blur-[150px]" />
+          <span className="mobile:flex absolute hidden size-[200px] translate-x-1/2 rounded-full bg-green-400 blur-[150px]" />
         </div>
       </div>
-      <div className="bottom-5U absolute left-0 w-full">
+      <div className={cx('gsapHeaderSwiper', 'bottom-5U absolute left-0 w-full')}>
         <Swiper
+          id="home-header-swiper"
           modules={[Autoplay, FreeMode]}
           spaceBetween={30}
           slidesPerView="auto"
