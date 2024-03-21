@@ -51,10 +51,10 @@ const ChangeLinkComponent = () => {
   };
 
   return (
-    <div className="mx-auto max-w-full sm:max-w-md">
-      <div className="rounded-lg bg-gray-400 p-4 shadow-xl sm:p-6">
-        <div className="flex flex-col items-center space-y-4 sm:flex-row sm:space-x-4 sm:space-y-0">
-          <label htmlFor="uniqueUrl" className="text-body block sm:inline-block">
+    <div className="z-10 flex w-full flex-col">
+      <div className="flex w-full items-center justify-between rounded-lg bg-gray-400 p-4 shadow-xl sm:p-6">
+        <div className="flex w-full items-center space-y-4 sm:flex-row sm:space-x-4 sm:space-y-0">
+          <label htmlFor="uniqueUrl" className="text-body">
             Unique URL :
           </label>
           <input
@@ -62,12 +62,12 @@ const ChangeLinkComponent = () => {
             id="newUrl"
             value={newUrl}
             onChange={(e) => setNewUrl(e.target.value)}
-            className="flex-1 rounded-lg p-2 text-gray-100"
+            className="flex w-[80%] rounded-lg bg-white/50 p-2 text-gray-100"
             placeholder={currentUrl}
           />
         </div>
-        <div className="mt-8U flex items-center justify-center">
-          <Button color="green" content="Sign In" onClick={handleUpdateUniqueUrl} />
+        <div className="flex w-[20%] items-center justify-center">
+          <Button size="regular" color="green" content="Sign In" onClick={handleUpdateUniqueUrl} />
         </div>
         {statusMessage && <p className="mt-4 text-center text-white">{statusMessage}</p>}
       </div>

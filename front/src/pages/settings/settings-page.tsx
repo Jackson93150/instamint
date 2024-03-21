@@ -2,11 +2,10 @@ import { ChangeLinkComponent } from '@/components/settings/change-unique-link';
 
 export const SettingsPage = () => {
   return (
-    <div className="min-h-screen bg-green-100 p-4 text-white sm:p-8">
-      <header className="mb-12 rounded-lg bg-gray-400 p-4 shadow sm:mb-16">
-        <h1 className="text-heading sm:text-title text-center">Settings</h1>
-      </header>
-      <ChangeLinkComponent />
+    <div className="flex h-fit min-h-screen w-full flex-col items-center bg-green-100 p-4 text-white sm:p-8">
+      <div className="flex h-fit w-[70vw] rounded-[20px] bg-gray-400 p-4 shadow-xl">
+        <ChangeLinkComponent />
+      </div>
     </div>
   );
 };
