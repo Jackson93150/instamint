@@ -1,27 +1,16 @@
-import { useEffect, useState } from 'react';
-import { useLocation, useNavigate } from 'react-router-dom';
+import { useContext } from 'react';
+import { useNavigate } from 'react-router-dom';
 
 import BurgerMenu from '@/assets/icons/burger-menu.svg?react';
 import Notification from '@/assets/icons/notification.svg?react';
 import ProfilePicture from '@/assets/icons/pp.svg?react';
 import Logo from '@/assets/logo.png';
-import { connectedMinter } from '@/services';
+import { SidebarContext } from '@/context';
 import { Button } from '@/ui';
 
 export const Navbar = () => {
   const navigate = useNavigate();
-  const [minterData, setMinterData] = useState(null);
-  const location = useLocation();
-
-  useEffect(() => {
-    if (!minterData) {
-      const fetchMinter = async () => {
-        const result = await connectedMinter();
-        setMinterData(result.data);
-      };
-      fetchMinter();
-    }
-  }, [location.pathname, minterData]);
+  const sidebarContext = useContext(SidebarContext);
 
   return (
     <div className="z-navbar px-5U py-2U fixed left-0 top-0 flex w-screen justify-between bg-transparent">
@@ -34,11 +23,11 @@ export const Navbar = () => {
         }}
       />
       <div className="gap-1U flex items-center">
-        {minterData ? (
+        {sidebarContext.minterData ? (
           <div className="gap-5U flex items-center justify-center">
             <Notification />
             <ProfilePicture />
-            <BurgerMenu />
+            <BurgerMenu className="cursor-pointer" onClick={() => sidebarContext.toggleSidebar()} />
           </div>
         ) : (
           <>
