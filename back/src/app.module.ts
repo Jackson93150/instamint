@@ -6,6 +6,7 @@ import { MailerModule } from '@nestjs-modules/mailer';
 import { AppController } from './app.controller';
 import { MinterModule } from './modules';
 import { AuthModule } from './modules/auth/auth.module';
+import { ContentModule } from './modules/content/content.module';
 import { MailModule } from './modules/mail/mail.module';
 
 @Module({
@@ -31,6 +32,7 @@ import { MailModule } from './modules/mail/mail.module';
     MinterModule,
     AuthModule,
     MailModule,
+    ContentModule,
   ],
   controllers: [AppController],
 })
