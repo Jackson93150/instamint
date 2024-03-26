@@ -3,7 +3,7 @@ import { createRoot } from 'react-dom/client';
 import { BrowserRouter } from 'react-router-dom';
 
 import App from './App';
-import { SidebarProvider } from './context';
+import { SidebarProvider, ModalProvider } from './context';
 
 import './index.css';
 const rootDiv = document.getElementById('root');
@@ -13,7 +13,9 @@ root.render(
   <StrictMode>
     <BrowserRouter>
       <SidebarProvider>
-        <App />
+        <ModalProvider>
+          <App />
+        </ModalProvider>
       </SidebarProvider>
     </BrowserRouter>
   </StrictMode>

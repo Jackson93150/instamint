@@ -7,3 +7,4 @@ export * from './home/sections/home-info-section';
 export * from './home/sections/home-profile-section';
 export * from './loading/page-loading';
 export * from './sidebar/sidebar';
+export * from './modal/media.modal';

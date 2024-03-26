@@ -18,6 +18,9 @@ export class ContentController {
   @Get('minter')
   @UseGuards(AuthGuard('jwt'))
   async getContentByMinterId(@Req() req: any): Promise<ContentEntity[]> {
-    return this.contentService.getContentByMinterId(req.user.id);
+    const contents = await this.contentService.getContentByMinterId(
+      req.user.id,
+    );
+    return contents;
   }
 }
