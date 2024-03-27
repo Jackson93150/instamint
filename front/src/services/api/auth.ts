@@ -1,24 +1,10 @@
 import axios from 'axios';
 
+import { MinterInterface } from '@/interfaces';
+
 interface Login {
   email: string;
   password: string;
-}
-
-export interface Minter {
-  id: number;
-  username: string;
-  email: string;
-  password: string;
-  phone?: string | null;
-  bio?: string | null;
-  pictureUrl?: string | null;
-  uniqueUrl?: string | null;
-  isPrivate: boolean;
-  twoFactorEnabled: boolean;
-  twoFactorSecret?: string | null;
-  createdAt: Date;
-  updatedAt: Date;
 }
 
 export const login = async (data: Login) => {
@@ -31,7 +17,7 @@ export const connectedMinter = async () => {
   const minter = await axios.get(`${import.meta.env.VITE_BACKEND_URL}/auth/me`, {
     withCredentials: true,
   });
-  return minter;
+  return minter.data as MinterInterface;
 };
 
 export const confirm = async (token: string) => {

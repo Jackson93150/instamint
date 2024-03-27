@@ -34,10 +34,10 @@ export const LoginPage = () => {
     try {
       await login(loginData);
       const minter = await connectedMinter();
-      if (minter.data.isValidate) {
+      if (minter.isValidate) {
         navigate('/');
       } else {
-        await sendVerificationMail({ email: minter.data.email });
+        await sendVerificationMail({ email: minter.email });
         setIsConfirm(false);
       }
     } catch (error) {

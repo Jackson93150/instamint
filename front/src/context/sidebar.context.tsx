@@ -30,7 +30,7 @@ export const SidebarContext = createContext<SidebarContextType>(defaultContextVa
 
 export const SidebarProvider = ({ children }: Props) => {
   const [isOpen, setIsOpen] = useState(false);
-  const [minterData, setMinterData] = useState(null);
+  const [minterData, setMinterData] = useState<MinterInterface | null>(null);
   const location = useLocation();
 
   const { contextSafe } = useGSAP();
@@ -50,7 +50,7 @@ export const SidebarProvider = ({ children }: Props) => {
     if (!minterData) {
       const fetchMinter = async () => {
         const result = await connectedMinter();
-        setMinterData(result.data);
+        setMinterData(result);
       };
       fetchMinter();
     }
