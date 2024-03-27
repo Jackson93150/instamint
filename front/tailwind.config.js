@@ -96,6 +96,7 @@ export default {
       zIndex: {
         ray: '90',
         navbar: '100',
+        sidebar: '200',
       },
     },
   },
