@@ -1,20 +1,28 @@
+import { useGSAP } from '@gsap/react';
 import AddIcon from '@mui/icons-material/Add';
 import Fab from '@mui/material/Fab';
 import ImageList from '@mui/material/ImageList';
 import ImageListItem from '@mui/material/ImageListItem';
 import useMediaQuery from '@mui/material/useMediaQuery';
+import gsap from 'gsap';
 import { useContext, useEffect, useState } from 'react';
 
 import Music from '@/assets/mock/music.jpeg';
+import { MediaViewerModal } from '@/components';
 import { ModalContext } from '@/context';
 import { ContentInterface } from '@/interfaces';
 import { getContents } from '@/services';
+import { gsapOpacityAnimation, gsapTranslateYAnimation } from '@/utils';
+
+gsap.registerPlugin(useGSAP);
 
 export const OriginalContentPage = () => {
   const modalContext = useContext(ModalContext);
   const isMobile = useMediaQuery('(max-width:480px)');
   const [isContent, setIsContent] = useState(true);
+  const [picture, setPicture] = useState('');
   const [minterContents, setMinterContents] = useState<ContentInterface[]>([]);
+  const { contextSafe } = useGSAP();
 
   useEffect(() => {
     const fetchContents = async () => {
@@ -27,6 +35,12 @@ export const OriginalContentPage = () => {
     };
     fetchContents();
   }, []);
+
+  const handleClick = contextSafe((data: ContentInterface) => {
+    setPicture(data.url);
+    gsapOpacityAnimation('.gsapModalBlur', 1, 'block');
+    gsapTranslateYAnimation('.gsapMediaViewerModal', '0', 'flex');
+  });
 
   return (
     <div className="bg-green-bg-gradient relative flex h-fit min-h-screen w-full items-center justify-center">
@@ -42,7 +56,7 @@ export const OriginalContentPage = () => {
                     <source src={`${item.url}`} type={item.type} />
                   </video>
                 ) : (
-                  <img src={`${item.url}`} alt={item.url} loading="lazy" />
+                  <img src={`${item.url}`} alt={item.url} loading="lazy" onClick={() => handleClick(item)} />
                 )}
               </ImageListItem>
             ))}
@@ -58,6 +72,7 @@ export const OriginalContentPage = () => {
           <AddIcon />
         </Fab>
       </div>
+      <MediaViewerModal picture={picture} />
     </div>
   );
 };

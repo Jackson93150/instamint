@@ -8,3 +8,4 @@ export * from './home/sections/home-profile-section';
 export * from './loading/page-loading';
 export * from './sidebar/sidebar';
 export * from './modal/media.modal';
+export * from './modal/media-viewer.modal';

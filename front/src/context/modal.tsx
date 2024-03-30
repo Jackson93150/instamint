@@ -5,6 +5,7 @@ import { createContext, useState, ReactNode, useEffect } from 'react';
 import { useLocation } from 'react-router-dom';
 
 import { MediaModal } from '@/components';
+import { gsapOpacityAnimation, gsapTranslateYAnimation } from '@/utils';
 
 gsap.registerPlugin(useGSAP);
 
@@ -31,13 +32,13 @@ export const ModalProvider = ({ children }: Props) => {
   const { contextSafe } = useGSAP();
 
   const closeModal = contextSafe(() => {
-    gsap.to('.gsapModalBlur', { opacity: 0, display: 'none' });
-    gsap.to('.gsapMediaModal', { y: '100vh', display: 'none' });
+    gsapOpacityAnimation('.gsapModalBlur', 0, 'none');
+    gsapTranslateYAnimation('.gsapMediaModal', '100vh', 'none');
   });
 
   const openModal = contextSafe(() => {
-    gsap.to('.gsapModalBlur', { opacity: 1, display: 'block' });
-    gsap.to('.gsapMediaModal', { y: '0', display: 'flex' });
+    gsapOpacityAnimation('.gsapModalBlur', 1, 'block');
+    gsapTranslateYAnimation('.gsapMediaModal', '0', 'flex');
   });
 
   useEffect(() => {
@@ -45,7 +46,7 @@ export const ModalProvider = ({ children }: Props) => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [location.pathname]);
 
-  const toggleSidebar = () => {
+  const toggleModal = () => {
     setIsOpen(!isOpen);
     if (isOpen) {
       closeModal();
@@ -56,7 +57,7 @@ export const ModalProvider = ({ children }: Props) => {
 
   const contextValue: ModalContextType = {
     isOpen,
-    toggleModal: toggleSidebar,
+    toggleModal,
   };
 
   return (

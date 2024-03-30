@@ -70,12 +70,12 @@ export const MediaModal = () => {
           <div className="gap-5U mobile:w-[40vw] flex w-[80vw] flex-col items-center justify-center">
             <label
               htmlFor="dropzone-file"
-              className="border-1/2U flex h-[300px] w-full cursor-pointer flex-col items-center justify-center rounded-[5px] border-dashed border-white/50 bg-white/25 hover:bg-white/50"
+              className="border-1/2U flex h-[300px] w-full cursor-pointer flex-col items-center justify-center overflow-hidden rounded-[5px] border-dashed border-white/50 bg-white/25 hover:bg-white/50"
             >
               {file && previewURL ? (
                 <div>
                   {file.type.startsWith('image/') && (
-                    <img src={previewURL as string} alt="File Preview" className="object-fit h-full max-w-full" />
+                    <img src={previewURL as string} alt="File Preview" className="h-[300px] w-auto object-contain" />
                   )}
                   {file.type.startsWith('video/') && (
                     <video controls className="h-auto max-w-full">
