@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 
+import { UNIQUE_URL_REGEX } from '@/constants';
 import { connectedMinter, updateUniqueUrl } from '@/services';
 import { Button } from '@/ui';
 
@@ -8,7 +9,6 @@ const ChangeLinkComponent = () => {
   const navigate = useNavigate();
   const [currentUrl, setCurrentUrl] = useState('');
   const [newUrl, setNewUrl] = useState('');
-  //const [minterId, setMinterId] = useState(null);
   const [statusMessage, setStatusMessage] = useState('');
 
   useEffect(() => {
@@ -29,7 +29,7 @@ const ChangeLinkComponent = () => {
   }, [navigate]);
 
   const handleUpdateUniqueUrl = async () => {
-    if (newUrl.trim() === '') {
+    if (!UNIQUE_URL_REGEX.test(newUrl)) {
       setStatusMessage('Please insert a valid URL.');
       return;
     }
@@ -46,7 +46,7 @@ const ChangeLinkComponent = () => {
       setCurrentUrl(newUrl.trim());
       setStatusMessage('URL updated successfully!');
     } catch (error) {
-      setStatusMessage('Error updating unique URL.');
+      setStatusMessage('This unique URL is already used.');
     }
   };
 

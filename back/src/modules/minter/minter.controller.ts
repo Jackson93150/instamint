@@ -35,7 +35,6 @@ export class MinterController {
     @Req() req: any,
     @Body('uniqueUrl') newUrl: string,
   ): Promise<void> {
-    console.log(req);
     await this.minterService.updateUniqueUrl(req.user.id, newUrl);
   }
 }
