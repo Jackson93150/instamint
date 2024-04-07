@@ -6,6 +6,8 @@ import App from './App';
 import { SidebarProvider, ModalProvider } from './context';
 
 import './index.css';
+import ReduxProvider from './redux/provider/redux-provider';
+
 const rootDiv = document.getElementById('root');
 const root = createRoot(rootDiv as Element);
 

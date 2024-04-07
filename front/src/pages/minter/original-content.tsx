@@ -1,28 +1,30 @@
-import { useGSAP } from '@gsap/react';
 import AddIcon from '@mui/icons-material/Add';
 import Fab from '@mui/material/Fab';
 import ImageList from '@mui/material/ImageList';
 import ImageListItem from '@mui/material/ImageListItem';
 import useMediaQuery from '@mui/material/useMediaQuery';
-import gsap from 'gsap';
-import { useContext, useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
+import { useDispatch } from 'react-redux';
 
 import Music from '@/assets/mock/music.jpeg';
-import { MediaViewerModal } from '@/components';
-import { ModalContext } from '@/context';
+import { ModalDataMap } from '@/components/modal/modal-layout';
+import { MODAL_TYPE } from '@/components/modal/modal-types';
 import { ContentInterface } from '@/interfaces';
+import { openModal } from '@/redux/reducer/modal-slice';
+import { AppDispatch } from '@/redux/store';
 import { getContents } from '@/services';
-import { gsapOpacityAnimation, gsapTranslateYAnimation } from '@/utils';
-
-gsap.registerPlugin(useGSAP);
 
 export const OriginalContentPage = () => {
-  const modalContext = useContext(ModalContext);
   const isMobile = useMediaQuery('(max-width:480px)');
   const [isContent, setIsContent] = useState(true);
   const [picture, setPicture] = useState('');
   const [minterContents, setMinterContents] = useState<ContentInterface[]>([]);
-  const { contextSafe } = useGSAP();
+
+  const dispatch = useDispatch<AppDispatch>();
+
+  function handleOpenModal(type: MODAL_TYPE, data?: ModalDataMap[keyof ModalDataMap]) {
+    dispatch(openModal({ type, data }));
+  }
 
   useEffect(() => {
     const fetchContents = async () => {
@@ -36,11 +38,10 @@ export const OriginalContentPage = () => {
     fetchContents();
   }, []);
 
-  const handleClick = contextSafe((data: ContentInterface) => {
+  const handleClick = (data: ContentInterface) => {
     setPicture(data.url);
-    gsapOpacityAnimation('.gsapModalBlur', 1, 'block');
-    gsapTranslateYAnimation('.gsapMediaViewerModal', '0', 'flex');
-  });
+    handleOpenModal(MODAL_TYPE.MEDIA_VIEWER, { picture: picture });
+  };
 
   return (
     <div className="bg-green-bg-gradient relative flex h-fit min-h-screen w-full items-center justify-center">
@@ -67,12 +68,16 @@ export const OriginalContentPage = () => {
           </div>
         )}
       </div>
-      <div className="absolute bottom-[50px] z-10" onClick={() => modalContext.toggleModal()}>
+      <div
+        className="absolute bottom-[50px] z-10"
+        onClick={() => {
+          handleOpenModal(MODAL_TYPE.MEDIA_UPLOAD);
+        }}
+      >
         <Fab size="large" color="success" aria-label="add">
           <AddIcon />
         </Fab>
       </div>
-      <MediaViewerModal picture={picture} />
     </div>
   );
 };
