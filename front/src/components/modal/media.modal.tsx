@@ -4,7 +4,7 @@ import { ChangeEvent, useContext, useState } from 'react';
 
 import Close from '@/assets/icons/close.svg?react';
 import { ModalContext } from '@/context';
-import { uploadFileToFirebase, createContent, connectedMinter } from '@/services';
+import { createContent, connectedMinter, uploadFirebase } from '@/services';
 import { Button } from '@/ui';
 
 const allowedFileTypes = ['image/png', 'image/webp', 'audio/ogg', 'audio/flac', 'video/mp4'];
@@ -33,7 +33,7 @@ export const MediaModal = () => {
   const handleSubmit = async () => {
     if (file) {
       setIsLoading(true);
-      const fileUrl = await uploadFileToFirebase(file);
+      const fileUrl = await uploadFirebase(file);
       const minter = await connectedMinter();
       const content = {
         name: name,

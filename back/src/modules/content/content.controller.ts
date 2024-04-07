@@ -1,5 +1,15 @@
-import { Controller, Post, Body, Get, UseGuards, Req } from '@nestjs/common';
+import {
+  Controller,
+  Post,
+  Body,
+  Get,
+  UseGuards,
+  Req,
+  UseInterceptors,
+  UploadedFile,
+} from '@nestjs/common';
 import { AuthGuard } from '@nestjs/passport';
+import { FileInterceptor } from '@nestjs/platform-express';
 
 import { ContentService } from './content.service';
 
@@ -13,6 +23,14 @@ export class ContentController {
   @UseGuards(AuthGuard('jwt'))
   createContent(@Body() minter: ContentEntity): Promise<ContentEntity> {
     return this.contentService.createContent(minter);
+  }
+
+  @Post('firebase')
+  @UseGuards(AuthGuard('jwt'))
+  @UseInterceptors(FileInterceptor('file'))
+  async createContentFirebase(@UploadedFile() file): Promise<string> {
+    const url = await this.contentService.uploadFirebase(file);
+    return url;
   }
 
   @Get('minter')
