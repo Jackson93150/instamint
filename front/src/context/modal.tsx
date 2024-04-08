@@ -1,75 +1,87 @@
 import { useGSAP } from '@gsap/react';
-import cx from 'classnames';
 import gsap from 'gsap';
-import { createContext, useState, ReactNode, useEffect } from 'react';
+import { createContext, useState, useEffect, ComponentProps, PropsWithChildren, Dispatch, useContext } from 'react';
 import { useLocation } from 'react-router-dom';
 
-import { MediaModal } from '@/components';
+import Close from '@/assets/icons/close.svg?react';
+import { MediaModal, MediaViewerModal } from '@/components';
+import { Modal } from '@/components/modal/modal-layout';
 import { gsapOpacityAnimation, gsapTranslateYAnimation } from '@/utils';
 
 gsap.registerPlugin(useGSAP);
 
-interface ModalContextType {
-  isOpen: boolean;
-  toggleModal: () => void;
+export interface ModalDataMap {
+  'media-upload': ComponentProps<typeof MediaModal>;
+  'media-viewer': ComponentProps<typeof MediaViewerModal>;
 }
 
-interface Props {
-  children?: ReactNode;
+export interface ToggleModalArgs<T extends keyof ModalDataMap> {
+  modalType: T;
+  data?: ModalDataMap[T];
 }
 
-const defaultContextValue: ModalContextType = {
-  isOpen: false,
-  toggleModal: () => {},
+export type ModalContextProps<T extends keyof ModalDataMap = keyof ModalDataMap> = {
+  toggleModal: Dispatch<ToggleModalArgs<T>>;
+  modalType: keyof ModalDataMap | undefined;
+  closeModal: () => void;
 };
 
-export const ModalContext = createContext<ModalContextType>(defaultContextValue);
+const ModalContext = createContext<ModalContextProps | undefined>(undefined);
 
-export const ModalProvider = ({ children }: Props) => {
-  const [isOpen, setIsOpen] = useState(false);
+export const ModalProvider = <T extends keyof ModalDataMap>({ children }: PropsWithChildren) => {
+  const [modalType, setModalType] = useState<T | undefined>();
+  const [data, setData] = useState<ModalDataMap[T] | undefined>();
   const location = useLocation();
 
   const { contextSafe } = useGSAP();
 
   const closeModal = contextSafe(() => {
     gsapOpacityAnimation('.gsapModalBlur', 0, 'none');
-    gsapTranslateYAnimation('.gsapMediaModal', '100vh', 'none');
+    gsapTranslateYAnimation('.gsapModal', '100vh', 'none');
   });
 
   const openModal = contextSafe(() => {
     gsapOpacityAnimation('.gsapModalBlur', 1, 'block');
-    gsapTranslateYAnimation('.gsapMediaModal', '0', 'flex');
+    gsapTranslateYAnimation('.gsapModal', '0', 'flex');
   });
+
+  const toggleModal = (args: ToggleModalArgs<T>) => {
+    const { modalType, data } = args;
+
+    setData(data);
+    setModalType(modalType);
+    openModal();
+  };
 
   useEffect(() => {
     closeModal();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [location.pathname]);
 
-  const toggleModal = () => {
-    setIsOpen(!isOpen);
-    if (isOpen) {
-      closeModal();
-    } else {
-      openModal();
-    }
-  };
-
-  const contextValue: ModalContextType = {
-    isOpen,
-    toggleModal,
-  };
-
   return (
-    <ModalContext.Provider value={contextValue}>
-      <span
-        className={cx(
-          'gsapModalBlur',
-          'left-O z-navbar hidden fixed top-0 h-screen w-full bg-black/30 backdrop-blur-[15px]'
-        )}
-      />
-      <MediaModal />
+    <ModalContext.Provider
+      value={{
+        toggleModal: (args) => toggleModal(args as ToggleModalArgs<T>),
+        modalType,
+        closeModal,
+      }}
+    >
+      <span className="gsapModalBlur left-O z-navbar fixed top-0 hidden h-screen w-full bg-black/30 backdrop-blur-[15px]" />
+      <div className="gsapModal z-modal fixed inset-0 hidden items-center justify-center">
+        <div className="px-5U py-3U relative rounded-[10px] border border-white/25 bg-black/70 backdrop-blur-[15px]">
+          <Close className="top-2U right-2U size-3U absolute cursor-pointer" onClick={() => closeModal()} />
+          <Modal modalType={modalType} data={data} closeModal={closeModal} />
+        </div>
+      </div>
       {children}
     </ModalContext.Provider>
   );
+};
+
+export const useModal = () => {
+  const context = useContext(ModalContext);
+  if (context === undefined) {
+    throw new Error('useModal must be used within a UserProvider');
+  }
+  return context;
 };

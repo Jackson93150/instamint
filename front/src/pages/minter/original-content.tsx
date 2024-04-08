@@ -4,27 +4,18 @@ import ImageList from '@mui/material/ImageList';
 import ImageListItem from '@mui/material/ImageListItem';
 import useMediaQuery from '@mui/material/useMediaQuery';
 import { useEffect, useState } from 'react';
-import { useDispatch } from 'react-redux';
 
 import Music from '@/assets/mock/music.jpeg';
-import { ModalDataMap } from '@/components/modal/modal-layout';
-import { MODAL_TYPE } from '@/components/modal/modal-types';
+import { useModal } from '@/context';
 import { ContentInterface } from '@/interfaces';
-import { openModal } from '@/redux/reducer/modal-slice';
-import { AppDispatch } from '@/redux/store';
 import { getContents } from '@/services';
 
 export const OriginalContentPage = () => {
   const isMobile = useMediaQuery('(max-width:480px)');
   const [isContent, setIsContent] = useState(true);
-  const [picture, setPicture] = useState('');
   const [minterContents, setMinterContents] = useState<ContentInterface[]>([]);
 
-  const dispatch = useDispatch<AppDispatch>();
-
-  function handleOpenModal(type: MODAL_TYPE, data?: ModalDataMap[keyof ModalDataMap]) {
-    dispatch(openModal({ type, data }));
-  }
+  const { toggleModal } = useModal();
 
   useEffect(() => {
     const fetchContents = async () => {
@@ -38,9 +29,11 @@ export const OriginalContentPage = () => {
     fetchContents();
   }, []);
 
-  const handleClick = (data: ContentInterface) => {
-    setPicture(data.url);
-    handleOpenModal(MODAL_TYPE.MEDIA_VIEWER, { picture: picture });
+  const handleClick = (picture: string) => {
+    toggleModal({
+      modalType: 'media-viewer',
+      data: { picture },
+    });
   };
 
   return (
@@ -57,7 +50,7 @@ export const OriginalContentPage = () => {
                     <source src={`${item.url}`} type={item.type} />
                   </video>
                 ) : (
-                  <img src={`${item.url}`} alt={item.url} loading="lazy" onClick={() => handleClick(item)} />
+                  <img src={`${item.url}`} alt={item.url} loading="lazy" onClick={() => handleClick(item.url)} />
                 )}
               </ImageListItem>
             ))}
@@ -71,7 +64,9 @@ export const OriginalContentPage = () => {
       <div
         className="absolute bottom-[50px] z-10"
         onClick={() => {
-          handleOpenModal(MODAL_TYPE.MEDIA_UPLOAD);
+          toggleModal({
+            modalType: 'media-upload',
+          });
         }}
       >
         <Fab size="large" color="success" aria-label="add">

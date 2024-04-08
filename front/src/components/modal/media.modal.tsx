@@ -1,8 +1,8 @@
 import CloudUploadIcon from '@mui/icons-material/CloudUpload';
 import LinearProgress from '@mui/material/LinearProgress';
-import { ChangeEvent, useContext, useState } from 'react';
+import { ChangeEvent, useState } from 'react';
 
-import { ModalContext } from '@/context';
+import { useModal } from '@/context';
 import { createContent, connectedMinter, uploadFirebase } from '@/services';
 import { Button } from '@/ui';
 
@@ -13,7 +13,7 @@ export const MediaModal = () => {
   const [isLoading, setIsLoading] = useState(false);
   const [file, setFile] = useState<File | null>(null);
   const [previewURL, setPreviewURL] = useState<string | ArrayBuffer | null>(null);
-  const modalContext = useContext(ModalContext);
+  const { closeModal } = useModal();
 
   const handleFileChange = (e: ChangeEvent<HTMLInputElement>) => {
     const selectedFile = e.target.files![0];
@@ -42,7 +42,7 @@ export const MediaModal = () => {
       };
       await createContent(content);
       setIsLoading(false);
-      modalContext.toggleModal();
+      closeModal;
     }
   };
 
