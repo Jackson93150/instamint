@@ -35,7 +35,7 @@ export const Sidebar = () => {
           <NavItem icon={<HomeIcon fontSize="large" />} title="Home" path="/" />
           <NavItem icon={<PersonIcon fontSize="large" />} title="Profile" path="/profile" />
           <NavItem icon={<GroupsIcon fontSize="large" />} title="Tea Bag" path="/minter/tea-bag" />
-          <NavItem icon={<PermMediaIcon fontSize="large" />} title="Content Manager" path="/content-manager" />
+          <NavItem icon={<PermMediaIcon fontSize="large" />} title="Content Manager" path="/content" />
           <NavItem icon={<ChatIcon fontSize="large" />} title="Message" path="/messages" />
           <NavItem icon={<SettingsIcon fontSize="large" />} title="Settings" path="/settings" />
         </div>
