@@ -29,10 +29,10 @@ export const OriginalContentPage = () => {
     fetchContents();
   }, []);
 
-  const handleClick = (picture: string) => {
+  const handleClick = (url: string, mediaType: 'video' | 'image' | 'audio') => {
     toggleModal({
       modalType: 'media-viewer',
-      data: { picture },
+      data: { url, mediaType },
     });
   };
 
@@ -44,13 +44,18 @@ export const OriginalContentPage = () => {
             {minterContents.map((item) => (
               <ImageListItem key={item.url} className="cursor-pointer">
                 {item.type.startsWith('audio/') ? (
-                  <img src={Music} alt={item.url} loading="lazy" />
+                  <img src={Music} alt={item.url} loading="lazy" onClick={() => handleClick(item.url, 'audio')} />
                 ) : item.type.startsWith('video/') ? (
-                  <video preload="metadata">
+                  <video preload="metadata" onClick={() => handleClick(item.url, 'video')}>
                     <source src={`${item.url}`} type={item.type} />
                   </video>
                 ) : (
-                  <img src={`${item.url}`} alt={item.url} loading="lazy" onClick={() => handleClick(item.url)} />
+                  <img
+                    src={`${item.url}`}
+                    alt={item.url}
+                    loading="lazy"
+                    onClick={() => handleClick(item.url, 'image')}
+                  />
                 )}
               </ImageListItem>
             ))}

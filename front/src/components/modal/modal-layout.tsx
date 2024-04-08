@@ -2,7 +2,7 @@ import { ReactNode } from 'react';
 
 import { MediaModal, MediaViewerModal } from '@/components';
 import { ModalDataMap } from '@/context';
-import { ModalType } from '@/interfaces/modals';
+import { ModalType } from '@/interfaces';
 
 interface Props<T extends keyof ModalDataMap> {
   modalType: T | undefined;

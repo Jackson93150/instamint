@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/rules-of-hooks */
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { Canvas, useFrame, useLoader } from '@react-three/fiber';
 import { Bloom, EffectComposer } from '@react-three/postprocessing';
@@ -6,13 +7,15 @@ import { useEffect, useRef, useState } from 'react';
 import { BoxGeometry, TextureLoader } from 'three';
 import * as THREE from 'three';
 
+import Music from '@/assets/mock/music.jpeg';
+
 interface Props {
-  picture: string;
+  url: string;
+  mediaType: 'video' | 'image' | 'audio';
 }
 
-export const NftCard = ({ picture }: Props) => {
+export const NftCard = ({ url, mediaType }: Props) => {
   const cardRef = useRef<any>(null!);
-
   const [aspectRatio, setAspectRatio] = useState(window.innerWidth / window.innerHeight);
 
   useEffect(() => {
@@ -33,7 +36,19 @@ export const NftCard = ({ picture }: Props) => {
     }
   });
 
-  const nftTexture = useLoader(TextureLoader, picture);
+  let nftTexture;
+  mediaType === 'image' && (nftTexture = useLoader(TextureLoader, url));
+  mediaType === 'audio' && (nftTexture = useLoader(TextureLoader, Music));
+  if (mediaType === 'video') {
+    const video = document.createElement('video');
+    video.src = url;
+    video.crossOrigin = 'anonymous';
+    video.loop = true;
+    video.muted = true;
+    video.play();
+    nftTexture = new THREE.VideoTexture(video);
+  }
+
   const vertexShader = `
     uniform float uTime;
     varying vec3 vPosition;
@@ -114,11 +129,11 @@ export const NftCard = ({ picture }: Props) => {
   );
 };
 
-export const NftCardScene = ({ picture }: Props) => {
+export const NftCardScene = ({ url, mediaType }: Props) => {
   return (
     <Canvas dpr={1} camera={{ position: [0, 0, 3] }}>
       <color attach="background" args={['#000']} />
-      <NftCard picture={picture} />
+      <NftCard url={url} mediaType={mediaType} />
       <EffectComposer multisampling={0} enableNormalPass>
         <Bloom luminanceThreshold={0.9} luminanceSmoothing={0.9} opacity={0.5} blendFunction={BlendFunction.SCREEN} />
       </EffectComposer>

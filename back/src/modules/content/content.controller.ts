@@ -28,8 +28,11 @@ export class ContentController {
   @Post('firebase')
   @UseGuards(AuthGuard('jwt'))
   @UseInterceptors(FileInterceptor('file'))
-  async createContentFirebase(@UploadedFile() file): Promise<string> {
-    const url = await this.contentService.uploadFirebase(file);
+  async createContentFirebase(
+    @Req() req: any,
+    @UploadedFile() file,
+  ): Promise<string> {
+    const url = await this.contentService.uploadFirebase(req.user.id, file);
     return url;
   }
 

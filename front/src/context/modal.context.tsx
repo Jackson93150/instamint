@@ -4,8 +4,7 @@ import { createContext, useState, useEffect, ComponentProps, PropsWithChildren, 
 import { useLocation } from 'react-router-dom';
 
 import Close from '@/assets/icons/close.svg?react';
-import { MediaModal, MediaViewerModal } from '@/components';
-import { Modal } from '@/components/modal/modal-layout';
+import { MediaModal, MediaViewerModal, Modal } from '@/components';
 import { gsapOpacityAnimation, gsapTranslateYAnimation } from '@/utils';
 
 gsap.registerPlugin(useGSAP);
@@ -29,6 +28,7 @@ export type ModalContextProps<T extends keyof ModalDataMap = keyof ModalDataMap>
 const ModalContext = createContext<ModalContextProps | undefined>(undefined);
 
 export const ModalProvider = <T extends keyof ModalDataMap>({ children }: PropsWithChildren) => {
+  const [isOpen, setIsOpen] = useState(false);
   const [modalType, setModalType] = useState<T | undefined>();
   const [data, setData] = useState<ModalDataMap[T] | undefined>();
   const location = useLocation();
@@ -38,9 +38,11 @@ export const ModalProvider = <T extends keyof ModalDataMap>({ children }: PropsW
   const closeModal = contextSafe(() => {
     gsapOpacityAnimation('.gsapModalBlur', 0, 'none');
     gsapTranslateYAnimation('.gsapModal', '100vh', 'none');
+    setIsOpen(false);
   });
 
   const openModal = contextSafe(() => {
+    setIsOpen(true);
     gsapOpacityAnimation('.gsapModalBlur', 1, 'block');
     gsapTranslateYAnimation('.gsapModal', '0', 'flex');
   });
@@ -68,9 +70,9 @@ export const ModalProvider = <T extends keyof ModalDataMap>({ children }: PropsW
     >
       <span className="gsapModalBlur left-O z-navbar fixed top-0 hidden h-screen w-full bg-black/30 backdrop-blur-[15px]" />
       <div className="gsapModal z-modal fixed inset-0 hidden items-center justify-center">
-        <div className="px-5U py-3U relative rounded-[10px] border border-white/25 bg-black/70 backdrop-blur-[15px]">
+        <div className="px-5U py-5U relative rounded-[10px] border border-white/25 bg-black/70 backdrop-blur-[15px]">
           <Close className="top-2U right-2U size-3U absolute cursor-pointer" onClick={() => closeModal()} />
-          <Modal modalType={modalType} data={data} closeModal={closeModal} />
+          {isOpen && <Modal modalType={modalType} data={data} closeModal={closeModal} />}
         </div>
       </div>
       {children}

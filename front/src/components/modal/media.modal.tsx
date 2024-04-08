@@ -42,7 +42,7 @@ export const MediaModal = () => {
       };
       await createContent(content);
       setIsLoading(false);
-      closeModal;
+      closeModal();
     }
   };
 

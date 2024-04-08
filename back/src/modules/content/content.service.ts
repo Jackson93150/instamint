@@ -15,10 +15,10 @@ export class ContentService {
     private readonly contentRepository: Repository<ContentEntity>,
   ) {}
 
-  async uploadFirebase(file: Express.Multer.File): Promise<string> {
+  async uploadFirebase(id: number, file: Express.Multer.File): Promise<string> {
     console.log(file);
 
-    const storageRef = ref(storage, `files/${file.originalname}`);
+    const storageRef = ref(storage, `files/${id}/${file.originalname}`);
     const uint8Array = new Uint8Array(file.buffer);
     const fileBlob = new Blob([uint8Array], { type: file.mimetype });
     await uploadBytes(storageRef, fileBlob);
