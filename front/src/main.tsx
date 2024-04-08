@@ -3,7 +3,7 @@ import { createRoot } from 'react-dom/client';
 import { BrowserRouter } from 'react-router-dom';
 
 import App from './App';
-import { SidebarProvider, ModalProvider } from './context';
+import { SidebarProvider, ModalProvider, AlertProvider } from './context';
 
 import './index.css';
 
@@ -14,9 +14,11 @@ root.render(
   <StrictMode>
     <BrowserRouter>
       <SidebarProvider>
-        <ModalProvider>
-          <App />
-        </ModalProvider>
+        <AlertProvider>
+          <ModalProvider>
+            <App />
+          </ModalProvider>
+        </AlertProvider>
       </SidebarProvider>
     </BrowserRouter>
   </StrictMode>

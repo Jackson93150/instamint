@@ -2,7 +2,7 @@ import CloudUploadIcon from '@mui/icons-material/CloudUpload';
 import LinearProgress from '@mui/material/LinearProgress';
 import { ChangeEvent, useState } from 'react';
 
-import { useModal } from '@/context';
+import { useAlert, useModal } from '@/context';
 import { createContent, connectedMinter, uploadFirebase } from '@/services';
 import { Button } from '@/ui';
 
@@ -14,6 +14,7 @@ export const MediaModal = () => {
   const [file, setFile] = useState<File | null>(null);
   const [previewURL, setPreviewURL] = useState<string | ArrayBuffer | null>(null);
   const { closeModal } = useModal();
+  const { toggleModal } = useAlert();
 
   const handleFileChange = (e: ChangeEvent<HTMLInputElement>) => {
     const selectedFile = e.target.files![0];
@@ -26,6 +27,11 @@ export const MediaModal = () => {
         setPreviewURL(reader.result);
       };
       reader.readAsDataURL(selectedFile);
+    } else {
+      toggleModal({
+        alertType: 'error',
+        content: 'We only support png, webp, ogg, flac and mp4 files.',
+      });
     }
   };
 
@@ -40,9 +46,22 @@ export const MediaModal = () => {
         type: file.type,
         minter: minter.id,
       };
-      await createContent(content);
-      setIsLoading(false);
-      closeModal();
+      try {
+        await createContent(content);
+        setIsLoading(false);
+        toggleModal({
+          alertType: 'success',
+          content: 'Your content as been uploaded.',
+        });
+        closeModal();
+      } catch (error) {
+        setIsLoading(false);
+        toggleModal({
+          alertType: 'error',
+          content: 'Your content is already uploaded on our platform.',
+        });
+        closeModal();
+      }
     }
   };
 
