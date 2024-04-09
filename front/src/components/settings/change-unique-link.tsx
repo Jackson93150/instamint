@@ -15,8 +15,8 @@ const ChangeLinkComponent = () => {
     const fetchData = async () => {
       try {
         const details = await connectedMinter();
-        if (details.data) {
-          setCurrentUrl(details.data.uniqueUrl);
+        if (details.uniqueUrl) {
+          setCurrentUrl(details.uniqueUrl);
         } else {
           setStatusMessage('Failed to fetch minter details.');
         }
@@ -62,12 +62,12 @@ const ChangeLinkComponent = () => {
             id="newUrl"
             value={newUrl}
             onChange={(e) => setNewUrl(e.target.value)}
-            className="flex w-[80%] rounded-lg bg-white/50 p-2 text-gray-100"
+            className="flex w-4/5 rounded-lg bg-white/50 p-2 text-gray-100"
             placeholder={currentUrl}
           />
         </div>
-        <div className="flex w-[20%] items-center justify-center">
-          <Button size="regular" color="green" content="Sign In" onClick={handleUpdateUniqueUrl} />
+        <div className="flex w-1/5 items-center justify-center">
+          <Button size="regular" color="green" content="Update" onClick={handleUpdateUniqueUrl} />
         </div>
         {statusMessage && <p className="mt-4 text-center text-white">{statusMessage}</p>}
       </div>
