@@ -1,6 +1,12 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { getStorage, ref, uploadBytes, getDownloadURL } from 'firebase/storage';
+import {
+  getStorage,
+  ref,
+  uploadBytes,
+  getDownloadURL,
+  deleteObject,
+} from 'firebase/storage';
 import { Repository } from 'typeorm';
 
 import { firebase } from './firebase';
@@ -41,5 +47,15 @@ export class ContentService {
 
   async getContentByMinterId(minterId: number): Promise<ContentEntity[]> {
     return this.contentRepository.find({ where: { minter: { id: minterId } } });
+  }
+
+  async deleteContent(id: number, name: string): Promise<void> {
+    const content = await this.contentRepository.findOne({ where: { name } });
+    if (!content) {
+      throw new Error(`Content with name '${name}' not found.`);
+    }
+    await this.contentRepository.remove(content);
+    const storageRef = ref(storage, `files/${id}/${name}`);
+    await deleteObject(storageRef);
   }
 }

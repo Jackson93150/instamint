@@ -33,3 +33,9 @@ export const getContents = async () => {
   });
   return contents.data as ContentInterface[];
 };
+
+export const deleteContent = async (name: string) => {
+  await axios.delete(`${import.meta.env.VITE_BACKEND_URL}/content/firebase/${name}`, {
+    withCredentials: true,
+  });
+};

@@ -1,4 +1,5 @@
 import AddIcon from '@mui/icons-material/Add';
+import DeleteIcon from '@mui/icons-material/Delete';
 import Fab from '@mui/material/Fab';
 import ImageList from '@mui/material/ImageList';
 import ImageListItem from '@mui/material/ImageListItem';
@@ -42,7 +43,7 @@ export const OriginalContentPage = () => {
         {isContent ? (
           <ImageList variant="masonry" cols={isMobile ? 2 : 4} gap={8}>
             {minterContents.map((item) => (
-              <ImageListItem key={item.url} className="cursor-pointer">
+              <ImageListItem key={item.url} className="group cursor-pointer">
                 {item.type.startsWith('audio/') ? (
                   <img src={Music} alt={item.url} loading="lazy" onClick={() => handleClick(item.url, 'audio')} />
                 ) : item.type.startsWith('video/') ? (
@@ -57,6 +58,17 @@ export const OriginalContentPage = () => {
                     onClick={() => handleClick(item.url, 'image')}
                   />
                 )}
+                <div className="top-3U right-3U p-2U absolute hidden rounded-[10px] border border-white/25 bg-black/25 backdrop-blur-[10px] group-hover:flex">
+                  <DeleteIcon
+                    sx={{ color: '#e8e8e8' }}
+                    onClick={() => {
+                      toggleModal({
+                        modalType: 'media-delete',
+                        data: { name: item.name },
+                      });
+                    }}
+                  />
+                </div>
               </ImageListItem>
             ))}
           </ImageList>
