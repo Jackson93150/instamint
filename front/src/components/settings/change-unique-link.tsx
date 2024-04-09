@@ -1,3 +1,4 @@
+import Filter from 'bad-words';
 import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 
@@ -10,6 +11,7 @@ const ChangeLinkComponent = () => {
   const [currentUrl, setCurrentUrl] = useState('');
   const [newUrl, setNewUrl] = useState('');
   const [statusMessage, setStatusMessage] = useState('');
+  const filter = new Filter();
 
   useEffect(() => {
     const fetchData = async () => {
@@ -29,18 +31,25 @@ const ChangeLinkComponent = () => {
   }, [navigate]);
 
   const handleUpdateUniqueUrl = async () => {
-    if (!UNIQUE_URL_REGEX.test(newUrl)) {
+    const trimmedNewUrl = newUrl.trim();
+
+    if (!UNIQUE_URL_REGEX.test(trimmedNewUrl)) {
       setStatusMessage('Please insert a valid URL.');
       return;
     }
-    if (newUrl.trim() === currentUrl) {
+    if (trimmedNewUrl === currentUrl) {
       setStatusMessage('No changes detected in the URL.');
       return;
     }
+    const spacedUrl = trimmedNewUrl.split('').join(' ');
 
+    if (filter.isProfane(spacedUrl)) {
+      setStatusMessage('Please avoid using inappropriate words in the URL.');
+      return;
+    }
     try {
       const data = {
-        uniqueUrl: newUrl.trim(),
+        uniqueUrl: trimmedNewUrl,
       };
       await updateUniqueUrl(data);
       setCurrentUrl(newUrl.trim());
