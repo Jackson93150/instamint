@@ -11,7 +11,8 @@ export interface Content {
 
 export const uploadFirebase = async (file: File) => {
   const formData = new FormData();
-  formData.append('file', file);
+  const encodedFilename = encodeURIComponent(file.name);
+  formData.append('file', file, encodedFilename);
   const firebaseUrl = await axios.post(`${import.meta.env.VITE_BACKEND_URL}/content/firebase`, formData, {
     withCredentials: true,
     headers: {

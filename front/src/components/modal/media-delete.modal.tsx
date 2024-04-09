@@ -4,9 +4,10 @@ import { Button } from '@/ui';
 
 interface Props {
   name: string;
+  refreshData?: React.Dispatch<React.SetStateAction<string>>;
 }
 
-export const MediaDeleteModal = ({ name }: Props) => {
+export const MediaDeleteModal = ({ name, refreshData }: Props) => {
   const { toggleModal } = useAlert();
   const { closeModal } = useModal();
   const handleSubmit = async () => {
@@ -16,6 +17,7 @@ export const MediaDeleteModal = ({ name }: Props) => {
         alertType: 'success',
         content: 'Your content as been deleted.',
       });
+      refreshData && refreshData(name);
       closeModal();
     } catch (error) {
       toggleModal({

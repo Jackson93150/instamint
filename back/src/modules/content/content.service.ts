@@ -22,8 +22,6 @@ export class ContentService {
   ) {}
 
   async uploadFirebase(id: number, file: Express.Multer.File): Promise<string> {
-    console.log(file);
-
     const storageRef = ref(storage, `files/${id}/${file.originalname}`);
     const uint8Array = new Uint8Array(file.buffer);
     const fileBlob = new Blob([uint8Array], { type: file.mimetype });
@@ -55,7 +53,8 @@ export class ContentService {
       throw new Error(`Content with name '${name}' not found.`);
     }
     await this.contentRepository.remove(content);
-    const storageRef = ref(storage, `files/${id}/${name}`);
+    const encodedName = encodeURIComponent(name);
+    const storageRef = ref(storage, `files/${id}/${encodedName}`);
     await deleteObject(storageRef);
   }
 }

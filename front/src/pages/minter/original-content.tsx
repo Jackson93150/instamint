@@ -14,6 +14,7 @@ import { getContents } from '@/services';
 export const OriginalContentPage = () => {
   const isMobile = useMediaQuery('(max-width:480px)');
   const [isContent, setIsContent] = useState(true);
+  const [refresh, setIsRefresh] = useState('');
   const [minterContents, setMinterContents] = useState<ContentInterface[]>([]);
 
   const { toggleModal } = useModal();
@@ -28,7 +29,16 @@ export const OriginalContentPage = () => {
       }
     };
     fetchContents();
-  }, []);
+  }, [refresh]);
+
+  const handleVideoHover = (video: HTMLVideoElement) => {
+    video.play();
+  };
+
+  const handleVideoLeave = (video: HTMLVideoElement) => {
+    video.pause();
+    video.currentTime = 0;
+  };
 
   const handleClick = (url: string, mediaType: 'video' | 'image' | 'audio') => {
     toggleModal({
@@ -47,7 +57,11 @@ export const OriginalContentPage = () => {
                 {item.type.startsWith('audio/') ? (
                   <img src={Music} alt={item.url} loading="lazy" onClick={() => handleClick(item.url, 'audio')} />
                 ) : item.type.startsWith('video/') ? (
-                  <video preload="metadata" onClick={() => handleClick(item.url, 'video')}>
+                  <video
+                    preload="metadata"
+                    onMouseEnter={(e) => handleVideoHover(e.currentTarget)}
+                    onMouseLeave={(e) => handleVideoLeave(e.currentTarget)}
+                  >
                     <source src={`${item.url}`} type={item.type} />
                   </video>
                 ) : (
@@ -64,7 +78,7 @@ export const OriginalContentPage = () => {
                     onClick={() => {
                       toggleModal({
                         modalType: 'media-delete',
-                        data: { name: item.name },
+                        data: { name: item.name, refreshData: setIsRefresh },
                       });
                     }}
                   />
@@ -83,6 +97,7 @@ export const OriginalContentPage = () => {
         onClick={() => {
           toggleModal({
             modalType: 'media-upload',
+            data: { refreshData: setIsRefresh },
           });
         }}
       >
