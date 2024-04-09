@@ -63,6 +63,7 @@ describe('AuthService', () => {
         createdAt: undefined,
         updatedAt: undefined,
         isValidate: false,
+        contents: null,
       };
       jest
         .spyOn(minterService, 'getMinterByEmail')
@@ -89,6 +90,7 @@ describe('AuthService', () => {
         createdAt: undefined,
         updatedAt: undefined,
         isValidate: false,
+        contents: null,
       };
       jest
         .spyOn(minterService, 'getMinterByEmail')

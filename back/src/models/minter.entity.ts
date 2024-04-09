@@ -1,4 +1,12 @@
-import { Entity, Column, PrimaryGeneratedColumn } from 'typeorm';
+import {
+  Entity,
+  Column,
+  PrimaryGeneratedColumn,
+  OneToMany,
+  JoinColumn,
+} from 'typeorm';
+
+import { ContentEntity } from './content.entity';
 
 @Entity({ name: 'minter' })
 export class MinterEntity {
@@ -37,6 +45,12 @@ export class MinterEntity {
 
   @Column({ nullable: true })
   twoFactorSecret: string;
+
+  @OneToMany(() => ContentEntity, (content) => content.minter, {
+    nullable: true,
+  })
+  @JoinColumn()
+  contents: ContentEntity[] | null;
 
   @Column({ type: 'timestamp', default: () => 'CURRENT_TIMESTAMP' })
   createdAt: Date;

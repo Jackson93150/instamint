@@ -97,6 +97,7 @@ export default {
         ray: '90',
         navbar: '100',
         sidebar: '200',
+        modal: '300',
       },
     },
   },
