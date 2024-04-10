@@ -61,6 +61,7 @@ export const OriginalContentPage = () => {
                     preload="metadata"
                     onMouseEnter={(e) => handleVideoHover(e.currentTarget)}
                     onMouseLeave={(e) => handleVideoLeave(e.currentTarget)}
+                    onClick={() => handleClick(item.url, 'video')}
                   >
                     <source src={`${item.url}`} type={item.type} />
                   </video>
