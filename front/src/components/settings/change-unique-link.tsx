@@ -1,4 +1,3 @@
-import Filter from 'bad-words';
 import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 
@@ -6,12 +5,13 @@ import { UNIQUE_URL_REGEX } from '@/constants';
 import { connectedMinter, updateUniqueUrl } from '@/services';
 import { Button } from '@/ui';
 
+import { containsSensitiveWord } from '../../assets/filter/sensitiveWords';
+
 const ChangeLinkComponent = () => {
   const navigate = useNavigate();
   const [currentUrl, setCurrentUrl] = useState('');
   const [newUrl, setNewUrl] = useState('');
   const [statusMessage, setStatusMessage] = useState('');
-  const filter = new Filter();
 
   useEffect(() => {
     const fetchData = async () => {
@@ -33,6 +33,11 @@ const ChangeLinkComponent = () => {
   const handleUpdateUniqueUrl = async () => {
     const trimmedNewUrl = newUrl.trim();
 
+    if (containsSensitiveWord(trimmedNewUrl)) {
+      setStatusMessage('The URL contains inappropriate content. Please choose another one.');
+      return;
+    }
+
     if (!UNIQUE_URL_REGEX.test(trimmedNewUrl)) {
       setStatusMessage('Please insert a valid URL.');
       return;
@@ -41,12 +46,8 @@ const ChangeLinkComponent = () => {
       setStatusMessage('No changes detected in the URL.');
       return;
     }
-    const spacedUrl = trimmedNewUrl.split('').join(' ');
+    trimmedNewUrl.split('').join(' ');
 
-    if (filter.isProfane(spacedUrl)) {
-      setStatusMessage('Please avoid using inappropriate words in the URL.');
-      return;
-    }
     try {
       const data = {
         uniqueUrl: trimmedNewUrl,
