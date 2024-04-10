@@ -108,7 +108,13 @@ export const NftCard = ({ url, mediaType }: Props) => {
     cardRef.current.rotation.z = 0.6;
     cardRef.current.rotation.y += 0.01;
   });
-  const geometry = new BoxGeometry(1 * aspectRatio, 1.5 * aspectRatio, 0.02, 10, 10);
+  const geometry = new BoxGeometry(
+    aspectRatio * (window.innerWidth < 480 ? 3 : 1),
+    1.5 * aspectRatio * (window.innerWidth < 480 ? 3 : 1),
+    0.02,
+    10,
+    10
+  );
   return (
     <mesh ref={cardRef}>
       <bufferGeometry attach="geometry" {...geometry} />
