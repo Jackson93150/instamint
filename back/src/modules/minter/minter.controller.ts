@@ -1,4 +1,12 @@
-import { Controller, Post, Put, Req, UseGuards, Body } from '@nestjs/common';
+import {
+  Controller,
+  Post,
+  Put,
+  Req,
+  UseGuards,
+  Body,
+  Delete,
+} from '@nestjs/common';
 import { AuthGuard } from '@nestjs/passport';
 
 import { MinterService } from './minter.service';
@@ -36,5 +44,16 @@ export class MinterController {
     @Body('uniqueUrl') newUrl: string,
   ): Promise<void> {
     await this.minterService.updateUniqueUrl(req.user.id, newUrl);
+  }
+
+  @Delete()
+  @UseGuards(AuthGuard('jwt'))
+  async deleteMinter(@Req() req: any): Promise<string> {
+    try {
+      await this.minterService.deleteMinter(req.user.id);
+      return 'Account successfully deleted';
+    } catch {
+      throw new Error('Autorization required to delete this account !');
+    }
   }
 }

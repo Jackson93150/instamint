@@ -78,4 +78,17 @@ export class MinterService {
       await this.minterRepository.update(id, { uniqueUrl });
     }
   }
+
+  async deleteMinter(id: number): Promise<void> {
+    try {
+      const minter = await this.minterRepository.findOne({ where: { id } });
+      if (!minter) {
+        throw new Error('Minter not found!');
+      }
+      await this.minterRepository.remove(minter);
+    } catch (error) {
+      console.error('Failed to delete minter:', error);
+      throw error;
+    }
+  }
 }

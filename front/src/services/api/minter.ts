@@ -20,3 +20,9 @@ export const updateUniqueUrl = async (data: MinterChangeUniqueUrl) => {
     withCredentials: true,
   });
 };
+
+export const deleteMinter = async () => {
+  await axios.delete(`${import.meta.env.VITE_BACKEND_URL}/minter`, {
+    withCredentials: true,
+  });
+};
