@@ -92,7 +92,7 @@ This route allows users to confirm their email address.
 - **Request Body:**
   - No request body parameters are required.
 
-## Mail Controller
+## Mail
 
 ### Send Verification Email
 
@@ -105,3 +105,56 @@ This route allows sending a verification email to the specified email address.
   | Parameter | Type   | Description            |
   | --------- | ------ | ---------------------- |
   | `email`   | string | Email address to verify|
+
+## Content
+
+### Create Content with Firebase
+
+This route allows authenticated users to create content and upload it to Firebase storage.
+
+- **URL:** `/content/firebase`
+- **Method:** `POST`
+- **Authentication:** Requires a valid JWT token in the request headers.
+- **Request Body:**
+
+  | Parameter | Type   | Description            |
+  | --------- | ------ | ---------------------- |
+  | `file`    | file   | Content file to upload |
+
+### Delete Content from Firebase
+
+This route allows authenticated users to delete content from Firebase storage.
+
+- **URL:** `/content/firebase/:name`
+- **Method:** `DELETE`
+- **Authentication:** Requires a valid JWT token in the request headers.
+- **Path Parameter:**
+  - `name`: The name of the content to be deleted.
+
+### Get Content by Minter ID
+
+This route allows authenticated users to retrieve content uploaded by a specific minter.
+
+- **URL:** `/content/minter`
+- **Method:** `GET`
+- **Authentication:** Requires a valid JWT token in the request headers.
+
+## Draft
+
+### Create Draft
+
+This route allows authenticated users to create a draft.
+
+- **URL:** `/draft`
+- **Method:** `POST`
+- **Authentication:** Requires a valid JWT token in the request headers.
+- **Request Body:**
+  - JSON object representing the draft entity.
+
+### Get Drafts by Minter ID
+
+This route allows authenticated users to retrieve drafts created by a specific minter.
+
+- **URL:** `/draft/minter`
+- **Method:** `GET`
+- **Authentication:** Requires a valid JWT token in the request headers.

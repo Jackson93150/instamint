@@ -12,7 +12,7 @@ const ChangeLinkComponent = () => {
   const navigate = useNavigate();
   const [currentUrl, setCurrentUrl] = useState('');
   const [newUrl, setNewUrl] = useState('');
-  const { toggleModal } = useAlert();
+  const { toggleAlert } = useAlert();
 
   useEffect(() => {
     const fetchData = async () => {
@@ -21,7 +21,7 @@ const ChangeLinkComponent = () => {
         if (details.uniqueUrl) {
           setCurrentUrl(details.uniqueUrl);
         } else {
-          toggleModal({
+          toggleAlert({
             alertType: 'error',
             content: 'Failed to fetch minter details.',
           });
@@ -32,13 +32,13 @@ const ChangeLinkComponent = () => {
     };
 
     fetchData();
-  }, [navigate, toggleModal]);
+  }, [navigate, toggleAlert]);
 
   const handleUpdateUniqueUrl = async () => {
     const trimmedNewUrl = newUrl.trim();
 
     if (containsSensitiveWord(trimmedNewUrl.toLowerCase())) {
-      toggleModal({
+      toggleAlert({
         alertType: 'error',
         content: 'The URL contains inappropriate content. Please choose another one.',
       });
@@ -47,14 +47,14 @@ const ChangeLinkComponent = () => {
     }
 
     if (!UNIQUE_URL_REGEX.test(trimmedNewUrl)) {
-      toggleModal({
+      toggleAlert({
         alertType: 'error',
         content: 'Please insert a valid URL.',
       });
       return;
     }
     if (trimmedNewUrl === currentUrl) {
-      toggleModal({
+      toggleAlert({
         alertType: 'warning',
         content: 'No changes detected in the URL.',
       });
@@ -68,12 +68,12 @@ const ChangeLinkComponent = () => {
       };
       await updateUniqueUrl(data);
       setCurrentUrl(newUrl.trim());
-      toggleModal({
+      toggleAlert({
         alertType: 'success',
         content: 'URL updated successfully!',
       });
     } catch (error) {
-      toggleModal({
+      toggleAlert({
         alertType: 'warning',
         content: 'This unique URL is already used.',
       });
