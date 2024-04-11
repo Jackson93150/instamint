@@ -30,6 +30,19 @@ This route allows changing the visibility of a minter's profile.
   | `id`        | number  | The ID of the minter whose visibility is to be changed. |
   | `isPrivate` | boolean | The new visibility status of the minter's profile. |
 
+### Update Unique URL
+
+This route allows updating the unique URL for a minter's profile.
+
+- **URL:** `/minter/unique-url`
+- **Method:** `PUT`
+- **Request Body:**
+- **Authentication:** Requires a valid JWT token in the request headers.
+
+  | Parameter   | Type    | Description                                                    |
+  |-------------|---------|----------------------------------------------------------------|
+  | `uniqueUrl` | string  | The new unique URL to be associated with the minter's profile. |
+
 ## Authentication
 
 ### Retrieve Current User

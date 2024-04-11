@@ -3,7 +3,7 @@ import { InjectRepository } from '@nestjs/typeorm';
 import * as bcrypt from 'bcrypt';
 import { Repository } from 'typeorm';
 
-import { EMAIL_REGEX, PASSWORD_REGEX } from '../../constants';
+import { EMAIL_REGEX, PASSWORD_REGEX, UNIQUE_URL_REGEX } from '../../constants';
 import { MinterEntity } from '../../models';
 
 @Injectable()
@@ -31,10 +31,15 @@ export class MinterService {
     }
 
     const hashedPassword = await bcrypt.hash(minter.password, 10);
+    const hashedUniqueUrl = (await bcrypt.hash(minter.username, 1)).substring(
+      1,
+      16,
+    );
     const newMinter = {
       username: minter.username,
       email: minter.email,
       password: hashedPassword,
+      uniqueUrl: hashedUniqueUrl,
     };
 
     const createdMinter = await this.minterRepository.save(newMinter);
@@ -55,7 +60,22 @@ export class MinterService {
   async validateMinter(id: number): Promise<void> {
     await this.minterRepository.update({ id }, { isValidate: true });
   }
+
   async updateProfileVisibility(id: number, isPrivate: boolean): Promise<void> {
     await this.minterRepository.update(id, { isPrivate });
+  }
+
+  async updateUniqueUrl(id: number, uniqueUrl: string): Promise<void> {
+    if (!UNIQUE_URL_REGEX.test(uniqueUrl)) {
+      throw new Error('Unique URL must be in a valid format.');
+    }
+    const existingMinter = await this.minterRepository.findOne({
+      where: {
+        uniqueUrl,
+      },
+    });
+    if (!existingMinter) {
+      await this.minterRepository.update(id, { uniqueUrl });
+    }
   }
 }

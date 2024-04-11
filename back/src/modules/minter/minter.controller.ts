@@ -13,6 +13,7 @@ export class MinterController {
   createMinter(@Body() minter: MinterEntity): Promise<MinterEntity> {
     return this.minterService.createMinter(minter);
   }
+
   @Put('visibility')
   @UseGuards(AuthGuard('jwt'))
   async updateProfileVisibility(
@@ -26,5 +27,14 @@ export class MinterController {
       );
     }
     await this.minterService.updateProfileVisibility(id, isPrivate);
+  }
+
+  @Put('unique-url')
+  @UseGuards(AuthGuard('jwt'))
+  async updateUniqueUrl(
+    @Req() req: any,
+    @Body('uniqueUrl') newUrl: string,
+  ): Promise<void> {
+    await this.minterService.updateUniqueUrl(req.user.id, newUrl);
   }
 }
