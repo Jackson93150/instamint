@@ -11,3 +11,5 @@ export * from './modal/media.modal';
 export * from './modal/media-viewer.modal';
 export * from './modal/modal-layout';
 export * from './settings/change-unique-link';
+export * from './original-content/original-content-view';
+export * from './original-content/draft-content-view';

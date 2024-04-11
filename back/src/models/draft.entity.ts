@@ -8,7 +8,7 @@ export class DraftEntity {
   @PrimaryGeneratedColumn()
   id: number;
 
-  @Column()
+  @Column({ nullable: true })
   description: string;
 
   @Column()

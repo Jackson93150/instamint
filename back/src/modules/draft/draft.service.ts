@@ -17,6 +17,9 @@ export class DraftService {
   }
 
   async getDraftByMinterId(minterId: number): Promise<DraftEntity[]> {
-    return this.draftRepository.find({ where: { minter: { id: minterId } } });
+    return this.draftRepository.find({
+      where: { minter: { id: minterId } },
+      relations: ['minter', 'content'],
+    });
   }
 }

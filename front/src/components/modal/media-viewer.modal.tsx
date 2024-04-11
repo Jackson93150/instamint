@@ -1,18 +1,37 @@
 import { Chip } from '@mui/material';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 
 import { NftCardScene } from '../threejs/nft-card';
 import { COUNTRY } from '@/constants/country';
+import { useAlert, useModal } from '@/context';
+import { DraftInterface } from '@/interfaces';
+import { connectedMinter, createDraft } from '@/services';
 import { Button } from '@/ui';
 
 interface Props {
   url: string;
   mediaType: 'video' | 'image' | 'audio';
+  content: number;
+  type?: 'content' | 'draft';
+  data?: DraftInterface;
 }
 
-export const MediaViewerModal = ({ url, mediaType }: Props) => {
+export const MediaViewerModal = ({ url, mediaType, content, type = 'content', data }: Props) => {
   const [hashtags, setHashtags] = useState<string[]>([]);
   const [inputValue, setInputValue] = useState('');
+  const [description, setDescription] = useState('');
+  const [location, setLocation] = useState('');
+  const { closeModal } = useModal();
+  const { toggleAlert } = useAlert();
+
+  const dataHashtags = data?.hashtag ? data.hashtag.split(',').map((item) => '#' + item) : [];
+
+  useEffect(() => {
+    if (data) {
+      setHashtags(dataHashtags);
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [data]);
 
   const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
     if (e.key === 'Enter' && inputValue.trim() !== '') {
@@ -28,6 +47,47 @@ export const MediaViewerModal = ({ url, mediaType }: Props) => {
 
   const handleDelete = (deletedHashtag: string) => {
     setHashtags(hashtags.filter((hashtag) => hashtag !== deletedHashtag));
+  };
+
+  const handleDescriptionChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
+    setDescription(e.target.value);
+  };
+
+  const handleLocationChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
+    setLocation(e.target.value);
+  };
+
+  const handleSave = async () => {
+    if (location) {
+      const minter = await connectedMinter();
+      const draft = {
+        description: description,
+        author: minter.username,
+        hashtag: hashtags.join(','),
+        location: location,
+        minter: minter.id,
+        content: content,
+      };
+      try {
+        await createDraft(draft);
+        toggleAlert({
+          alertType: 'success',
+          content: 'Your draft as been saved.',
+        });
+        closeModal();
+      } catch (error) {
+        toggleAlert({
+          alertType: 'error',
+          content: error as string,
+        });
+        closeModal();
+      }
+    } else {
+      toggleAlert({
+        alertType: 'error',
+        content: 'You have to fill all the required field.',
+      });
+    }
   };
 
   return (
@@ -53,6 +113,9 @@ export const MediaViewerModal = ({ url, mediaType }: Props) => {
               rows={5}
               className="p-2U text-body block w-full rounded-[5px] border border-white/50 bg-white/10 text-white/80"
               placeholder="Write your description here..."
+              value={type === 'draft' ? data?.description : description}
+              onChange={handleDescriptionChange}
+              disabled={type === 'draft'}
             ></textarea>
           </div>
 
@@ -80,7 +143,7 @@ export const MediaViewerModal = ({ url, mediaType }: Props) => {
                 value={inputValue}
                 onChange={(e) => setInputValue(e.target.value)}
                 onKeyDown={handleKeyDown}
-                disabled={hashtags.length >= 5}
+                disabled={hashtags.length >= 5 || type === 'draft'}
               />
             </div>
           </div>
@@ -93,6 +156,9 @@ export const MediaViewerModal = ({ url, mediaType }: Props) => {
               name="country"
               id="location"
               className="p-2U gap-1U flex h-fit w-full flex-col rounded-[5px] border border-white/50"
+              value={type === 'draft' ? data?.location : location}
+              onChange={handleLocationChange}
+              disabled={type === 'draft'}
             >
               {COUNTRY.map((country, key) => {
                 return (
@@ -105,7 +171,7 @@ export const MediaViewerModal = ({ url, mediaType }: Props) => {
           </div>
         </div>
         <div className="flex h-fit w-full items-center justify-between">
-          <Button color={'transparent'} content="Save" />
+          {type === 'content' && <Button color={'transparent'} content="Save" onClick={handleSave} />}
           <Button color={'green'} content="Mint" />
         </div>
       </div>
