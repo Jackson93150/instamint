@@ -43,6 +43,20 @@ This route allows updating the unique URL for a minter's profile.
   |-------------|---------|----------------------------------------------------------------|
   | `uniqueUrl` | string  | The new unique URL to be associated with the minter's profile. |
 
+### Delete Minter Account
+
+This route allows deleting a minter's profile.
+
+- **URL:** `/minter`
+- **Method:** `DELETE`
+- **Request Body:**
+- **Authentication:** Requires a valid JWT token in the request headers.
+
+  | Parameter   | Type    | Description                                                    |
+  |-------------|---------|----------------------------------------------------------------|
+  |    ---      |   --    |                     -----------                                |
+
+
 ## Authentication
 
 ### Retrieve Current User
