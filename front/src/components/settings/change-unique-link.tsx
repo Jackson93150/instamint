@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 
 import { UNIQUE_URL_REGEX } from '@/constants';
+import { useAlert } from '@/context';
 import { connectedMinter, updateUniqueUrl } from '@/services';
 import { Button } from '@/ui';
 
@@ -11,7 +12,7 @@ const ChangeLinkComponent = () => {
   const navigate = useNavigate();
   const [currentUrl, setCurrentUrl] = useState('');
   const [newUrl, setNewUrl] = useState('');
-  const [statusMessage, setStatusMessage] = useState('');
+  const { toggleModal } = useAlert();
 
   useEffect(() => {
     const fetchData = async () => {
@@ -20,7 +21,10 @@ const ChangeLinkComponent = () => {
         if (details.uniqueUrl) {
           setCurrentUrl(details.uniqueUrl);
         } else {
-          setStatusMessage('Failed to fetch minter details.');
+          toggleModal({
+            alertType: 'error',
+            content: 'Failed to fetch minter details.',
+          });
         }
       } catch (error) {
         navigate('/login');
@@ -28,22 +32,32 @@ const ChangeLinkComponent = () => {
     };
 
     fetchData();
-  }, [navigate]);
+  }, [navigate, toggleModal]);
 
   const handleUpdateUniqueUrl = async () => {
     const trimmedNewUrl = newUrl.trim();
 
-    if (containsSensitiveWord(trimmedNewUrl)) {
-      setStatusMessage('The URL contains inappropriate content. Please choose another one.');
+    if (containsSensitiveWord(trimmedNewUrl.toLowerCase())) {
+      toggleModal({
+        alertType: 'error',
+        content: 'The URL contains inappropriate content. Please choose another one.',
+      });
+
       return;
     }
 
     if (!UNIQUE_URL_REGEX.test(trimmedNewUrl)) {
-      setStatusMessage('Please insert a valid URL.');
+      toggleModal({
+        alertType: 'error',
+        content: 'Please insert a valid URL.',
+      });
       return;
     }
     if (trimmedNewUrl === currentUrl) {
-      setStatusMessage('No changes detected in the URL.');
+      toggleModal({
+        alertType: 'warning',
+        content: 'No changes detected in the URL.',
+      });
       return;
     }
     trimmedNewUrl.split('').join(' ');
@@ -54,9 +68,15 @@ const ChangeLinkComponent = () => {
       };
       await updateUniqueUrl(data);
       setCurrentUrl(newUrl.trim());
-      setStatusMessage('URL updated successfully!');
+      toggleModal({
+        alertType: 'success',
+        content: 'URL updated successfully!',
+      });
     } catch (error) {
-      setStatusMessage('This unique URL is already used.');
+      toggleModal({
+        alertType: 'warning',
+        content: 'This unique URL is already used.',
+      });
     }
   };
 
@@ -79,7 +99,6 @@ const ChangeLinkComponent = () => {
         <div className="flex w-1/5 items-center justify-center">
           <Button size="regular" color="green" content="Update" onClick={handleUpdateUniqueUrl} />
         </div>
-        {statusMessage && <p className="mt-4 text-center text-white">{statusMessage}</p>}
       </div>
     </div>
   );

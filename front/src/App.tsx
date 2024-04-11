@@ -15,7 +15,7 @@ function App() {
           <Route path="/confirm" element={<ConfirmationPage />} />
           <Route path="/content" element={<OriginalContentPage />} />
           <Route path="/settings" element={<SettingsPage />} />
-      </Routes>
+        </Routes>
       </Layout>
     </Suspense>
   );
