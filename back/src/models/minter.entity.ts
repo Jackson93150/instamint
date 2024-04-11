@@ -7,6 +7,7 @@ import {
 } from 'typeorm';
 
 import { ContentEntity } from './content.entity';
+import { DraftEntity } from './draft.entity';
 
 @Entity({ name: 'minter' })
 export class MinterEntity {
@@ -51,6 +52,12 @@ export class MinterEntity {
   })
   @JoinColumn()
   contents: ContentEntity[] | null;
+
+  @OneToMany(() => DraftEntity, (draft) => draft.minter, {
+    nullable: true,
+  })
+  @JoinColumn()
+  drafts: DraftEntity[] | null;
 
   @Column({ type: 'timestamp', default: () => 'CURRENT_TIMESTAMP' })
   createdAt: Date;

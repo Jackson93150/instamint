@@ -1,5 +1,13 @@
-import { Entity, Column, PrimaryGeneratedColumn, ManyToOne } from 'typeorm';
+import {
+  Entity,
+  Column,
+  PrimaryGeneratedColumn,
+  ManyToOne,
+  OneToMany,
+  JoinColumn,
+} from 'typeorm';
 
+import { DraftEntity } from './draft.entity';
 import { MinterEntity } from './minter.entity';
 
 @Entity({ name: 'content' })
@@ -18,6 +26,12 @@ export class ContentEntity {
 
   @ManyToOne(() => MinterEntity, (minter) => minter.contents)
   minter: MinterEntity;
+
+  @OneToMany(() => DraftEntity, (draft) => draft.content, {
+    nullable: true,
+  })
+  @JoinColumn()
+  drafts: DraftEntity[] | null;
 
   @Column({ type: 'timestamp', default: () => 'CURRENT_TIMESTAMP' })
   createdAt: Date;

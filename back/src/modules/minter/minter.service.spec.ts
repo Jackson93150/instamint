@@ -61,6 +61,7 @@ describe('MinterService', () => {
         updatedAt: undefined,
         isValidate: false,
         contents: null,
+        drafts: null,
       };
       const hashedPassword = await bcrypt.hash(minter.password, 10);
       jest.spyOn(repository, 'findOne').mockResolvedValueOnce(null);
@@ -90,6 +91,7 @@ describe('MinterService', () => {
         updatedAt: undefined,
         isValidate: false,
         contents: null,
+        drafts: null,
       };
       jest
         .spyOn(deletedMinterRepository, 'findOne')
@@ -115,6 +117,7 @@ describe('MinterService', () => {
         updatedAt: undefined,
         isValidate: false,
         contents: null,
+        drafts: null,
       };
       jest.spyOn(repository, 'findOne').mockResolvedValueOnce(null);
       await expect(service.createMinter(minter)).rejects.toThrowError(

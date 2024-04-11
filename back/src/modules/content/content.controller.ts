@@ -23,8 +23,8 @@ export class ContentController {
 
   @Post()
   @UseGuards(AuthGuard('jwt'))
-  createContent(@Body() minter: ContentEntity): Promise<ContentEntity> {
-    return this.contentService.createContent(minter);
+  createContent(@Body() content: ContentEntity): Promise<ContentEntity> {
+    return this.contentService.createContent(content);
   }
 
   @Post('firebase')

@@ -70,6 +70,7 @@ describe('AuthService', () => {
         updatedAt: undefined,
         isValidate: false,
         contents: null,
+        drafts: null,
       };
 
       jest.spyOn(minterService, 'getMinterByEmail').mockResolvedValue(minter);
@@ -102,6 +103,7 @@ describe('AuthService', () => {
         updatedAt: undefined,
         isValidate: false,
         contents: null,
+        drafts: null,
       };
 
       jest.spyOn(minterService, 'getMinterByEmail').mockResolvedValue(minter);
