@@ -7,6 +7,8 @@ import {
   Req,
   UseInterceptors,
   UploadedFile,
+  Delete,
+  Param,
 } from '@nestjs/common';
 import { AuthGuard } from '@nestjs/passport';
 import { FileInterceptor } from '@nestjs/platform-express';
@@ -34,6 +36,15 @@ export class ContentController {
   ): Promise<string> {
     const url = await this.contentService.uploadFirebase(req.user.id, file);
     return url;
+  }
+
+  @Delete('firebase/:name')
+  @UseGuards(AuthGuard('jwt'))
+  async deleteContent(
+    @Req() req: any,
+    @Param('name') name: string,
+  ): Promise<void> {
+    await this.contentService.deleteContent(req.user.id, name);
   }
 
   @Get('minter')

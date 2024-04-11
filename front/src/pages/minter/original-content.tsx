@@ -1,4 +1,5 @@
 import AddIcon from '@mui/icons-material/Add';
+import DeleteIcon from '@mui/icons-material/Delete';
 import Fab from '@mui/material/Fab';
 import ImageList from '@mui/material/ImageList';
 import ImageListItem from '@mui/material/ImageListItem';
@@ -13,6 +14,7 @@ import { getContents } from '@/services';
 export const OriginalContentPage = () => {
   const isMobile = useMediaQuery('(max-width:480px)');
   const [isContent, setIsContent] = useState(true);
+  const [refresh, setIsRefresh] = useState('');
   const [minterContents, setMinterContents] = useState<ContentInterface[]>([]);
 
   const { toggleModal } = useModal();
@@ -27,7 +29,16 @@ export const OriginalContentPage = () => {
       }
     };
     fetchContents();
-  }, []);
+  }, [refresh]);
+
+  const handleVideoHover = (video: HTMLVideoElement) => {
+    video.play();
+  };
+
+  const handleVideoLeave = (video: HTMLVideoElement) => {
+    video.pause();
+    video.currentTime = 0;
+  };
 
   const handleClick = (url: string, mediaType: 'video' | 'image' | 'audio') => {
     toggleModal({
@@ -42,11 +53,16 @@ export const OriginalContentPage = () => {
         {isContent ? (
           <ImageList variant="masonry" cols={isMobile ? 2 : 4} gap={8}>
             {minterContents.map((item) => (
-              <ImageListItem key={item.url} className="cursor-pointer">
+              <ImageListItem key={item.url} className="group cursor-pointer">
                 {item.type.startsWith('audio/') ? (
                   <img src={Music} alt={item.url} loading="lazy" onClick={() => handleClick(item.url, 'audio')} />
                 ) : item.type.startsWith('video/') ? (
-                  <video preload="metadata" onClick={() => handleClick(item.url, 'video')}>
+                  <video
+                    preload="metadata"
+                    onMouseEnter={(e) => handleVideoHover(e.currentTarget)}
+                    onMouseLeave={(e) => handleVideoLeave(e.currentTarget)}
+                    onClick={() => handleClick(item.url, 'video')}
+                  >
                     <source src={`${item.url}`} type={item.type} />
                   </video>
                 ) : (
@@ -57,6 +73,17 @@ export const OriginalContentPage = () => {
                     onClick={() => handleClick(item.url, 'image')}
                   />
                 )}
+                <div className="top-3U right-3U p-2U absolute hidden rounded-[10px] border border-white/25 bg-black/25 backdrop-blur-[10px] group-hover:flex">
+                  <DeleteIcon
+                    sx={{ color: '#e8e8e8' }}
+                    onClick={() => {
+                      toggleModal({
+                        modalType: 'media-delete',
+                        data: { name: item.name, refreshData: setIsRefresh },
+                      });
+                    }}
+                  />
+                </div>
               </ImageListItem>
             ))}
           </ImageList>
@@ -71,6 +98,7 @@ export const OriginalContentPage = () => {
         onClick={() => {
           toggleModal({
             modalType: 'media-upload',
+            data: { refreshData: setIsRefresh },
           });
         }}
       >

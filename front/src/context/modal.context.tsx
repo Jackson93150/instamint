@@ -5,6 +5,7 @@ import { useLocation } from 'react-router-dom';
 
 import Close from '@/assets/icons/close.svg?react';
 import { MediaModal, MediaViewerModal, Modal } from '@/components';
+import { MediaDeleteModal } from '@/components/modal/media-delete.modal';
 import { gsapOpacityAnimation, gsapTranslateYAnimation } from '@/utils';
 
 gsap.registerPlugin(useGSAP);
@@ -12,6 +13,7 @@ gsap.registerPlugin(useGSAP);
 export interface ModalDataMap {
   'media-upload': ComponentProps<typeof MediaModal>;
   'media-viewer': ComponentProps<typeof MediaViewerModal>;
+  'media-delete': ComponentProps<typeof MediaDeleteModal>;
 }
 
 export interface ToggleModalArgs<T extends keyof ModalDataMap> {

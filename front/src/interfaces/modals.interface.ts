@@ -1,3 +1,3 @@
 export interface ModalType {
-  modalType: 'media-upload' | 'media-viewer';
+  modalType: 'media-upload' | 'media-viewer' | 'media-delete';
 }

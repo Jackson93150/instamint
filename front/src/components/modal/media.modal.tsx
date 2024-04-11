@@ -8,7 +8,11 @@ import { Button } from '@/ui';
 
 const allowedFileTypes = ['image/png', 'image/webp', 'audio/ogg', 'audio/flac', 'video/mp4'];
 
-export const MediaModal = () => {
+interface Props {
+  refreshData?: React.Dispatch<React.SetStateAction<string>>;
+}
+
+export const MediaModal = ({ refreshData }: Props) => {
   const [name, setName] = useState('');
   const [isLoading, setIsLoading] = useState(false);
   const [file, setFile] = useState<File | null>(null);
@@ -53,6 +57,7 @@ export const MediaModal = () => {
           alertType: 'success',
           content: 'Your content as been uploaded.',
         });
+        refreshData && refreshData(fileUrl);
         closeModal();
       } catch (error) {
         setIsLoading(false);
