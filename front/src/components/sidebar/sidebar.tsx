@@ -33,7 +33,7 @@ export const Sidebar = () => {
       <div className="flex size-full flex-col justify-between">
         <div className="gap-1U flex flex-col">
           <NavItem icon={<HomeIcon fontSize="large" />} title="Home" path="/" />
-          <NavItem icon={<PersonIcon fontSize="large" />} title="Profile" path="/profile" />
+          <NavItem icon={<PersonIcon fontSize="large" />} title="Profile" path="/me" />
           <NavItem icon={<GroupsIcon fontSize="large" />} title="Tea Bag" path="/minter/tea-bag" />
           <NavItem icon={<PermMediaIcon fontSize="large" />} title="Content Manager" path="/content" />
           <NavItem icon={<ChatIcon fontSize="large" />} title="Message" path="/messages" />
