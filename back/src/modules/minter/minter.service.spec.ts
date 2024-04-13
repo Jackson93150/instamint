@@ -26,6 +26,7 @@ describe('MinterService', () => {
         {
           provide: getRepositoryToken(DeletedMinter),
           useValue: {
+            findOne: jest.fn(),
             save: jest.fn(),
             find: jest.fn(),
             delete: jest.fn(),
@@ -43,7 +44,7 @@ describe('MinterService', () => {
     expect(service).toBeDefined();
   });
   describe('createMinter', () => {
-    it('should create a new minter', async () => {
+    it('should create a new minter if not already created or deleted', async () => {
       const minter: MinterEntity = {
         username: 'testuser',
         email: 'test@example.com',
@@ -62,37 +63,15 @@ describe('MinterService', () => {
         contents: null,
       };
       const hashedPassword = await bcrypt.hash(minter.password, 10);
-
       jest.spyOn(repository, 'findOne').mockResolvedValueOnce(null);
+      jest
+        .spyOn(deletedMinterRepository, 'findOne')
+        .mockResolvedValueOnce(null);
       jest
         .spyOn(repository, 'save')
         .mockResolvedValueOnce({ ...minter, password: hashedPassword });
-
       const createdMinter = await service.createMinter(minter);
       expect(createdMinter).toEqual({ ...minter, password: hashedPassword });
-    });
-    it('should throw error if email is already used', async () => {
-      const minter: MinterEntity = {
-        username: 'testuser',
-        email: 'test@example.com',
-        password: 'testpassword123',
-        id: 0,
-        phone: null,
-        bio: null,
-        pictureUrl: null,
-        uniqueUrl: null,
-        isPrivate: false,
-        twoFactorEnabled: false,
-        twoFactorSecret: null,
-        createdAt: undefined,
-        updatedAt: undefined,
-        isValidate: false,
-        contents: null,
-      };
-      jest.spyOn(repository, 'findOne').mockResolvedValueOnce(minter);
-      await expect(service.createMinter(minter)).rejects.toThrowError(
-        'This email is already used.',
-      );
     });
     it('should throw error if email format is invalid', async () => {
       const minter: MinterEntity = {
@@ -112,7 +91,9 @@ describe('MinterService', () => {
         isValidate: false,
         contents: null,
       };
-      jest.spyOn(repository, 'findOne').mockResolvedValueOnce(null);
+      jest
+        .spyOn(deletedMinterRepository, 'findOne')
+        .mockResolvedValueOnce(null);
       await expect(service.createMinter(minter)).rejects.toThrowError(
         'The email must be in valid format.',
       );

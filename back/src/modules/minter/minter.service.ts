@@ -24,7 +24,13 @@ export class MinterService {
     });
 
     if (isMinterAlreadyCreated) {
-      throw new Error('This email is already used.');
+      const isMinterDeleted = await this.deletedMinterRepository.findOne({
+        where: { minterId: isMinterAlreadyCreated.id },
+      });
+
+      if (!isMinterDeleted) {
+        throw new Error('This email is already used.');
+      }
     }
 
     if (!EMAIL_REGEX.test(minter.email)) {

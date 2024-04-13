@@ -26,11 +26,9 @@ const DeleteMinterComponent = () => {
 
   return (
     <div className="z-10 flex w-full flex-col">
-      <div className="flex w-full items-center justify-between rounded-lg bg-gray-400 p-4 shadow-xl sm:p-6">
-        <p className="mb-4 text-center text-lg">Pay attention ! Deleting your account cannot be undone.</p>
-        <div className="flex w-2/5 items-center justify-center">
-          <Button size="large" color="red" content="Delete Account" onClick={handleDeleteMinter} />
-        </div>
+      <div className="flex w-full justify-between rounded-lg bg-gray-400 p-4 shadow-xl sm:p-6">
+        <h4 className="text-md">Pay attention ! Deleting your account cannot be undone.</h4>
+        <Button size="large" color="red" content="Delete Account" onClick={handleDeleteMinter} />
       </div>
     </div>
   );
