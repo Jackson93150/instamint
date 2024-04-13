@@ -1,7 +1,7 @@
 /* eslint-disable react-hooks/rules-of-hooks */
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { Canvas, useFrame, useLoader } from '@react-three/fiber';
-import { Bloom, EffectComposer } from '@react-three/postprocessing';
+import { Bloom, BrightnessContrast, EffectComposer } from '@react-three/postprocessing';
 import { BlendFunction } from 'postprocessing';
 import { useEffect, useRef, useState } from 'react';
 import { BoxGeometry, TextureLoader } from 'three';
@@ -85,7 +85,7 @@ export const NftCard = ({ url, mediaType }: Props) => {
   const geometry = new BoxGeometry(
     aspectRatio * (window.innerWidth < 480 ? 3 : 1),
     1.5 * aspectRatio * (window.innerWidth < 480 ? 3 : 1),
-    0.02,
+    0.03,
     10,
     10
   );
@@ -120,8 +120,9 @@ export const NftCardScene = ({ url, mediaType }: Props) => {
     >
       <Background />
       <NftCard url={url} mediaType={mediaType} />
-      <EffectComposer multisampling={0} enableNormalPass>
+      <EffectComposer>
         <Bloom luminanceThreshold={0.9} luminanceSmoothing={0.9} opacity={0.8} blendFunction={BlendFunction.SCREEN} />
+        <BrightnessContrast brightness={-0.1} contrast={0.2} />
       </EffectComposer>
     </Canvas>
   );
