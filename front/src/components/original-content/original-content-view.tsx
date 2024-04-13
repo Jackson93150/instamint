@@ -36,13 +36,14 @@ export const OriginalContentView = ({ isContent, minterContents, setIsRefresh }:
       {isContent ? (
         <ImageList variant="masonry" cols={isMobile ? 2 : 4} gap={8}>
           {minterContents.map((item) => (
-            <ImageListItem key={item.url} className="group cursor-pointer">
+            <ImageListItem key={item.url} className="group cursor-pointer overflow-hidden">
               {item.type.startsWith('audio/') ? (
                 <img
                   src={Music}
                   alt={item.url}
                   loading="lazy"
                   onClick={() => handleClick(item.url, 'audio', item.id)}
+                  className="ease transition-all duration-500 group-hover:scale-110"
                 />
               ) : item.type.startsWith('video/') ? (
                 <video
@@ -50,6 +51,7 @@ export const OriginalContentView = ({ isContent, minterContents, setIsRefresh }:
                   onMouseEnter={(e) => handleVideoHover(e.currentTarget)}
                   onMouseLeave={(e) => handleVideoLeave(e.currentTarget)}
                   onClick={() => handleClick(item.url, 'video', item.id)}
+                  className="ease transition-all duration-500 group-hover:scale-110"
                 >
                   <source src={`${item.url}`} type={item.type} />
                 </video>
@@ -59,6 +61,7 @@ export const OriginalContentView = ({ isContent, minterContents, setIsRefresh }:
                   alt={item.url}
                   loading="lazy"
                   onClick={() => handleClick(item.url, 'image', item.id)}
+                  className="ease transition-all duration-500 group-hover:scale-110"
                 />
               )}
               <div className="top-3U right-3U p-2U absolute hidden rounded-[10px] border border-white/25 bg-black/25 backdrop-blur-[10px] group-hover:flex">

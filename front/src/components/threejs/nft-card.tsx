@@ -8,11 +8,40 @@ import { BoxGeometry, TextureLoader } from 'three';
 import * as THREE from 'three';
 
 import Music from '@/assets/mock/music.jpeg';
+import { nftVertexShader, nftFragmentShader, backgroundFragmentShader, backgroundVertexShader } from '@/constants';
 
 interface Props {
   url: string;
   mediaType: 'video' | 'image' | 'audio';
 }
+
+export const Background = () => {
+  const video = useRef(document.createElement('video'));
+  const geometry = new THREE.PlaneGeometry(5, 6);
+  video.current.src = './scene.mp4';
+  video.current.crossOrigin = 'anonymous';
+  video.current.loop = true;
+  video.current.muted = true;
+  video.current.play();
+  const texture = useRef(new THREE.VideoTexture(video.current));
+
+  return (
+    <mesh>
+      <bufferGeometry attach="geometry" {...geometry} />
+      <shaderMaterial
+        vertexShader={backgroundVertexShader}
+        fragmentShader={backgroundFragmentShader}
+        side={THREE.FrontSide}
+        depthWrite={false}
+        blending={THREE.AdditiveBlending}
+        uniforms={{
+          uTexture: { value: texture.current },
+          uTime: { value: 0 },
+        }}
+      />
+    </mesh>
+  );
+};
 
 export const NftCard = ({ url, mediaType }: Props) => {
   const cardRef = useRef<any>(null!);
@@ -49,61 +78,6 @@ export const NftCard = ({ url, mediaType }: Props) => {
     nftTexture = new THREE.VideoTexture(video);
   }
 
-  const vertexShader = `
-    uniform float uTime;
-    varying vec3 vPosition;
-    varying vec3 vNormal;
-    varying vec2 vUv;
-
-    float random2D(vec2 value)
-    {
-    return fract(sin(dot(value.xy, vec2(12.9898,78.233))) * 43758.5453123);
-    }
-
-    void main() {
-      vUv = uv;
-      vec4 modelPosition = modelMatrix * vec4(position, 1.0);
-      float glitchTime = uTime - modelPosition.y;
-      float glitchStrength = sin(glitchTime) + sin(glitchTime * 2.34) +  sin(glitchTime * 5.67);
-      glitchStrength /= 3.0;
-      glitchStrength = smoothstep(0.3, 1.0, glitchStrength);
-      glitchStrength *= 0.15;
-      modelPosition.x += (random2D(modelPosition.xz + uTime) - 0.5) * glitchStrength;
-      modelPosition.z += (random2D(modelPosition.zx + uTime) - 0.5) * glitchStrength;
-      gl_Position = projectionMatrix * viewMatrix * modelPosition;
-      vec4 modelNormal = modelMatrix * vec4(normal, 0.0);
-      vPosition = modelPosition.xyz;
-      vNormal = modelNormal.xyz;
-    }
-  `;
-
-  const fragmentShader = `
-    uniform float uTime;
-    uniform sampler2D uTexture;
-    varying vec3 vPosition;
-    varying vec3 vNormal;
-    varying vec2 vUv;
-
-    void main() { 
-      vec2 newUV = vUv;
-      vec4 tt = texture2D(uTexture, vUv);
-      vec3 normal = normalize(vNormal);
-
-      float stripes = mod((vPosition.y - uTime * 0.1) * 20.0, 1.0);
-      stripes = pow(stripes, 1.0);
-
-      vec3 viewDirection = normalize(vPosition - cameraPosition);
-      float fresnel = dot(viewDirection, normal) + 1.0;
-      fresnel = pow(fresnel, 0.0);
-
-      float holographic = stripes * fresnel;
-      holographic += fresnel;
-
-      gl_FragColor = vec4(vec3(tt), holographic);
-      #include <tonemapping_fragment>
-      #include <colorspace_fragment>
-    }`;
-
   useFrame(() => {
     cardRef.current.rotation.z = 0.6;
     cardRef.current.rotation.y += 0.01;
@@ -119,8 +93,8 @@ export const NftCard = ({ url, mediaType }: Props) => {
     <mesh ref={cardRef}>
       <bufferGeometry attach="geometry" {...geometry} />
       <shaderMaterial
-        vertexShader={vertexShader}
-        fragmentShader={fragmentShader}
+        vertexShader={nftVertexShader}
+        fragmentShader={nftFragmentShader}
         side={THREE.FrontSide}
         depthWrite={false}
         blending={THREE.AdditiveBlending}
@@ -137,11 +111,17 @@ export const NftCard = ({ url, mediaType }: Props) => {
 
 export const NftCardScene = ({ url, mediaType }: Props) => {
   return (
-    <Canvas dpr={1} camera={{ position: [0, 0, 3] }}>
-      <color attach="background" args={['#000']} />
+    <Canvas
+      dpr={1}
+      camera={{ position: [0, 0, 3] }}
+      gl={{
+        powerPreference: 'high-performance',
+      }}
+    >
+      <Background />
       <NftCard url={url} mediaType={mediaType} />
       <EffectComposer multisampling={0} enableNormalPass>
-        <Bloom luminanceThreshold={0.9} luminanceSmoothing={0.9} opacity={0.5} blendFunction={BlendFunction.SCREEN} />
+        <Bloom luminanceThreshold={0.9} luminanceSmoothing={0.9} opacity={0.8} blendFunction={BlendFunction.SCREEN} />
       </EffectComposer>
     </Canvas>
   );

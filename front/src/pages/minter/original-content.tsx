@@ -37,8 +37,8 @@ export const OriginalContentPage = () => {
         <div className="p-2U gap-2U flex h-fit w-full rounded-[10px] border border-white/25 bg-white/15 backdrop-blur-xl">
           <div
             className={cx(
-              'p-2U ease flex h-fit w-full cursor-pointer justify-center rounded-[10px] border border-white/25 bg-black/70 font-bold text-white backdrop-blur-xl transition-all duration-300 hover:bg-black',
-              contentType === 'content' && 'bg-black'
+              'p-2U ease flex h-fit w-full cursor-pointer justify-center rounded-[10px] border border-white/25 font-bold text-white backdrop-blur-xl transition-all duration-300 hover:bg-black',
+              contentType === 'content' ? 'bg-black' : 'bg-black/70'
             )}
             onClick={() => {
               setContentType('content');
@@ -49,8 +49,8 @@ export const OriginalContentPage = () => {
           </div>
           <div
             className={cx(
-              'p-2U ease flex h-fit w-full cursor-pointer justify-center rounded-[10px] border border-white/25 bg-black/70 font-bold text-white backdrop-blur-xl transition-all duration-300 hover:bg-black',
-              contentType === 'draft' && 'bg-black'
+              'p-2U ease flex h-fit w-full cursor-pointer justify-center rounded-[10px] border border-white/25 font-bold text-white backdrop-blur-xl transition-all duration-300 hover:bg-black',
+              contentType === 'draft' ? 'bg-black' : 'bg-black/70'
             )}
             onClick={() => {
               setContentType('draft');

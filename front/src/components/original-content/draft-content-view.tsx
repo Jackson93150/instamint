@@ -34,13 +34,14 @@ export const DraftContentView = ({ isContent, minterDraft }: Props) => {
       {isContent ? (
         <ImageList variant="masonry" cols={isMobile ? 2 : 4} gap={8}>
           {minterDraft.map((item) => (
-            <ImageListItem key={item.content.url} className="group cursor-pointer">
+            <ImageListItem key={item.content.url} className="group cursor-pointer overflow-hidden">
               {item.content.type.startsWith('audio/') ? (
                 <img
                   src={Music}
                   alt={item.content.url}
                   loading="lazy"
                   onClick={() => handleClick(item.content.url, 'audio', item.id, item)}
+                  className="ease transition-all duration-500 group-hover:scale-110"
                 />
               ) : item.content.type.startsWith('video/') ? (
                 <video
@@ -48,6 +49,7 @@ export const DraftContentView = ({ isContent, minterDraft }: Props) => {
                   onMouseEnter={(e) => handleVideoHover(e.currentTarget)}
                   onMouseLeave={(e) => handleVideoLeave(e.currentTarget)}
                   onClick={() => handleClick(item.content.url, 'video', item.id, item)}
+                  className="ease transition-all duration-500 group-hover:scale-110"
                 >
                   <source src={`${item.content.url}`} type={item.content.type} />
                 </video>
@@ -57,6 +59,7 @@ export const DraftContentView = ({ isContent, minterDraft }: Props) => {
                   alt={item.content.url}
                   loading="lazy"
                   onClick={() => handleClick(item.content.url, 'image', item.id, item)}
+                  className="ease transition-all duration-500 group-hover:scale-110"
                 />
               )}
             </ImageListItem>
