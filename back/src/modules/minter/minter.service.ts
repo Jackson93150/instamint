@@ -1,7 +1,9 @@
 import { Injectable } from '@nestjs/common';
+import { Cron, CronExpression } from '@nestjs/schedule';
 import { InjectRepository } from '@nestjs/typeorm';
 import * as bcrypt from 'bcrypt';
-import { Repository } from 'typeorm';
+import { DeletedMinter } from 'src/models/deleted-Minter.entity';
+import { LessThan, Repository } from 'typeorm';
 
 import { EMAIL_REGEX, PASSWORD_REGEX, UNIQUE_URL_REGEX } from '../../constants';
 import { MinterEntity } from '../../models';
@@ -11,6 +13,9 @@ export class MinterService {
   constructor(
     @InjectRepository(MinterEntity)
     private readonly minterRepository: Repository<MinterEntity>,
+
+    @InjectRepository(DeletedMinter)
+    private readonly deletedMinterRepository: Repository<DeletedMinter>,
   ) {}
 
   async createMinter(minter: MinterEntity): Promise<MinterEntity> {
@@ -85,10 +90,33 @@ export class MinterService {
       if (!minter) {
         throw new Error('Minter not found!');
       }
-      await this.minterRepository.remove(minter);
+      const deletedMinter = new DeletedMinter();
+      deletedMinter.minterId = id;
+      await this.deletedMinterRepository.save(deletedMinter);
     } catch (error) {
       console.error('Failed to delete minter:', error);
       throw error;
     }
+  }
+
+  @Cron(CronExpression.EVERY_DAY_AT_MIDNIGHT)
+  async removeOldMinters() {
+    const sixMonthsAgo = new Date();
+    sixMonthsAgo.setMonth(sixMonthsAgo.getMonth() - 6);
+
+    const deleteOperations = await this.deletedMinterRepository.find({
+      where: {
+        deletedAt: LessThan(sixMonthsAgo),
+      },
+    });
+
+    for (const operation of deleteOperations) {
+      this.minterRepository.delete(operation.minterId);
+      this.deletedMinterRepository.delete(operation.id);
+    }
+  }
+
+  async getMinterById(id: number): Promise<MinterEntity | undefined> {
+    return this.minterRepository.findOne({ where: { id } });
   }
 }

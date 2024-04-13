@@ -1,8 +1,10 @@
-import { NotFoundException, UnauthorizedException } from '@nestjs/common';
+import { NotFoundException } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
 import { Test, TestingModule } from '@nestjs/testing';
+import { getRepositoryToken } from '@nestjs/typeorm';
 import * as bcrypt from 'bcrypt';
-import { MinterEntity } from 'src/models';
+import { DeletedMinter, MinterEntity } from 'src/models';
+import { Repository } from 'typeorm';
 
 import { AuthService } from './auth.service';
 import { MinterService } from '../minter/minter.service';
@@ -10,6 +12,7 @@ import { MinterService } from '../minter/minter.service';
 describe('AuthService', () => {
   let service: AuthService;
   let minterService: MinterService;
+  let deletedMinterRepository: Repository<DeletedMinter>;
 
   beforeEach(async () => {
     const module: TestingModule = await Test.createTestingModule({
@@ -18,13 +21,20 @@ describe('AuthService', () => {
         {
           provide: JwtService,
           useValue: {
-            sign: jest.fn(() => 'mockedToken'),
+            sign: jest.fn().mockReturnValue('mockedToken'),
           },
         },
         {
           provide: MinterService,
           useValue: {
             getMinterByEmail: jest.fn(),
+            getMinterByEmailAndId: jest.fn(),
+          },
+        },
+        {
+          provide: getRepositoryToken(DeletedMinter),
+          useValue: {
+            findOne: jest.fn(),
           },
         },
       ],
@@ -32,6 +42,7 @@ describe('AuthService', () => {
 
     service = module.get<AuthService>(AuthService);
     minterService = module.get<MinterService>(MinterService);
+    deletedMinterRepository = module.get(getRepositoryToken(DeletedMinter));
   });
 
   it('should be defined', () => {
@@ -39,19 +50,14 @@ describe('AuthService', () => {
   });
 
   describe('login', () => {
-    it('should throw NotFoundException if minter not found', async () => {
-      jest.spyOn(minterService, 'getMinterByEmail').mockResolvedValueOnce(null);
+    it('should throw NotFoundException if minter is deleted', async () => {
+      const email = 'test@example.com';
+      const password = 'password123';
 
-      await expect(
-        service.login('test@example.com', 'password'),
-      ).rejects.toThrowError(NotFoundException);
-    });
-
-    it('should throw UnauthorizedException if password is invalid', async () => {
       const minter: MinterEntity = {
         username: 'testuser',
-        email: 'test@example.com',
-        password: await bcrypt.hash('correctPassword', 10),
+        email: email,
+        password: await bcrypt.hash(password, 10),
         id: 1,
         phone: null,
         bio: null,
@@ -65,20 +71,25 @@ describe('AuthService', () => {
         isValidate: false,
         contents: null,
       };
-      jest
-        .spyOn(minterService, 'getMinterByEmail')
-        .mockResolvedValueOnce(minter);
 
-      await expect(
-        service.login('test@example.com', 'incorrectPassword'),
-      ).rejects.toThrowError(UnauthorizedException);
+      jest.spyOn(minterService, 'getMinterByEmail').mockResolvedValue(minter);
+      jest
+        .spyOn(deletedMinterRepository, 'findOne')
+        .mockResolvedValue(new DeletedMinter());
+
+      await expect(service.login(email, password)).rejects.toThrow(
+        NotFoundException,
+      );
     });
 
-    it('should return access token if email and password are correct', async () => {
+    it('should return access token if email and password are correct and minter is not deleted', async () => {
+      const email = 'test@example.com';
+      const password = 'password123';
+
       const minter: MinterEntity = {
         username: 'testuser',
-        email: 'test@example.com',
-        password: await bcrypt.hash('correctPassword', 10),
+        email: email,
+        password: await bcrypt.hash(password, 10),
         id: 1,
         phone: null,
         bio: null,
@@ -92,13 +103,13 @@ describe('AuthService', () => {
         isValidate: false,
         contents: null,
       };
-      jest
-        .spyOn(minterService, 'getMinterByEmail')
-        .mockResolvedValueOnce(minter);
 
-      const result = await service.login('test@example.com', 'correctPassword');
+      jest.spyOn(minterService, 'getMinterByEmail').mockResolvedValue(minter);
+      jest.spyOn(deletedMinterRepository, 'findOne').mockResolvedValue(null);
 
-      expect(result.accessToken).toEqual('mockedToken');
+      const result = await service.login(email, password);
+
+      expect(result).toEqual({ accessToken: 'mockedToken' });
     });
   });
 });
