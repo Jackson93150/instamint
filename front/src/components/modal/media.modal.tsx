@@ -18,7 +18,7 @@ export const MediaModal = ({ refreshData }: Props) => {
   const [file, setFile] = useState<File | null>(null);
   const [previewURL, setPreviewURL] = useState<string | ArrayBuffer | null>(null);
   const { closeModal } = useModal();
-  const { toggleModal } = useAlert();
+  const { toggleAlert } = useAlert();
 
   const handleFileChange = (e: ChangeEvent<HTMLInputElement>) => {
     const selectedFile = e.target.files![0];
@@ -32,7 +32,7 @@ export const MediaModal = ({ refreshData }: Props) => {
       };
       reader.readAsDataURL(selectedFile);
     } else {
-      toggleModal({
+      toggleAlert({
         alertType: 'error',
         content: 'We only support png, webp, ogg, flac and mp4 files.',
       });
@@ -53,7 +53,7 @@ export const MediaModal = ({ refreshData }: Props) => {
       try {
         await createContent(content);
         setIsLoading(false);
-        toggleModal({
+        toggleAlert({
           alertType: 'success',
           content: 'Your content as been uploaded.',
         });
@@ -61,7 +61,7 @@ export const MediaModal = ({ refreshData }: Props) => {
         closeModal();
       } catch (error) {
         setIsLoading(false);
-        toggleModal({
+        toggleAlert({
           alertType: 'error',
           content: 'Your content is already uploaded on our platform.',
         });

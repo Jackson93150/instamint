@@ -7,7 +7,7 @@ export interface ToggleAlertArgs {
 }
 
 export type AlertContextProps = {
-  toggleModal: Dispatch<ToggleAlertArgs>;
+  toggleAlert: Dispatch<ToggleAlertArgs>;
 };
 
 const AlertContext = createContext<AlertContextProps | undefined>(undefined);
@@ -24,7 +24,7 @@ export const AlertProvider = ({ children }: PropsWithChildren) => {
     }, 5000);
   };
 
-  const toggleModal = (args: ToggleAlertArgs) => {
+  const toggleAlert = (args: ToggleAlertArgs) => {
     const { alertType, content } = args;
 
     setContent(content);
@@ -35,7 +35,7 @@ export const AlertProvider = ({ children }: PropsWithChildren) => {
   return (
     <AlertContext.Provider
       value={{
-        toggleModal: (args) => toggleModal(args as ToggleAlertArgs),
+        toggleAlert: (args) => toggleAlert(args as ToggleAlertArgs),
       }}
     >
       {isOpen && (

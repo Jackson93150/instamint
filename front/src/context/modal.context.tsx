@@ -72,7 +72,7 @@ export const ModalProvider = <T extends keyof ModalDataMap>({ children }: PropsW
     >
       <span className="gsapModalBlur left-O z-navbar fixed top-0 hidden h-screen w-full bg-black/30 backdrop-blur-[15px]" />
       <div className="gsapModal z-modal fixed inset-0 hidden items-center justify-center">
-        <div className="px-5U py-5U relative rounded-[10px] border border-white/25 bg-black/70 backdrop-blur-[15px]">
+        <div className="p-6U relative rounded-[10px] border border-white/25 bg-black/70 backdrop-blur-[15px]">
           <Close className="top-2U right-2U size-3U absolute cursor-pointer" onClick={() => closeModal()} />
           {isOpen && <Modal modalType={modalType} data={data} closeModal={closeModal} />}
         </div>

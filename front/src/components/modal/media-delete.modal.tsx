@@ -8,19 +8,19 @@ interface Props {
 }
 
 export const MediaDeleteModal = ({ name, refreshData }: Props) => {
-  const { toggleModal } = useAlert();
+  const { toggleAlert } = useAlert();
   const { closeModal } = useModal();
   const handleSubmit = async () => {
     try {
       await deleteContent(name);
-      toggleModal({
+      toggleAlert({
         alertType: 'success',
         content: 'Your content as been deleted.',
       });
       refreshData && refreshData(name);
       closeModal();
     } catch (error) {
-      toggleModal({
+      toggleAlert({
         alertType: 'error',
         content: error as string,
       });
