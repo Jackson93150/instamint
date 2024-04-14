@@ -157,6 +157,7 @@ describe('MinterService', () => {
         createdAt: undefined,
         updatedAt: undefined,
         isValidate: false,
+        drafts: null,
       };
       const deletedMinter = {
         id: 123,
