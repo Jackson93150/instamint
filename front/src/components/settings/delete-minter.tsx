@@ -6,18 +6,18 @@ import { Button } from '@/ui';
 
 const DeleteMinterComponent = () => {
   const navigate = useNavigate();
-  const { toggleModal } = useAlert();
+  const { toggleAlert } = useAlert();
 
   const handleDeleteMinter = async () => {
     try {
       await deleteMinter();
-      toggleModal({
+      toggleAlert({
         alertType: 'success',
         content: 'Your account has been successfully deleted.',
       });
       navigate('/login');
     } catch (error) {
-      toggleModal({
+      toggleAlert({
         alertType: 'error',
         content: 'There was an error deleting your account. Please try again.',
       });
