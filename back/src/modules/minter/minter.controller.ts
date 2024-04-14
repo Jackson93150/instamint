@@ -56,4 +56,13 @@ export class MinterController {
       throw new Error('Autorization required to delete this account !');
     }
   }
+
+  @Put('username')
+  @UseGuards(AuthGuard('jwt'))
+  async updateUsername(
+    @Req() req: any,
+    @Body('username') newUsername: string,
+  ): Promise<void> {
+    await this.minterService.updateUsername(req.user.id, newUsername);
+  }
 }

@@ -5,7 +5,12 @@ import * as bcrypt from 'bcrypt';
 import { DeletedMinter } from 'src/models/deleted-Minter.entity';
 import { LessThan, Repository } from 'typeorm';
 
-import { EMAIL_REGEX, PASSWORD_REGEX, UNIQUE_URL_REGEX } from '../../constants';
+import {
+  EMAIL_REGEX,
+  PASSWORD_REGEX,
+  UNIQUE_URL_REGEX,
+  USERNAME_REGEX,
+} from '../../constants';
 import { MinterEntity } from '../../models';
 
 @Injectable()
@@ -134,5 +139,19 @@ export class MinterService {
 
   async getMinterById(id: number): Promise<MinterEntity | undefined> {
     return this.minterRepository.findOne({ where: { id } });
+  }
+
+  async updateUsername(id: number, username: string): Promise<void> {
+    if (!USERNAME_REGEX.test(username)) {
+      throw new Error('Unique URL must be in a valid format.');
+    }
+    const existingMinter = await this.minterRepository.findOne({
+      where: {
+        username,
+      },
+    });
+    if (!existingMinter) {
+      await this.minterRepository.update(id, { username });
+    }
   }
 }
