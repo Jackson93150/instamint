@@ -26,3 +26,13 @@ export const deleteMinter = async () => {
     withCredentials: true,
   });
 };
+
+interface MinterChangeUsername {
+  username: string;
+}
+
+export const updateUsername = async (data: MinterChangeUsername) => {
+  await axios.put(`${import.meta.env.VITE_BACKEND_URL}/minter/username`, data, {
+    withCredentials: true,
+  });
+};

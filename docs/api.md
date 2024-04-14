@@ -56,6 +56,19 @@ This route allows deleting a minter's profile.
   |-------------|---------|----------------------------------------------------------------|
   |    ---      |   --    |                     -----------                                |
 
+### Update Username
+
+This route allows updating the username for a minter's profile.
+
+- **URL:** `/minter/username`
+- **Method:** `PUT`
+- **Request Body:**
+- **Authentication:** Requires a valid JWT token in the request headers.
+
+  | Parameter   | Type    | Description                                                    |
+  |-------------|---------|----------------------------------------------------------------|
+  | `username`  | string  | The new sername to be associated with the minter's profile.    |
+
 
 ## Authentication
 
