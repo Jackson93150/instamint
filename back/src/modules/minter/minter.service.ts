@@ -58,7 +58,17 @@ export class MinterService {
   }
 
   async getMinterByEmail(email: string): Promise<MinterEntity | undefined> {
-    return this.minterRepository.findOne({ where: { email } });
+    const minters = await this.minterRepository.find({ where: { email } });
+    for (const minter of minters) {
+      const isDeleted = await this.deletedMinterRepository.findOne({
+        where: { minterId: minter.id },
+      });
+      if (!isDeleted) {
+        return minter;
+      }
+    }
+
+    return undefined;
   }
 
   async getMinterByEmailAndId(
