@@ -4,7 +4,10 @@ import {
   UnauthorizedException,
 } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
+import { InjectRepository } from '@nestjs/typeorm';
 import * as bcrypt from 'bcrypt';
+import { DeletedMinter } from 'src/models';
+import { Repository } from 'typeorm';
 
 import { MinterService } from '../minter/minter.service';
 
@@ -15,6 +18,8 @@ export class AuthService {
   constructor(
     private readonly jwtService: JwtService,
     private readonly minterService: MinterService,
+    @InjectRepository(DeletedMinter)
+    private readonly deletedMinterRepository: Repository<DeletedMinter>,
   ) {}
 
   async validateUser(email: string, minterId: number): Promise<MinterEntity> {
@@ -32,7 +37,11 @@ export class AuthService {
     password: string,
   ): Promise<{ accessToken: string }> {
     const minter = await this.minterService.getMinterByEmail(email);
-    if (!minter) {
+    const id = minter.id;
+    const deletedMinter = await this.deletedMinterRepository.findOne({
+      where: { id },
+    });
+    if (!minter || deletedMinter) {
       throw new NotFoundException('Minter not found');
     }
 

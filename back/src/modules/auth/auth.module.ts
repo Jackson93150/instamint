@@ -2,6 +2,8 @@ import { Module } from '@nestjs/common';
 import { ConfigModule } from '@nestjs/config';
 import { JwtModule } from '@nestjs/jwt';
 import { PassportModule } from '@nestjs/passport';
+import { TypeOrmModule } from '@nestjs/typeorm';
+import { DeletedMinter } from 'src/models';
 
 import { AuthController } from './auth.controller';
 import { AuthService } from './auth.service';
@@ -18,6 +20,7 @@ import { MinterModule } from '../minter/minter.module';
       signOptions: { expiresIn: process.env.JWT_EXPIRE },
     }),
     MinterModule,
+    TypeOrmModule.forFeature([DeletedMinter]),
   ],
   controllers: [AuthController],
   providers: [AuthService, JwtStrategy, EmailVerificationGuard],

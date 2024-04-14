@@ -1,5 +1,6 @@
 import { Module } from '@nestjs/common';
 import { ConfigModule } from '@nestjs/config';
+import { ScheduleModule } from '@nestjs/schedule';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { MailerModule } from '@nestjs-modules/mailer';
 
@@ -29,6 +30,7 @@ import { MailModule } from './modules/mail/mail.module';
         transport: process.env.SMTP,
       }),
     }),
+    ScheduleModule.forRoot(),
     MinterModule,
     AuthModule,
     MailModule,

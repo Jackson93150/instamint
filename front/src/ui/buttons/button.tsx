@@ -2,7 +2,7 @@ import cx from 'classnames';
 
 interface Props {
   size?: 'small' | 'regular' | 'large';
-  color: 'green' | 'gray' | 'transparent';
+  color: 'green' | 'gray' | 'transparent' | 'red';
   content?: string;
   className?: string;
   fullWidth?: boolean;
@@ -21,6 +21,7 @@ export const Button = ({ size = 'regular', color, content, className, fullWidth,
     'bg-green-300 border-1/4U border-green-400 text-white hover:border-green-200': color === 'green',
     'bg-transparent border-1/2U border-green-400 text-green-400 hover:border-green-300 hover:text-green-300':
       color === 'transparent',
+    'bg-red-500 border-1/4U border-red-600 text-white hover:border-red-300': color === 'red',
   });
 
   const buttonClassName = cx(
