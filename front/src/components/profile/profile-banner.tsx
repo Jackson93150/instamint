@@ -1,11 +1,27 @@
+import { useEffect, useState } from 'react';
+
 import ProfilePicture from '@/assets/icons/pp.svg?react';
-import { MinterInterface } from '@/interfaces';
+import { FollowInterface, MinterInterface } from '@/interfaces';
+import { getFollowed, getFollowers } from '@/services';
+import { formatThousand } from '@/utils';
 
 interface Props {
   minter: MinterInterface;
 }
 
 export const ProfileBanner = ({ minter }: Props) => {
+  const [followers, setFollowers] = useState<FollowInterface[]>([]);
+  const [followed, setFollowed] = useState<FollowInterface[]>([]);
+
+  useEffect(() => {
+    const fetchData = async () => {
+      const allFollowers = await getFollowers(minter.id);
+      const allFollowed = await getFollowed(minter.id);
+      setFollowers(allFollowers);
+      setFollowed(allFollowed);
+    };
+    fetchData();
+  });
   return (
     minter && (
       <div className="relative z-10 h-[35vh] w-full">
@@ -28,11 +44,11 @@ export const ProfileBanner = ({ minter }: Props) => {
             <div className="ml-1U flex items-center">
               <div className="gap-1U pr-4U flex flex-col border-r">
                 <span className="text-heading leading-none text-white">Followers</span>
-                <span className="text-subheading leading-none text-white">234K</span>
+                <span className="text-subheading leading-none text-white">{formatThousand(followers.length)}</span>
               </div>
               <div className="gap-1U px-4U flex flex-col border-r">
                 <span className="text-heading leading-none text-white">Followed</span>
-                <span className="text-subheading leading-none text-white">52</span>
+                <span className="text-subheading leading-none text-white">{formatThousand(followed.length)}</span>
               </div>
               <div className="gap-1U pl-4U flex flex-col">
                 <span className="text-heading leading-none text-white">NFT</span>

@@ -19,13 +19,15 @@ export const MinterNftCard = ({ name, username, url, price, mint, unmint }: Prop
         <img
           className="ease size-full cursor-pointer object-cover transition-all duration-500 group-hover:scale-110"
           src={url}
-          alt="banner"
+          alt="nft"
         />
       </div>
       <div className="h-20U px-3U py-2U relative flex w-full justify-between overflow-hidden rounded-[10px] border border-white/25 bg-black/25 backdrop-blur-[25px]">
         <div className="gap-2U flex flex-col">
           <div className="gap-1U flex flex-col">
-            <span className="text-[16px] font-bold leading-none text-white">{name}</span>
+            <div className="flex">
+              <span className="w-[200px] truncate text-[16px] font-bold leading-none text-white">{name}</span>
+            </div>
             <span className="text-small leading-none text-white">{username}</span>
           </div>
           <div className="gap-1U flex items-center">
@@ -33,7 +35,7 @@ export const MinterNftCard = ({ name, username, url, price, mint, unmint }: Prop
             <span className="text-heading leading-none text-white">{price}</span>
           </div>
         </div>
-        <div className="gap-1U mt-[-2px] flex">
+        <div className="gap-1U mt-[-2px] flex shrink-0">
           <div className="px-1.5U gap-1U flex size-fit cursor-pointer items-center rounded-[10px] border border-white/25 bg-black/25 py-[2px] backdrop-blur-[25px]">
             <span className="text-small text-white">{mint}</span>
             <img className="h-[10px]" src={MintLogo} alt="mint" />
