@@ -24,6 +24,7 @@ function App() {
           <Route path="/content" element={<OriginalContentPage />} />
           <Route path="/settings" element={<SettingsPage />} />
           <Route path="/me" element={<ProfilePage />} />
+          <Route path="/minter/:uniqueUrl" element={<ProfilePage />} />
         </Routes>
       </Layout>
     </Suspense>

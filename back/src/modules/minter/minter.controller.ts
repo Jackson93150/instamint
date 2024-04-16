@@ -6,6 +6,8 @@ import {
   UseGuards,
   Body,
   Delete,
+  Get,
+  Param,
 } from '@nestjs/common';
 import { AuthGuard } from '@nestjs/passport';
 
@@ -35,6 +37,13 @@ export class MinterController {
       );
     }
     await this.minterService.updateProfileVisibility(id, isPrivate);
+  }
+
+  @Get('url/:uniqueUrl')
+  async findMinterByUrl(
+    @Param('uniqueUrl') uniqueUrl: string,
+  ): Promise<MinterEntity | undefined> {
+    return await this.minterService.getMinterByUrl(uniqueUrl);
   }
 
   @Put('unique-url')
