@@ -74,4 +74,13 @@ export class MinterController {
   ): Promise<void> {
     await this.minterService.updateUsername(req.user.id, newUsername);
   }
+
+  @Put('pictureUrl')
+  @UseGuards(AuthGuard('jwt'))
+  async updatePicture(
+    @Req() req: any,
+    @Body('pictureUrl') pictureUrl: string,
+  ): Promise<void> {
+    await this.minterService.updatePictureUrl(req.user.id, pictureUrl);
+  }
 }
