@@ -33,6 +33,9 @@ export class MinterEntity {
   pictureUrl: string;
 
   @Column({ nullable: true })
+  bannerUrl: string;
+
+  @Column({ nullable: true })
   uniqueUrl: string;
 
   @Column({ default: false })
