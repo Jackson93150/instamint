@@ -3,3 +3,4 @@ export * from './api/auth';
 export * from './api/mail';
 export * from './api/content';
 export * from './api/draft';
+export * from './api/follow';

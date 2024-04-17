@@ -2,7 +2,15 @@ import { Suspense } from 'react';
 import { Route, Routes } from 'react-router-dom';
 
 import { Layout, Loading } from './components';
-import { HomePage, RegistrationPage, LoginPage, SettingsPage, ConfirmationPage, OriginalContentPage } from '@/pages';
+import {
+  HomePage,
+  RegistrationPage,
+  LoginPage,
+  SettingsPage,
+  ConfirmationPage,
+  OriginalContentPage,
+  ProfilePage,
+} from '@/pages';
 
 function App() {
   return (
@@ -15,6 +23,8 @@ function App() {
           <Route path="/confirm" element={<ConfirmationPage />} />
           <Route path="/content" element={<OriginalContentPage />} />
           <Route path="/settings" element={<SettingsPage />} />
+          <Route path="/me" element={<ProfilePage />} />
+          <Route path="/minter/:uniqueUrl" element={<ProfilePage />} />
         </Routes>
       </Layout>
     </Suspense>

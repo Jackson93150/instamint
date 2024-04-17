@@ -83,6 +83,10 @@ export class MinterService {
     return this.minterRepository.findOne({ where: { email, id } });
   }
 
+  async getMinterByUrl(uniqueUrl: string): Promise<MinterEntity | undefined> {
+    return this.minterRepository.findOne({ where: { uniqueUrl } });
+  }
+
   async validateMinter(id: number): Promise<void> {
     await this.minterRepository.update({ id }, { isValidate: true });
   }

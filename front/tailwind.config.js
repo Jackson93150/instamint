@@ -53,7 +53,11 @@ export default {
           },
         ],
       },
+      gridTemplateColumns: {
+        nft: 'repeat(auto-fill)',
+      },
       screens: {
+        'desktop-l': '1800px',
         desktop: '1440px',
         'desktop-s': '1280px',
         'tablet-l': '1024px',
@@ -88,10 +92,11 @@ export default {
       },
       backgroundImage: {
         'gray-gradient': 'linear-gradient(0deg, #afafaf, #fff)',
+        'green-card-gradient': 'linear-gradient(180deg, rgba(85, 255, 153, 0.45), rgba(51, 153, 92, 0.15))',
         'green-gradient': 'linear-gradient(180deg, #27ab5c, #16502d)',
-        'green-bg-gradient': 'linear-gradient(0deg, #151D20, #0f1a13)',
-        'rainbow-gradient':
-          'radial-gradient(circle at -15% 107%, #fdf497 0%, #fdf497 5%, #fd5949 45%,#d6249f 60%,#285AEB 90%);',
+        'green-bio-gradient': 'linear-gradient(180deg, rgba(39, 171, 92, 0.2), rgba(22, 80, 45, 0.2))',
+        'green-bg-gradient': 'linear-gradient(0deg, #0f1314, #0f1a13)',
+        'black-gradient': 'linear-gradient(0deg, #151D20, #000)',
       },
       zIndex: {
         ray: '90',

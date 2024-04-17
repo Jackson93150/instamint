@@ -9,6 +9,7 @@ import { MinterModule } from './modules';
 import { AuthModule } from './modules/auth/auth.module';
 import { ContentModule } from './modules/content/content.module';
 import { DraftModule } from './modules/draft/draft.module';
+import { FollowModule } from './modules/follow/follow.module';
 import { MailModule } from './modules/mail/mail.module';
 
 @Module({
@@ -37,6 +38,7 @@ import { MailModule } from './modules/mail/mail.module';
     MailModule,
     ContentModule,
     DraftModule,
+    FollowModule,
   ],
   controllers: [AppController],
 })
