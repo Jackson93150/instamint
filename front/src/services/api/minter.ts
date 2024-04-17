@@ -55,3 +55,13 @@ export const updatePicture = async (data: MinterChangePicture) => {
     withCredentials: true,
   });
 };
+
+interface MinterChangeBanner {
+  bannerUrl: string;
+}
+
+export const updateBanner = async (data: MinterChangeBanner) => {
+  await axios.put(`${import.meta.env.VITE_BACKEND_URL}/minter/bannerUrl`, data, {
+    withCredentials: true,
+  });
+};
