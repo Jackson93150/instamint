@@ -27,6 +27,11 @@ export const ProfilePage = () => {
   return (
     <div className="gap-5U pb-10U bg-black-gradient flex h-fit min-h-screen w-full flex-col">
       <ProfileBanner minter={minter!} />
+      {minter?.bio && (
+        <div className="p-2U bg-green-bio-gradient tablet-l:hidden ml-[5vw] flex w-[90vw] rounded-[10px] border border-white/25 backdrop-blur-2xl">
+          <p className="text-[12px] text-white">{minter.bio}</p>
+        </div>
+      )}
       <div className="px-8U z-10 block w-full">
         <div className="gap-y-5U gap-x-1U tablet:grid-cols-2 tablet-l:grid-cols-3 desktop:grid-cols-4 desktop-l:grid-cols-5 grid justify-center">
           {NFT.map((nft, key) => (

@@ -3,16 +3,17 @@ import LinearProgress from '@mui/material/LinearProgress';
 import { ChangeEvent, useState } from 'react';
 
 import { useAlert, useModal } from '@/context';
-import { createContent, connectedMinter, uploadFirebase } from '@/services';
+import { createContent, connectedMinter, uploadFirebase, updatePicture, updateBanner } from '@/services';
 import { Button } from '@/ui';
 
 const allowedFileTypes = ['image/png', 'image/webp', 'audio/ogg', 'audio/flac', 'video/mp4'];
 
 interface Props {
   refreshData?: React.Dispatch<React.SetStateAction<string>>;
+  type?: 'all' | 'picture' | 'banner';
 }
 
-export const MediaModal = ({ refreshData }: Props) => {
+export const MediaModal = ({ refreshData, type = 'all' }: Props) => {
   const [name, setName] = useState('');
   const [isLoading, setIsLoading] = useState(false);
   const [file, setFile] = useState<File | null>(null);
@@ -22,7 +23,10 @@ export const MediaModal = ({ refreshData }: Props) => {
 
   const handleFileChange = (e: ChangeEvent<HTMLInputElement>) => {
     const selectedFile = e.target.files![0];
-    if (selectedFile && allowedFileTypes.includes(selectedFile.type)) {
+    if (
+      selectedFile &&
+      (type === 'all' ? allowedFileTypes.includes(selectedFile.type) : selectedFile.type === 'image/png')
+    ) {
       setFile(selectedFile);
       setName(selectedFile.name);
 
@@ -34,13 +38,13 @@ export const MediaModal = ({ refreshData }: Props) => {
     } else {
       toggleAlert({
         alertType: 'error',
-        content: 'We only support png, webp, ogg, flac and mp4 files.',
+        content: type === 'all' ? 'We only support png, webp, ogg, flac and mp4 files.' : 'We only support png.',
       });
     }
   };
 
   const handleSubmit = async () => {
-    if (file) {
+    if (file && type === 'all') {
       setIsLoading(true);
       const fileUrl = await uploadFirebase(file);
       const minter = await connectedMinter();
@@ -67,20 +71,59 @@ export const MediaModal = ({ refreshData }: Props) => {
         });
         closeModal();
       }
+    } else if (file) {
+      setIsLoading(true);
+      const fileUrl = await uploadFirebase(file);
+      try {
+        if (type === 'banner') {
+          const content = {
+            bannerUrl: fileUrl,
+          };
+          await updateBanner(content);
+          setIsLoading(false);
+          toggleAlert({
+            alertType: 'success',
+            content: 'Your banner as been uploaded.',
+          });
+        } else {
+          const content = {
+            pictureUrl: fileUrl,
+          };
+          await updatePicture(content);
+          setIsLoading(false);
+          toggleAlert({
+            alertType: 'success',
+            content: 'Your profile picture as been uploaded.',
+          });
+        }
+        refreshData && refreshData(fileUrl);
+        closeModal();
+      } catch (error) {
+        setIsLoading(false);
+        toggleAlert({
+          alertType: 'error',
+          content: error as string,
+        });
+        closeModal();
+      }
     }
   };
 
   return (
     <div className="flex flex-col gap-2">
-      <label className="text-body text-white/50">Name</label>
-      <input
-        type="text"
-        name="name"
-        className="p-1U rounded-[4px] bg-white/90 outline-none backdrop-blur-[10px]"
-        value={name}
-        onChange={(e) => setName(e.target.value)}
-        required
-      />
+      {type === 'all' && (
+        <>
+          <label className="text-body text-white/50">Name</label>
+          <input
+            type="text"
+            name="name"
+            className="p-1U rounded-[4px] bg-white/90 outline-none backdrop-blur-[10px]"
+            value={name}
+            onChange={(e) => setName(e.target.value)}
+            required
+          />
+        </>
+      )}
       {isLoading && <LinearProgress color="success" />}
       <div className="gap-5U mobile:w-[40vw] flex w-[80vw] flex-col items-center justify-center">
         <label

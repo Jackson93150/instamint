@@ -45,3 +45,23 @@ export const updateUsername = async (data: MinterChangeUsername) => {
     withCredentials: true,
   });
 };
+
+interface MinterChangePicture {
+  pictureUrl: string;
+}
+
+export const updatePicture = async (data: MinterChangePicture) => {
+  await axios.put(`${import.meta.env.VITE_BACKEND_URL}/minter/pictureUrl`, data, {
+    withCredentials: true,
+  });
+};
+
+interface MinterChangeBanner {
+  bannerUrl: string;
+}
+
+export const updateBanner = async (data: MinterChangeBanner) => {
+  await axios.put(`${import.meta.env.VITE_BACKEND_URL}/minter/bannerUrl`, data, {
+    withCredentials: true,
+  });
+};

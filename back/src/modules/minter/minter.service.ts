@@ -158,4 +158,12 @@ export class MinterService {
       await this.minterRepository.update(id, { username });
     }
   }
+
+  async updatePictureUrl(id: number, pictureUrl: string): Promise<void> {
+    await this.minterRepository.update(id, { pictureUrl });
+  }
+
+  async updateBannerUrl(id: number, bannerUrl: string): Promise<void> {
+    await this.minterRepository.update(id, { bannerUrl });
+  }
 }

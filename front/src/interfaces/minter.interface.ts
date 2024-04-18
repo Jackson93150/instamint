@@ -6,6 +6,7 @@ export interface MinterInterface {
   phone?: string | null;
   bio?: string | null;
   pictureUrl?: string | null;
+  bannerUrl?: string | null;
   uniqueUrl?: string | null;
   isPrivate: boolean;
   isValidate: boolean;
