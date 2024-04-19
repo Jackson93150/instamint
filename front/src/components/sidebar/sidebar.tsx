@@ -9,14 +9,14 @@ import { useContext } from 'react';
 import { NavItem } from './nav-item';
 import Close from '@/assets/icons/close.svg?react';
 import { SidebarContext } from '@/context';
-import { Button } from '@/ui';
+import { WalletConnectButton } from '@/ui/buttons/wallet-button';
 
 export const Sidebar = () => {
   const sidebarContext = useContext(SidebarContext);
   const minterData = sidebarContext.minterData;
 
   return (
-    <div className="gsapSidebar z-sidebar py-10U px-5U gap-10U mobile:w-[450px] fixed right-0 top-0 flex h-screen w-full translate-x-full flex-col bg-green-100">
+    <div className="gsapSidebar z-sidebar pt-10U pb-5U px-5U gap-10U mobile:w-[450px] fixed right-0 top-0 flex h-screen w-full translate-x-full flex-col bg-green-100">
       <Close
         className="top-5U right-5U size-5U absolute cursor-pointer"
         onClick={() => {
@@ -24,7 +24,15 @@ export const Sidebar = () => {
         }}
       />
       <div className="gap-3U flex h-fit w-full">
-        <div className="size-13U rounded-full bg-green-400" />
+        {minterData && minterData.pictureUrl ? (
+          <img
+            className="size-13U rounded-full object-cover outline-double outline-white/50"
+            src={minterData?.pictureUrl}
+            alt="picture"
+          />
+        ) : (
+          <div className="size-13U rounded-full bg-green-400" />
+        )}
         <div className="flex flex-col justify-center">
           <span className="text-subheading text-white">{minterData?.username}</span>
           <span className="text-body text-white/50">{minterData?.email}</span>
@@ -41,7 +49,7 @@ export const Sidebar = () => {
         </div>
         <div className="gap-5U flex h-fit w-full flex-col items-center justify-center">
           <div className="h-px w-full bg-gradient-to-r from-transparent via-gray-100 to-transparent" />
-          <Button color="green" content="Connect Wallet" fullWidth />
+          <WalletConnectButton />
         </div>
       </div>
     </div>
