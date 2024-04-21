@@ -8,6 +8,7 @@ import {
   Delete,
   Get,
   Param,
+  Query,
 } from '@nestjs/common';
 import { AuthGuard } from '@nestjs/passport';
 
@@ -91,5 +92,11 @@ export class MinterController {
     @Body('bannerUrl') bannerUrl: string,
   ): Promise<void> {
     await this.minterService.updateBannerUrl(req.user.id, bannerUrl);
+  }
+
+  @Get('search')
+  @UseGuards(AuthGuard('jwt'))
+  async searchMinters(@Query('query') query: string): Promise<MinterEntity[]> {
+    return this.minterService.searchMinters(query);
   }
 }

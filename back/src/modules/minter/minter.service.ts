@@ -166,4 +166,18 @@ export class MinterService {
   async updateBannerUrl(id: number, bannerUrl: string): Promise<void> {
     await this.minterRepository.update(id, { bannerUrl });
   }
+
+  async searchMinters(query: string): Promise<MinterEntity[]> {
+    return this.minterRepository
+      .createQueryBuilder('minter')
+      .where('minter.username ILIKE :query', { query: `%${query}%` })
+      .orWhere('minter.email ILIKE :query', { query: `%${query}%` })
+      .orWhere('minter.bio ILIKE :query', { query: `%${query}%` })
+      .andWhere(
+        `NOT EXISTS (
+        SELECT 1 FROM public."deletedMinter" dm WHERE dm."minterId" = minter.id
+        )`,
+      )
+      .getMany();
+  }
 }
