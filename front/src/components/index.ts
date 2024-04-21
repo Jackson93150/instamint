@@ -15,3 +15,4 @@ export * from './original-content/original-content-view';
 export * from './original-content/draft-content-view';
 export * from './profile/profile-banner';
 export * from './profile/minter-nft-card';
+export * from './search/search-bar';
