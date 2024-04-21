@@ -12,9 +12,10 @@ import { formatThousand } from '@/utils';
 
 interface Props {
   minter: MinterInterface;
+  nfts: number;
 }
 
-export const ProfileBanner = ({ minter }: Props) => {
+export const ProfileBanner = ({ minter, nfts }: Props) => {
   const [followers, setFollowers] = useState<FollowInterface[]>([]);
   const [followed, setFollowed] = useState<FollowInterface[]>([]);
   const location = useLocation();
@@ -102,7 +103,7 @@ export const ProfileBanner = ({ minter }: Props) => {
               </div>
               <div className="gap-1U tablet:pl-4U pl-2U flex flex-col">
                 <span className="tablet:text-heading leading-none text-white">NFT</span>
-                <span className="tablet:text-subheading leading-none text-white">412</span>
+                <span className="tablet:text-subheading leading-none text-white">{nfts}</span>
               </div>
             </div>
           </div>

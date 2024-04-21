@@ -8,7 +8,7 @@ import { CountrySelectInput, ModalTextArea, ModalTextInput, TagInput } from './m
 import { NftCardScene } from '../threejs/nft-card';
 import { SidebarContext, useAlert, useModal } from '@/context';
 import { DraftInterface } from '@/interfaces';
-import { createNft } from '@/services/api/nft';
+import { createNft, getTotalNft } from '@/services/api/nft';
 import { Button } from '@/ui';
 
 interface Props {
@@ -45,12 +45,13 @@ export const MediaViewerModal = ({ url, mediaType, content, type = 'content', da
     : [];
 
   const createNFT = async () => {
+    const count = await getTotalNft();
     const tokenId = parseInt(transactionData?.logs[3].data ? transactionData?.logs[3].data : '', 16);
     if (minterData && data && hash && address) {
       await createNft({
         txHash: hash,
         minterAddress: address,
-        name: name,
+        name: `${name} #${count}`,
         url: url,
         type: data.content.type,
         location: location,
@@ -131,18 +132,20 @@ export const MediaViewerModal = ({ url, mediaType, content, type = 'content', da
               })
             }
           />
-          <Button
-            color="green"
-            content="Mint"
-            onClick={() => {
-              if (!address && openConnectModal) {
-                openConnectModal();
-              } else {
-                handleMint({ closeModal, toggleAlert, data, name, description, content, url, writeContract });
-              }
-            }}
-            isDisabled={!name || !description || !location || !hashtags}
-          />
+          {type === 'draft' && (
+            <Button
+              color="green"
+              content="Mint"
+              onClick={() => {
+                if (!address && openConnectModal) {
+                  openConnectModal();
+                } else {
+                  handleMint({ closeModal, toggleAlert, data, name, description, content, url, writeContract });
+                }
+              }}
+              isDisabled={!name || !description || !location || !hashtags}
+            />
+          )}
         </div>
         {(isConfirming || isPending) && <LinearProgress color="success" />}
       </div>

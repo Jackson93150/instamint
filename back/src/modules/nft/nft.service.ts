@@ -11,7 +11,7 @@ export class NftService {
     private readonly nftRepository: Repository<NftEntity>,
   ) {}
 
-  async createDraft(nft: NftEntity): Promise<NftEntity> {
+  async createNft(nft: NftEntity): Promise<NftEntity> {
     const createdNft = await this.nftRepository.save(nft);
     return createdNft;
   }
@@ -19,5 +19,13 @@ export class NftService {
   async getTotalNfts(): Promise<number> {
     const count = await this.nftRepository.count();
     return count === undefined ? 0 : count;
+  }
+
+  async getNftsByMinterAddress(minterAddress: string): Promise<NftEntity[]> {
+    return this.nftRepository.find({ where: { minterAddress } });
+  }
+
+  async getNftsByMinterId(minterId: number): Promise<NftEntity[]> {
+    return this.nftRepository.find({ where: { minter: { id: minterId } } });
   }
 }
