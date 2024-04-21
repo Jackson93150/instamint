@@ -1,4 +1,13 @@
-import { Controller, Post, Body, Get, UseGuards, Req } from '@nestjs/common';
+import {
+  Controller,
+  Post,
+  Body,
+  Get,
+  UseGuards,
+  Req,
+  Put,
+  Param,
+} from '@nestjs/common';
 import { AuthGuard } from '@nestjs/passport';
 
 import { DraftService } from './draft.service';
@@ -20,5 +29,13 @@ export class DraftController {
   async getDraftByMinterId(@Req() req: any): Promise<DraftEntity[]> {
     const drafts = await this.draftService.getDraftByMinterId(req.user.id);
     return drafts;
+  }
+
+  @Put(':id')
+  async updateDraft(
+    @Param('id') id: number,
+    @Body() draftData: Partial<DraftEntity>,
+  ): Promise<DraftEntity> {
+    return await this.draftService.updateDraft(id, draftData);
   }
 }

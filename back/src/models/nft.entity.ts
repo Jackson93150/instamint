@@ -1,21 +1,32 @@
 import { Entity, Column, PrimaryGeneratedColumn, ManyToOne } from 'typeorm';
 
-import { ContentEntity } from './content.entity';
 import { MinterEntity } from './minter.entity';
 
-@Entity({ name: 'draft' })
-export class DraftEntity {
+@Entity({ name: 'nft' })
+export class NftEntity {
   @PrimaryGeneratedColumn()
   id: number;
 
   @Column()
+  txHash: string;
+
+  @Column()
+  tokenId: number;
+
+  @Column()
+  minterAddress: string;
+
+  @Column()
   name: string;
+
+  @Column()
+  url: string;
+
+  @Column()
+  type: string;
 
   @Column({ nullable: true })
   description: string;
-
-  @Column()
-  author: string;
 
   @Column({ nullable: true })
   hashtag: string;
@@ -23,11 +34,14 @@ export class DraftEntity {
   @Column()
   location: string;
 
-  @ManyToOne(() => MinterEntity, (minter) => minter.drafts)
-  minter: MinterEntity;
+  @Column()
+  listed: boolean;
 
-  @ManyToOne(() => ContentEntity, (content) => content.drafts)
-  content: MinterEntity;
+  @Column({ nullable: true })
+  price: number;
+
+  @ManyToOne(() => MinterEntity, (minter) => minter.nft)
+  minter: MinterEntity;
 
   @Column({ type: 'timestamp', default: () => 'CURRENT_TIMESTAMP' })
   createdAt: Date;

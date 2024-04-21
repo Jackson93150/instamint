@@ -3,6 +3,7 @@ import axios from 'axios';
 import { DraftInterface } from '@/interfaces';
 
 export interface Draft {
+  name: string;
   description?: string;
   author: string;
   hashtag?: string;
@@ -22,4 +23,10 @@ export const getDrafts = async () => {
     withCredentials: true,
   });
   return contents.data as DraftInterface[];
+};
+
+export const updateDraft = async (id: number, data: Draft) => {
+  await axios.put(`${import.meta.env.VITE_BACKEND_URL}/draft/${id}`, data, {
+    withCredentials: true,
+  });
 };

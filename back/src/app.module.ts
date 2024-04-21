@@ -11,6 +11,7 @@ import { ContentModule } from './modules/content/content.module';
 import { DraftModule } from './modules/draft/draft.module';
 import { FollowModule } from './modules/follow/follow.module';
 import { MailModule } from './modules/mail/mail.module';
+import { NftModule } from './modules/nft/nft.module';
 
 @Module({
   imports: [
@@ -39,6 +40,7 @@ import { MailModule } from './modules/mail/mail.module';
     ContentModule,
     DraftModule,
     FollowModule,
+    NftModule,
   ],
   controllers: [AppController],
 })

@@ -34,6 +34,7 @@ describe('DraftService', () => {
   it('should create a new draft', async () => {
     const draft: DraftEntity = {
       id: 1,
+      name: 'test',
       description: 'Test description',
       author: 'Test author',
       hashtag: 'Test hashtag',
@@ -55,6 +56,7 @@ describe('DraftService', () => {
     const expectedDrafts: DraftEntity[] = [
       {
         id: 1,
+        name: 'test',
         description: 'Test description 1',
         author: 'Test author 1',
         hashtag: 'Test hashtag 1',
@@ -66,6 +68,7 @@ describe('DraftService', () => {
       },
       {
         id: 2,
+        name: 'test',
         description: 'Test description 2',
         author: 'Test author 2',
         hashtag: 'Test hashtag 2',
