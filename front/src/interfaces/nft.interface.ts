@@ -1,15 +1,19 @@
-import { ContentInterface } from './content.interface';
 import { MinterInterface } from './minter.interface';
 
-export interface DraftInterface {
+export interface NftInterface {
   id: number;
+  txHash: string;
+  tokenId: number;
+  minterAddress: string;
   name: string;
+  url: string;
+  type: string;
   description?: string;
-  author: string;
   hashtag?: string;
   location: string;
+  listed: boolean;
+  price?: number;
   minter: MinterInterface;
-  content: ContentInterface;
   createdAt: Date;
   updatedAt: Date;
 }

@@ -8,6 +8,7 @@ import {
 
 import { ContentEntity } from './content.entity';
 import { DraftEntity } from './draft.entity';
+import { NftEntity } from './nft.entity';
 
 @Entity({ name: 'minter' })
 export class MinterEntity {
@@ -61,6 +62,12 @@ export class MinterEntity {
   })
   @JoinColumn()
   drafts: DraftEntity[] | null;
+
+  @OneToMany(() => NftEntity, (nft) => nft.minter, {
+    nullable: true,
+  })
+  @JoinColumn()
+  nft: NftEntity[] | null;
 
   @Column({ type: 'timestamp', default: () => 'CURRENT_TIMESTAMP' })
   createdAt: Date;

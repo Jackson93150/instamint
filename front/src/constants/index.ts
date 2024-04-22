@@ -4,3 +4,4 @@ export * from './shader/nft.shader';
 export * from './shader/background.shader';
 export * from './shader/ray.shader';
 export * from './mock/profile.mock';
+export * from './smart-contract';

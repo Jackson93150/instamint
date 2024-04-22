@@ -22,4 +22,20 @@ export class DraftService {
       relations: ['minter', 'content'],
     });
   }
+
+  async updateDraft(
+    id: number,
+    draftData: Partial<DraftEntity>,
+  ): Promise<DraftEntity> {
+    const draftToUpdate = await this.draftRepository.findOne({
+      where: { id },
+      relations: ['minter', 'content'],
+    });
+    if (!draftToUpdate) {
+      throw new Error('Draft not found');
+    }
+
+    const updatedDraft = this.draftRepository.merge(draftToUpdate, draftData);
+    return this.draftRepository.save(updatedDraft);
+  }
 }

@@ -72,6 +72,7 @@ describe('AuthService', () => {
         isValidate: false,
         contents: null,
         drafts: null,
+        nft: null,
       };
 
       jest.spyOn(minterService, 'getMinterByEmail').mockResolvedValue(minter);
@@ -106,6 +107,7 @@ describe('AuthService', () => {
         isValidate: false,
         contents: null,
         drafts: null,
+        nft: null,
       };
 
       jest.spyOn(minterService, 'getMinterByEmail').mockResolvedValue(minter);
