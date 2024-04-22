@@ -3,13 +3,14 @@ import { ConfigModule } from '@nestjs/config';
 import { JwtModule } from '@nestjs/jwt';
 import { PassportModule } from '@nestjs/passport';
 import { TypeOrmModule } from '@nestjs/typeorm';
-import { DeletedMinter } from 'src/models';
 
 import { AuthController } from './auth.controller';
 import { AuthService } from './auth.service';
 import { JwtStrategy } from './jwt-auth.guard';
 import { EmailVerificationGuard } from './jwt-mail-auth.guard';
 import { MinterModule } from '../minter/minter.module';
+
+import { DeletedMinter } from '../../models';
 
 @Module({
   imports: [

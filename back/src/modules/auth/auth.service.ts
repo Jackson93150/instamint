@@ -6,11 +6,11 @@ import {
 import { JwtService } from '@nestjs/jwt';
 import { InjectRepository } from '@nestjs/typeorm';
 import * as bcrypt from 'bcrypt';
-import { DeletedMinter } from 'src/models';
 import { Repository } from 'typeorm';
 
 import { MinterService } from '../minter/minter.service';
 
+import { DeletedMinter } from '../../models';
 import { MinterEntity } from '../../models/minter.entity';
 
 @Injectable()

@@ -3,11 +3,12 @@ import { JwtService } from '@nestjs/jwt';
 import { Test, TestingModule } from '@nestjs/testing';
 import { getRepositoryToken } from '@nestjs/typeorm';
 import * as bcrypt from 'bcrypt';
-import { DeletedMinter, MinterEntity } from 'src/models';
 import { Repository } from 'typeorm';
 
 import { AuthService } from './auth.service';
 import { MinterService } from '../minter/minter.service';
+
+import { DeletedMinter, MinterEntity } from '../../models';
 
 describe('AuthService', () => {
   let service: AuthService;

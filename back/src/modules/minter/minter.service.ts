@@ -2,7 +2,6 @@ import { Injectable } from '@nestjs/common';
 import { Cron, CronExpression } from '@nestjs/schedule';
 import { InjectRepository } from '@nestjs/typeorm';
 import * as bcrypt from 'bcrypt';
-import { DeletedMinter } from 'src/models/deleted-Minter.entity';
 import { LessThan, Repository } from 'typeorm';
 
 import {
@@ -11,7 +10,7 @@ import {
   UNIQUE_URL_REGEX,
   USERNAME_REGEX,
 } from '../../constants';
-import { MinterEntity } from '../../models';
+import { MinterEntity, DeletedMinter } from '../../models';
 
 @Injectable()
 export class MinterService {
