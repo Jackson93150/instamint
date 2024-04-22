@@ -10,12 +10,16 @@ export const SearchItem = ({ minter }: { minter: MinterInterface }) => {
       ></div>
       <div className="border-grey-light lg:border-grey-light flex flex-col justify-between rounded-b border-x border-b bg-white p-4 leading-normal lg:rounded-b-none lg:rounded-r lg:border-l-0 lg:border-t">
         <div className="mb-8">
-          <p className="flex items-center text-sm text-black">
-            <svg className="text-grey mr-2 size-3" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20">
-              <path d="M4 8V6a6 6 0 1 1 12 0v2h1a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2v-8c0-1.1.9-2 2-2h1zm5 6.73V17h2v-2.27a2 2 0 1 0-2 0zM7 6v2h6V6a3 3 0 0 0-6 0z" />
-            </svg>
-            Private
-          </p>
+          {minter.isPrivate ? (
+            <p className="flex items-center text-sm text-black">
+              <svg className="text-grey mr-2 size-3" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20">
+                <path d="M4 8V6a6 6 0 1 1 12 0v2h1a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2v-8c0-1.1.9-2 2-2h1zm5 6.73V17h2v-2.27a2 2 0 1 0-2 0zM7 6v2h6V6a3 3 0 0 0-6 0z" />
+              </svg>
+              Private
+            </p>
+          ) : (
+            <p className="flex items-center text-sm text-black">Public</p>
+          )}
           <div className="mb-2 text-xl font-bold text-black">{minter.username}</div>
           <p className="text-black">{minter.bio || 'No bio available.'}</p>
         </div>
