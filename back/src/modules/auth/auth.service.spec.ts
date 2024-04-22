@@ -8,7 +8,8 @@ import { Repository } from 'typeorm';
 import { AuthService } from './auth.service';
 import { MinterService } from '../minter/minter.service';
 
-import { DeletedMinter, MinterEntity } from '../../models';
+import { MinterEntity } from '../../models';
+import { DeletedMinter } from '../../models/deleted-minter.entity';
 
 describe('AuthService', () => {
   let service: AuthService;

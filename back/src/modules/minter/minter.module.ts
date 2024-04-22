@@ -4,7 +4,8 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { MinterController } from './minter.controller';
 import { MinterService } from './minter.service';
 
-import { MinterEntity, DeletedMinter } from '../../models';
+import { MinterEntity } from '../../models';
+import { DeletedMinter } from '../../models/deleted-minter.entity';
 
 @Module({
   imports: [

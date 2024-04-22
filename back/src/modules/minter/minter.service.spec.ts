@@ -5,7 +5,8 @@ import { UpdateResult, Repository } from 'typeorm';
 
 import { MinterService } from './minter.service';
 
-import { DeletedMinter, MinterEntity } from '../../models';
+import { MinterEntity } from '../../models';
+import { DeletedMinter } from '../../models/deleted-minter.entity';
 
 describe('MinterService', () => {
   let service: MinterService;

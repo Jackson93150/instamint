@@ -10,7 +10,7 @@ import { JwtStrategy } from './jwt-auth.guard';
 import { EmailVerificationGuard } from './jwt-mail-auth.guard';
 import { MinterModule } from '../minter/minter.module';
 
-import { DeletedMinter } from '../../models';
+import { DeletedMinter } from '../../models/deleted-minter.entity';
 
 @Module({
   imports: [
