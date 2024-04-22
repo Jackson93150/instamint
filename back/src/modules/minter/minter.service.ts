@@ -2,7 +2,7 @@ import { Injectable } from '@nestjs/common';
 import { Cron, CronExpression } from '@nestjs/schedule';
 import { InjectRepository } from '@nestjs/typeorm';
 import * as bcrypt from 'bcrypt';
-import { LessThan, Repository } from 'typeorm';
+import { LessThan, Repository, Brackets } from 'typeorm';
 
 import {
   EMAIL_REGEX,
@@ -168,15 +168,15 @@ export class MinterService {
   }
 
   async searchMinters(query: string): Promise<MinterEntity[]> {
-    return this.minterRepository
+    return await this.minterRepository
       .createQueryBuilder('minter')
-      .where('minter.username ILIKE :query', { query: `%${query}%` })
-      .orWhere('minter.email ILIKE :query', { query: `%${query}%` })
-      .orWhere('minter.bio ILIKE :query', { query: `%${query}%` })
+      .where(`minter.id NOT IN (SELECT "minterId" FROM public."deletedMinter")`)
       .andWhere(
-        `NOT EXISTS (
-        SELECT 1 FROM public."deletedMinter" dm WHERE dm."minterId" = minter.id
-        )`,
+        new Brackets((qb) => {
+          qb.where('minter.username ILIKE :query', { query: `%${query}%` })
+            .orWhere('minter.email ILIKE :query', { query: `%${query}%` })
+            .orWhere('minter.bio ILIKE :query', { query: `%${query}%` });
+        }),
       )
       .getMany();
   }
