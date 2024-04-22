@@ -9,7 +9,7 @@ import { AuthService } from './auth.service';
 import { MinterService } from '../minter/minter.service';
 
 import { MinterEntity } from '../../models';
-import { DeletedMinter } from '../../models/deleted-minter.entity';
+import { DeletedMinter } from '../../models/deleted-Minter.entity';
 
 describe('AuthService', () => {
   let service: AuthService;

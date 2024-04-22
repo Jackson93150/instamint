@@ -10,7 +10,7 @@ import { Repository } from 'typeorm';
 
 import { MinterService } from '../minter/minter.service';
 
-import { DeletedMinter } from '../../models/deleted-minter.entity';
+import { DeletedMinter } from '../../models/deleted-Minter.entity';
 import { MinterEntity } from '../../models/minter.entity';
 
 @Injectable()

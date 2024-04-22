@@ -11,7 +11,7 @@ import {
   USERNAME_REGEX,
 } from '../../constants';
 import { MinterEntity } from '../../models';
-import { DeletedMinter } from '../../models/deleted-minter.entity';
+import { DeletedMinter } from '../../models/deleted-Minter.entity';
 
 @Injectable()
 export class MinterService {
