@@ -26,7 +26,23 @@ export const Navbar = () => {
         {sidebarContext.minterData ? (
           <div className="gap-5U flex items-center justify-center">
             <Notification />
-            <ProfilePicture />
+            {sidebarContext.minterData && sidebarContext.minterData.pictureUrl ? (
+              <img
+                className="h-10U cursor-pointer rounded-full"
+                src={sidebarContext.minterData.pictureUrl}
+                alt="logo"
+                onClick={() => {
+                  navigate('/me');
+                }}
+              />
+            ) : (
+              <ProfilePicture
+                className="cursor-pointer"
+                onClick={() => {
+                  navigate('/me');
+                }}
+              />
+            )}
             <BurgerMenu className="cursor-pointer" onClick={() => sidebarContext.toggleSidebar()} />
           </div>
         ) : (
