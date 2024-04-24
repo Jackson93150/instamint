@@ -1,5 +1,4 @@
 import ArrowDropDownIcon from '@mui/icons-material/ArrowDropDown';
-import SearchIcon from '@mui/icons-material/Search';
 import { useState, useEffect } from 'react';
 
 interface SearchBarProps {
@@ -66,12 +65,6 @@ export const SearchBar = ({ onSearch }: SearchBarProps) => {
             placeholder="Search Minters, TeaBags or NFT's"
             required
           />
-          <button
-            type="button"
-            className="ml-2 rounded-lg border border-green-700 bg-green-700 p-2.5 hover:bg-green-800 focus:outline-none focus:ring-4 focus:ring-green-800 dark:bg-green-600 dark:hover:bg-green-700 dark:focus:ring-green-800"
-          >
-            <SearchIcon />
-          </button>
         </div>
       </div>
     </div>

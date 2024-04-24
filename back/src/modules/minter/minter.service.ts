@@ -2,7 +2,7 @@ import { Injectable } from '@nestjs/common';
 import { Cron, CronExpression } from '@nestjs/schedule';
 import { InjectRepository } from '@nestjs/typeorm';
 import * as bcrypt from 'bcrypt';
-import { LessThan, Repository, Brackets } from 'typeorm';
+import { LessThan, Repository } from 'typeorm';
 
 import {
   EMAIL_REGEX,
@@ -72,7 +72,6 @@ export class MinterService {
         return minter;
       }
     }
-
     return undefined;
   }
 
@@ -171,11 +170,7 @@ export class MinterService {
     return await this.minterRepository
       .createQueryBuilder('minter')
       .where(`minter.id NOT IN (SELECT "minterId" FROM public."deletedMinter")`)
-      .andWhere(
-        new Brackets((qb) => {
-          qb.where('minter.username ILIKE :query', { query: `%${query}%` });
-        }),
-      )
+      .andWhere('minter.username ILIKE :query', { query: `%${query}%` })
       .getMany();
   }
 }
