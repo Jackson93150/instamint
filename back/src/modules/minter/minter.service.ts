@@ -173,9 +173,7 @@ export class MinterService {
       .where(`minter.id NOT IN (SELECT "minterId" FROM public."deletedMinter")`)
       .andWhere(
         new Brackets((qb) => {
-          qb.where('minter.username ILIKE :query', { query: `%${query}%` })
-            .orWhere('minter.email ILIKE :query', { query: `%${query}%` })
-            .orWhere('minter.bio ILIKE :query', { query: `%${query}%` });
+          qb.where('minter.username ILIKE :query', { query: `%${query}%` });
         }),
       )
       .getMany();

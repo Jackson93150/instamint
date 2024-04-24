@@ -1,6 +1,6 @@
 import ArrowDropDownIcon from '@mui/icons-material/ArrowDropDown';
 import SearchIcon from '@mui/icons-material/Search';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 
 interface SearchBarProps {
   onSearch: (category: string, query: string) => void;
@@ -15,22 +15,24 @@ export const SearchBar = ({ onSearch }: SearchBarProps) => {
   const selectCategory = (category: string) => {
     setSelectedCategory(category);
     setDropdownOpen(false);
+    onSearch(category, query);
   };
 
   const toggleDropdown = () => setDropdownOpen(!dropdownOpen);
 
-  const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
-    event.preventDefault();
-    onSearch(selectedCategory, query);
-  };
+  useEffect(() => {
+    if (query.length > 0) {
+      onSearch(selectedCategory, query);
+    }
+  }, [query, selectedCategory, onSearch]);
 
   return (
-    <form onSubmit={handleSubmit} className="w-full">
-      <div className="relative flex">
+    <div className="mt-5 w-full sm:px-0">
+      <div className="relative flex flex-col items-center sm:flex-row">
         <button
           id="dropdown-button"
           onClick={toggleDropdown}
-          className="inline-flex items-center rounded-lg bg-green-700 px-5 py-2.5 text-center text-sm font-medium text-white hover:bg-green-800 focus:outline-none focus:ring-4 focus:ring-blue-300 dark:bg-green-600 dark:hover:bg-green-700 dark:focus:ring-green-800"
+          className="mb-4 inline-flex items-center justify-center rounded-lg bg-green-700 px-5 py-2.5 text-center text-sm font-medium text-white hover:bg-green-800 focus:outline-none focus:ring-4 focus:ring-green-800 sm:mb-0 sm:mr-2 dark:focus:ring-green-800"
           type="button"
         >
           {selectedCategory} <ArrowDropDownIcon />
@@ -38,10 +40,9 @@ export const SearchBar = ({ onSearch }: SearchBarProps) => {
         {dropdownOpen && (
           <div
             id="dropdown"
-            className="z-100 absolute divide-y divide-gray-100 rounded-lg bg-white shadow dark:bg-gray-700"
-            style={{ top: '100%', left: '0' }}
+            className="absolute left-0 top-full z-10 mt-1 w-full divide-y divide-gray-100 rounded-lg bg-white shadow sm:w-auto dark:bg-gray-700"
           >
-            <ul className="py-2 text-sm text-gray-700 dark:text-gray-200">
+            <ul className="py-1 text-sm text-gray-700 dark:text-gray-200">
               {categories.map((category) => (
                 <li
                   key={category}
@@ -56,23 +57,23 @@ export const SearchBar = ({ onSearch }: SearchBarProps) => {
             </ul>
           </div>
         )}
-        <div className="flex w-full flex-row">
+        <div className="flex w-full">
           <input
             type="search"
             id="query"
             onChange={(e) => setQuery(e.target.value)}
-            className="dark:bg-white-700 text-md border-m-3 border-m-gray-50 block flex-1 rounded-lg border border-gray-300 bg-gray-50 p-2.5 text-gray-900 focus:border-green-500 focus:ring-blue-500 dark:border-gray-600 dark:border-s-gray-700 dark:text-black dark:placeholder:text-gray-400 dark:focus:border-green-500"
+            className="text-md block w-full flex-1 rounded-lg border border-gray-300 p-2.5 text-gray-900 focus:border-green-500 focus:ring-green-500 dark:border-gray-600 dark:text-black dark:placeholder:text-gray-400 dark:focus:border-green-500"
             placeholder="Search Minters, TeaBags or NFT's"
             required
           />
           <button
-            type="submit"
-            className="wrounded-lg rounded border border-green-700 bg-green-700 p-2.5 hover:bg-green-800 focus:outline-none focus:ring-4 focus:ring-blue-300 dark:bg-green-600 dark:hover:bg-green-700 dark:focus:ring-green-800"
+            type="button"
+            className="ml-2 rounded-lg border border-green-700 bg-green-700 p-2.5 hover:bg-green-800 focus:outline-none focus:ring-4 focus:ring-green-800 dark:bg-green-600 dark:hover:bg-green-700 dark:focus:ring-green-800"
           >
             <SearchIcon />
           </button>
         </div>
       </div>
-    </form>
+    </div>
   );
 };
