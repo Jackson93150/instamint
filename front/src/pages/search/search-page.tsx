@@ -16,8 +16,8 @@ export const SearchPage = () => {
   };
 
   return (
-    <div className="flex h-fit min-h-screen w-full flex-col items-center bg-green-100 p-4 text-white sm:p-8">
-      <div className="z-10 mt-5 w-[70vw]">
+    <div className="flex h-fit min-h-screen w-full flex-col items-center bg-green-100 p-4 sm:p-8">
+      <div className="z-10 mt-5 w-full max-w-4xl">
         <SearchBar onSearch={handleSearch} />
         {minters.map((minter) => (
           <SearchItem key={minter.id} minter={minter} />
