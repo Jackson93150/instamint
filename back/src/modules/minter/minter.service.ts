@@ -10,8 +10,10 @@ import {
   UNIQUE_URL_REGEX,
   USERNAME_REGEX,
 } from '../../constants';
+import { countSubQuery } from '../../constants/query';
 import { MinterEntity } from '../../models';
 import { DeletedMinter } from '../../models/deleted-Minter.entity';
+import { formatRowData } from '../../utils/format';
 
 @Injectable()
 export class MinterService {
@@ -166,11 +168,25 @@ export class MinterService {
     await this.minterRepository.update(id, { bannerUrl });
   }
 
-  async searchMinters(query: string): Promise<MinterEntity[]> {
-    return await this.minterRepository
+  async searchMinters(query: string): Promise<any[]> {
+    const rawData = await this.minterRepository
       .createQueryBuilder('minter')
+      .leftJoin('minter.nft', 'nft')
+      .leftJoin('minter.follow', 'follow')
       .where(`minter.id NOT IN (SELECT "minterId" FROM public."deletedMinter")`)
       .andWhere('minter.username ILIKE :query', { query: `%${query}%` })
-      .getMany();
+      .addSelect((subQuery) => {
+        return countSubQuery('nft', 'minterId')(subQuery);
+      }, 'nftCount')
+      .addSelect((subQuery) => {
+        return countSubQuery('follow', 'minterId', 'follower')(subQuery);
+      }, 'followerCount')
+      .addSelect((subQuery) => {
+        return countSubQuery('follow', 'minterId', 'followed')(subQuery);
+      }, 'followedCount')
+      .groupBy('minter.id')
+      .getRawMany();
+
+    return formatRowData(rawData);
   }
 }

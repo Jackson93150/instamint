@@ -95,7 +95,6 @@ export class MinterController {
   }
 
   @Get('search')
-  @UseGuards(AuthGuard('jwt'))
   async searchMinters(@Query('query') query: string): Promise<MinterEntity[]> {
     return this.minterService.searchMinters(query);
   }

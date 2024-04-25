@@ -1,45 +1,47 @@
-import { MinterInterface } from '@/interfaces';
+import cx from 'classnames';
+import { useNavigate } from 'react-router-dom';
 
-export const SearchItem = ({ minter }: { minter: MinterInterface }) => {
+import LogoSmall from '@/assets/logo-small.png';
+import { SearchOutput } from '@/interfaces';
+
+export const SearchItem = ({ minter }: { minter: SearchOutput }) => {
+  const navigate = useNavigate();
+
   return (
-    <a
-      className="bg-green-card-gradient border-grey-light mt-3 flex w-full items-start rounded border p-2 transition-all hover:bg-green-700"
-      href={minter.uniqueUrl || '#'}
+    <div
+      className="bg-search-gradient hover:bg-green-card-gradient gap-2U relative flex w-full cursor-pointer items-center rounded-[10px] border border-white/20 p-2"
+      onClick={() => navigate(`/minter/${minter.uniqueUrl}`)}
     >
-      <img
-        className="mr-4 size-20 rounded-full md:size-24"
-        src={minter.pictureUrl || 'default-profile-url.jpg'}
-        alt={`Avatar of ${minter.username}`}
-      />
-      <div className="flex grow flex-col justify-center">
+      <div className="size-17U flex items-center justify-center overflow-hidden rounded-full bg-green-300 object-cover">
+        <img
+          className={cx(minter.pictureUrl ? 'size-full' : 'w-auto h-12U')}
+          src={minter.pictureUrl ? minter.pictureUrl : LogoSmall}
+          alt={`Avatar of ${minter.username}`}
+        />
+      </div>
+
+      <div className="-mt-2U flex flex-col">
         <div className="flex w-full items-center justify-between">
-          <div className="text-lg font-bold text-white md:text-xl">@{minter.username}</div>
-          {minter.isPrivate ? (
-            <p className="flex items-center text-sm text-white">
-              <svg className="text-grey mr-2 size-3 md:size-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20">
-                <path d="M4 8V6a6 6 0 1 1 12 0v2h1a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2v-8c0-1.1.9-2 2-2h1zm5 6.73V17h2v-2.27a2 2 0 1 0-2 0zM7 6v2h6V6a3 3 0 0 0-6 0z" />
-              </svg>
-              Private
-            </p>
-          ) : (
-            <p className="text-base text-white">Public</p>
-          )}
+          <div className="text-[20px] font-medium text-white">@{minter.username}</div>
+          <p className="top-2U right-5U absolute text-[16px] italic text-white/70">
+            {minter.isPrivate ? 'private' : 'public'}
+          </p>
         </div>
-        <div className="flex flex-row gap-3 text-sm italic text-white">
-          <div>
-            <p>Followers</p>
-            <p className="font-bold">150K</p>
+        <div className="flex flex-row gap-[16px]">
+          <div className="flex flex-col">
+            <p className="text-[16px] font-light italic leading-none text-white">Followers</p>
+            <p className="font-think text-[14px] italic leading-none text-white/70">{minter.followerCount}</p>
           </div>
-          <div>
-            <p>Followed</p>
-            <p className="font-bold">75K</p>
+          <div className="flex flex-col">
+            <p className="text-[16px] font-light italic leading-none text-white">Followed</p>
+            <p className="font-think text-[14px] italic leading-none text-white/70">{minter.followedCount}</p>
           </div>
-          <div>
-            <p>NFTs</p>
-            <p className="font-bold">120</p>
+          <div className="flex flex-col">
+            <p className="text-[16px] font-light italic leading-none text-white">NFT</p>
+            <p className="font-think text-[14px] italic leading-none text-white/70">{minter.nftCount}</p>
           </div>
         </div>
       </div>
-    </a>
+    </div>
   );
 };

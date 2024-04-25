@@ -19,7 +19,7 @@ export class FollowService {
   async findFollowerById(minterId: number): Promise<FollowEntity[]> {
     return await this.followRepository.find({
       where: {
-        minterId,
+        minter: { id: minterId },
         type: 'follower',
       },
     });
@@ -28,7 +28,7 @@ export class FollowService {
   async findFollowedById(minterId: number): Promise<FollowEntity[]> {
     return await this.followRepository.find({
       where: {
-        minterId,
+        minter: { id: minterId },
         type: 'followed',
       },
     });

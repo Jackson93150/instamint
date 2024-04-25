@@ -1,20 +1,21 @@
-import { useContext, useEffect, useState } from 'react';
+import { useContext, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 
 import { SearchBar } from '../search/search-bar';
 import BurgerMenu from '@/assets/icons/burger-menu.svg?react';
 import Notification from '@/assets/icons/notification.svg?react';
 import ProfilePicture from '@/assets/icons/pp.svg?react';
+import LogoSmall from '@/assets/logo-small.png';
 import Logo from '@/assets/logo.png';
 import { SidebarContext } from '@/context';
-import { MinterInterface } from '@/interfaces';
+import { SearchOutput } from '@/interfaces';
 import { searchMinters } from '@/services';
 import { Button } from '@/ui';
 
 export const Navbar = () => {
   const navigate = useNavigate();
   const sidebarContext = useContext(SidebarContext);
-  const [minters, setMinters] = useState<MinterInterface[]>([]);
+  const [minters, setMinters] = useState<SearchOutput[]>([]);
 
   const handleSearch = async (query: string) => {
     if (!query.trim()) {
@@ -28,29 +29,35 @@ export const Navbar = () => {
       }
     }
   };
-  //pour rendre les minters en cas de chngement de valeur seulement
-  useEffect(() => {}, [minters]);
 
   return (
-    <div className="z-navbar px-5U py-2U fixed left-0 top-0 flex w-screen justify-between bg-transparent">
+    <div className="z-navbar px-5U py-2U desktop-s:gap-[150px] tablet:gap-[50px] fixed left-0 top-0 flex w-screen items-center gap-[16px] bg-transparent">
       <img
-        className="h-10U cursor-pointer"
+        className="h-10U tablet:flex hidden cursor-pointer"
         src={Logo}
         alt="logo"
         onClick={() => {
           navigate('/');
         }}
       />
-      <div className="flex w-3/5 flex-1 justify-center px-1 sm:px-6 md:px-8">
-        <SearchBar onSearch={handleSearch} />
+      <img
+        className="h-10U tablet:hidden flex cursor-pointer"
+        src={LogoSmall}
+        alt="logo"
+        onClick={() => {
+          navigate('/');
+        }}
+      />
+      <div className="flex w-full flex-1">
+        <SearchBar onSearch={handleSearch} minters={minters} />
       </div>
       <div className="gap-1U flex items-center">
         {sidebarContext.minterData ? (
           <div className="gap-5U flex items-center justify-center">
-            <Notification />
+            <Notification className="tablet:flex hidden" />
             {sidebarContext.minterData && sidebarContext.minterData.pictureUrl ? (
               <img
-                className="h-10U cursor-pointer rounded-full"
+                className="h-10U tablet:flex hidden cursor-pointer rounded-full"
                 src={sidebarContext.minterData.pictureUrl}
                 alt="logo"
                 onClick={() => {
@@ -59,7 +66,7 @@ export const Navbar = () => {
               />
             ) : (
               <ProfilePicture
-                className="cursor-pointer"
+                className="tablet:flex hidden cursor-pointer"
                 onClick={() => {
                   navigate('/me');
                 }}

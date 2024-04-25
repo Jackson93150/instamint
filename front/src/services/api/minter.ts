@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-import { MinterInterface } from '@/interfaces';
+import { MinterInterface, SearchOutput } from '@/interfaces';
 
 interface MinterRegister {
   username: string;
@@ -66,7 +66,7 @@ export const updateBanner = async (data: MinterChangeBanner) => {
   });
 };
 
-export const searchMinters = async (query: string): Promise<MinterInterface[]> => {
+export const searchMinters = async (query: string): Promise<SearchOutput[]> => {
   const response = await axios.get(`${import.meta.env.VITE_BACKEND_URL}/minter/search`, {
     params: { query },
     withCredentials: true,

@@ -1,4 +1,6 @@
-import { Entity, Column, PrimaryGeneratedColumn } from 'typeorm';
+import { Entity, Column, PrimaryGeneratedColumn, ManyToOne } from 'typeorm';
+
+import { MinterEntity } from './minter.entity';
 
 @Entity({ name: 'follow' })
 export class FollowEntity {
@@ -11,8 +13,8 @@ export class FollowEntity {
   @Column()
   accepted: boolean;
 
-  @Column()
-  minterId: number;
+  @ManyToOne(() => MinterEntity, (minter) => minter.nft)
+  minter: MinterEntity;
 
   @Column({ type: 'timestamp', default: () => 'CURRENT_TIMESTAMP' })
   createdAt: Date;

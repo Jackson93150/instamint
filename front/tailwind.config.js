@@ -93,6 +93,7 @@ export default {
       backgroundImage: {
         'gray-gradient': 'linear-gradient(0deg, #afafaf, #fff)',
         'green-card-gradient': 'linear-gradient(180deg, rgba(85, 255, 153, 0.45), rgba(51, 153, 92, 0.15))',
+        'search-gradient': 'linear-gradient(180deg, rgba(85, 255, 153, 0.25), rgba(51, 153, 92, 0.15))',
         'green-gradient': 'linear-gradient(180deg, #27ab5c, #16502d)',
         'green-bio-gradient': 'linear-gradient(180deg, rgba(39, 171, 92, 0.2), rgba(22, 80, 45, 0.2))',
         'green-bg-gradient': 'linear-gradient(0deg, #0f1314, #0f1a13)',
