@@ -32,7 +32,7 @@ export const OriginalContentPage = () => {
   }, [refresh]);
 
   return (
-    <div className="bg-green-bg-gradient relative flex h-fit min-h-screen w-full items-center justify-center">
+    <div className="bg-page-gradient relative flex h-fit min-h-screen w-full items-center justify-center">
       <div className="p-5U gap-2U z-10 flex h-[85vh] w-[90vw] flex-col rounded-[15px] border border-white/25 bg-black/50 backdrop-blur-2xl">
         <div className="p-2U gap-2U flex h-fit w-full rounded-[10px] border border-white/25 bg-white/15 backdrop-blur-xl">
           <div

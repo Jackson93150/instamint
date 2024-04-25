@@ -1,3 +1,5 @@
+import { useNavigate } from 'react-router-dom';
+
 import EtherLogo from '@/assets/icons/ether.png';
 import RedMintLogo from '@/assets/icons/mint-red.png';
 import MintLogo from '@/assets/icons/mint.png';
@@ -13,9 +15,14 @@ interface Props {
 }
 
 export const MinterNftCard = ({ nft, username, mint, unmint }: Props) => {
+  const navigate = useNavigate();
+
   return (
     <div className="bg-green-card-gradient p-3U gap-2U ease group z-10 flex h-fit min-w-[340px] max-w-[370px] flex-col overflow-hidden rounded-[10px] border border-white/50 transition-all duration-300 hover:shadow-2xl">
-      <div className="aspect-square w-full overflow-hidden rounded-[10px]">
+      <div
+        className="aspect-square w-full cursor-pointer overflow-hidden rounded-[10px]"
+        onClick={() => navigate(`/nft/${nft.tokenId}`)}
+      >
         {nft.type.startsWith('audio/') ? (
           <img
             src={Music}

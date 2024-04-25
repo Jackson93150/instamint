@@ -82,12 +82,12 @@ export const MediaViewerModal = ({ url, mediaType, content, type = 'content', da
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [data, isConfirmed]);
 
-  const MemoizedBubbles = useMemo(() => memo(NftCardScene), []);
+  const MemoizedNftScene = useMemo(() => memo(NftCardScene), []);
 
   return (
     <div className="gap-5U mobile:flex-row mobile:w-fit mobile:h-[70vh] flex h-[80vh] w-[85vw] flex-col overflow-y-scroll">
       <div className="mobile:w-[40vw] mobile:h-[70vh] relative flex h-[60vh] w-[85vw]">
-        <MemoizedBubbles url={url} mediaType={mediaType} />
+        <MemoizedNftScene url={url} mediaType={mediaType} />
         {mediaType === 'audio' && (
           <div className="p-2U bottom-5U absolute left-[5%] w-[90%] rounded-[10px] bg-white/30 backdrop-blur-[15px]">
             <audio controls className="w-full">

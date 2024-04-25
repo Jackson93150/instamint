@@ -28,4 +28,11 @@ export class NftService {
   async getNftsByMinterId(minterId: number): Promise<NftEntity[]> {
     return this.nftRepository.find({ where: { minter: { id: minterId } } });
   }
+
+  async getNftByTokenId(tokenId: number): Promise<NftEntity> {
+    return this.nftRepository.findOne({
+      where: { tokenId },
+      relations: ['minter'],
+    });
+  }
 }

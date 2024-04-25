@@ -31,4 +31,9 @@ export class NftController {
   async getNftsByMinterId(@Param('id') minterId: number): Promise<NftEntity[]> {
     return this.nftService.getNftsByMinterId(minterId);
   }
+
+  @Get('token/:id')
+  async getNftByTokenId(@Param('id') tokenId: number): Promise<NftEntity> {
+    return this.nftService.getNftByTokenId(tokenId);
+  }
 }
