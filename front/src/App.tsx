@@ -10,7 +10,6 @@ import {
   ConfirmationPage,
   OriginalContentPage,
   ProfilePage,
-  SearchPage,
 } from '@/pages';
 
 function App() {
@@ -26,7 +25,6 @@ function App() {
           <Route path="/settings" element={<SettingsPage />} />
           <Route path="/me" element={<ProfilePage />} />
           <Route path="/minter/:uniqueUrl" element={<ProfilePage />} />
-          <Route path="/search" element={<SearchPage />} />
         </Routes>
       </Layout>
     </Suspense>
