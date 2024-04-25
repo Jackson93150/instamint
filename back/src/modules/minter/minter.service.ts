@@ -72,7 +72,6 @@ export class MinterService {
         return minter;
       }
     }
-
     return undefined;
   }
 
@@ -165,5 +164,13 @@ export class MinterService {
 
   async updateBannerUrl(id: number, bannerUrl: string): Promise<void> {
     await this.minterRepository.update(id, { bannerUrl });
+  }
+
+  async searchMinters(query: string): Promise<MinterEntity[]> {
+    return await this.minterRepository
+      .createQueryBuilder('minter')
+      .where(`minter.id NOT IN (SELECT "minterId" FROM public."deletedMinter")`)
+      .andWhere('minter.username ILIKE :query', { query: `%${query}%` })
+      .getMany();
   }
 }

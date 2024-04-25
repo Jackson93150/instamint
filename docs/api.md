@@ -69,6 +69,18 @@ This route allows updating the username for a minter's profile.
   |-------------|---------|----------------------------------------------------------------|
   | `username`  | string  | The new sername to be associated with the minter's profile.    |
 
+### Search Minter
+
+This route allows searching for minters based on a query string. It filters the minter records by matching the query against relevant minter's username
+
+**URL:** `/search`
+- **Method:** `GET`
+- **Request Body:**
+- **Authentication:** Requires a valid JWT token in the request headers.
+
+  | Parameter   | Type    | Description                                |
+  |-------------|---------|--------------------------------------------|
+  | `query`     | string  | The search string to filter minters by.    |
 
 ## Authentication
 

@@ -65,3 +65,11 @@ export const updateBanner = async (data: MinterChangeBanner) => {
     withCredentials: true,
   });
 };
+
+export const searchMinters = async (query: string): Promise<MinterInterface[]> => {
+  const response = await axios.get(`${import.meta.env.VITE_BACKEND_URL}/minter/search`, {
+    params: { query },
+    withCredentials: true,
+  });
+  return response.data;
+};
