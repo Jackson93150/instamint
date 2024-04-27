@@ -1,14 +1,13 @@
 import { LinearProgress } from '@mui/material';
 import { useConnectModal } from '@rainbow-me/rainbowkit';
 import { memo, useContext, useEffect, useMemo, useState } from 'react';
-import { useAccount, useWaitForTransactionReceipt, useWriteContract } from 'wagmi';
+import { useAccount } from 'wagmi';
 
-import { handleMint, handleSave } from './modal-actions';
+import { handleSave } from './modal-actions';
 import { CountrySelectInput, ModalTextArea, ModalTextInput, TagInput } from './modal-inputs';
 import { NftCardScene } from '../threejs/nft-card';
-import { SidebarContext, useAlert, useModal } from '@/context';
+import { SidebarContext, useAlert, useModal, useNft } from '@/context';
 import { DraftInterface } from '@/interfaces';
-import { createNft, getTotalNft } from '@/services/api/nft';
 import { Button } from '@/ui';
 
 interface Props {
@@ -30,49 +29,14 @@ export const MediaViewerModal = ({ url, mediaType, content, type = 'content', da
   const { closeModal } = useModal();
   const { toggleAlert } = useAlert();
   const sidebarContext = useContext(SidebarContext);
+  const nftContext = useNft();
   const minterData = sidebarContext.minterData;
-  const { data: hash, isPending, writeContract } = useWriteContract();
-  const {
-    isLoading: isConfirming,
-    isSuccess: isConfirmed,
-    data: transactionData,
-  } = useWaitForTransactionReceipt({
-    hash,
-  });
 
   const dataHashtags = data?.hashtag
     ? data.hashtag.split(',').map((item) => (item.trim().startsWith('#') ? item.trim() : '#' + item.trim()))
     : [];
 
-  const createNFT = async () => {
-    const count = await getTotalNft();
-    const tokenId = parseInt(transactionData?.logs[3].data ? transactionData?.logs[3].data : '', 16);
-    if (minterData && data && hash && address) {
-      await createNft({
-        txHash: hash,
-        minterAddress: address,
-        name: `${name} #${count}`,
-        url: url,
-        type: data.content.type,
-        location: location,
-        listed: false,
-        minter: minterData.id,
-        description: description,
-        hashtag: hashtags.join(','),
-        tokenId: tokenId,
-      });
-    }
-  };
-
   useEffect(() => {
-    if (isConfirmed) {
-      toggleAlert({
-        alertType: 'success',
-        content: `Your Nft as been minted. Transaction Hash: ${hash}`,
-      });
-      closeModal();
-      createNFT();
-    }
     if (data) {
       setName(data.name);
       setHashtags(dataHashtags);
@@ -80,7 +44,7 @@ export const MediaViewerModal = ({ url, mediaType, content, type = 'content', da
       setLocation(data.location);
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [data, isConfirmed]);
+  }, [data]);
 
   const MemoizedNftScene = useMemo(() => memo(NftCardScene), []);
 
@@ -140,14 +104,30 @@ export const MediaViewerModal = ({ url, mediaType, content, type = 'content', da
                 if (!address && openConnectModal) {
                   openConnectModal();
                 } else {
-                  handleMint({ closeModal, toggleAlert, data, name, description, content, url, writeContract });
+                  if ((data?.content.type, data?.minter.id)) {
+                    nftContext.handleMint({
+                      closeModal,
+                      toggleAlert,
+                      data,
+                      name,
+                      description,
+                      content,
+                      url,
+                      minterAddress: address as string,
+                      type: data?.content.type,
+                      hashtag: hashtags,
+                      location: location,
+                      listed: false,
+                      minter: data?.minter.id,
+                    });
+                  }
                 }
               }}
               isDisabled={!name || !description || !location || !hashtags}
             />
           )}
         </div>
-        {(isConfirming || isPending) && <LinearProgress color="success" />}
+        {nftContext.isLoading && <LinearProgress color="success" />}
       </div>
     </div>
   );

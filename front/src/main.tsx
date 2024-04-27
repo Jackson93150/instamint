@@ -7,7 +7,7 @@ import { WagmiProvider } from 'wagmi';
 import { sepolia } from 'wagmi/chains';
 
 import App from './App';
-import { SidebarProvider, ModalProvider, AlertProvider } from './context';
+import { SidebarProvider, ModalProvider, AlertProvider, NftProvider } from './context';
 
 import '@rainbow-me/rainbowkit/styles.css';
 import './index.css';
@@ -29,13 +29,15 @@ root.render(
       <WagmiProvider config={config}>
         <QueryClientProvider client={queryClient}>
           <RainbowKitProvider>
-            <SidebarProvider>
-              <AlertProvider>
-                <ModalProvider>
-                  <App />
-                </ModalProvider>
-              </AlertProvider>
-            </SidebarProvider>
+            <AlertProvider>
+              <NftProvider>
+                <SidebarProvider>
+                  <ModalProvider>
+                    <App />
+                  </ModalProvider>
+                </SidebarProvider>
+              </NftProvider>
+            </AlertProvider>
           </RainbowKitProvider>
         </QueryClientProvider>
       </WagmiProvider>
