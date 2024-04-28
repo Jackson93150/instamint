@@ -1,3 +1,4 @@
+import cx from 'classnames';
 import { memo, useEffect, useMemo, useState } from 'react';
 import { useParams } from 'react-router-dom';
 
@@ -33,8 +34,14 @@ export const NftPage = () => {
     nft && (
       <div className="bg-page-gradient px-10U flex h-fit min-h-screen w-full flex-col items-center gap-[32px] pb-[100px] pt-[120px]">
         <span className="tablet:size-[500px] absolute left-[-450px] top-[-400px] size-[300px] rounded-full bg-green-400 blur-[450px]" />
+        <span className="absolute bottom-0 right-0 size-[200px] rounded-full bg-green-400 blur-[150px]" />
         <div className="gap-5U tablet:flex-row flex h-fit w-full flex-col">
-          <div className="bg-green-card-gradient p-4U gap-2U ease desktop-s:w-full desktop-s:max-w-[600px] tablet:w-[45vw] group relative z-10 flex aspect-square w-full justify-center overflow-hidden rounded-[10px] border border-white/50 transition-all duration-300">
+          <div
+            className={cx(
+              'gap-2U ease desktop-s:w-full desktop-s:max-w-[600px] tablet:w-[45vw] group relative z-10 flex aspect-square w-full justify-center overflow-hidden rounded-[10px] border border-white/50 transition-all duration-300',
+              changeView ? 'bg-black' : 'bg-green-card-gradient p-4U'
+            )}
+          >
             <div
               className="top-8U right-8U px-2U py-1U absolute z-10 cursor-pointer rounded-full border-white/50 bg-black/50 text-white backdrop-blur-xl"
               onClick={() => setChangeView(!changeView)}
@@ -73,9 +80,9 @@ export const NftPage = () => {
               </>
             )}
           </div>
-          <div className="p-3U tablet:px-8U gap-2U ease tablet:aspect-auto tablet:grow group z-10 flex aspect-square flex-col overflow-hidden rounded-[10px] border border-white/25 bg-[#012923]/30 transition-all duration-300">
-            <div className="flex h-[200px] w-full flex-col">
-              <div className="flex w-full items-center justify-between">
+          <div className="p-3U tablet:px-8U gap-2U ease tablet:grow group z-10 flex flex-col overflow-hidden rounded-[10px] border border-white/25 bg-[#012923]/30 transition-all duration-300">
+            <div className="tablet:h-[200px] flex h-fit w-full flex-col">
+              <div className="tablet:flex-row flex w-full flex-col items-center justify-between">
                 <div className="gap-2U flex items-center">
                   <span className="text-[20px] font-thin text-white/80">owned by</span>
                   {nft.minter.pictureUrl ? (
@@ -92,10 +99,7 @@ export const NftPage = () => {
                     <span className="text-[20px] font-thin italic text-white">{nft.minter.username}</span>
                   )}
                 </div>
-                <div className="gap-1U flex items-center">
-                  <Mint value={0} type="mint" />
-                  <Mint value={0} type="unmint" />
-                </div>
+                <Mint nft={nft} />
               </div>
               <span className="text-[48px] font-bold text-white">{nft.name}</span>
               <div className="gap-2U flex">
@@ -104,7 +108,7 @@ export const NftPage = () => {
                 })}
               </div>
             </div>
-            <div className="px-4U pt-3U flex size-full flex-col rounded-[25px] bg-black/25">
+            <div className="tablet:px-4U px-1U pt-2U tablet:pt-3U flex size-full flex-col rounded-[25px] bg-black/25">
               <div className="px-7U gap-2U pt-2U pb-4U flex h-fit w-full flex-col">
                 <span className="text-[16px] font-semibold text-[#828282]">Current Price</span>
                 <div className="gap-2U flex items-center">
@@ -112,10 +116,10 @@ export const NftPage = () => {
                   <span className="text-[24px] font-bold text-white">{nft.price ? nft.price : '--'} ETH</span>
                 </div>
               </div>
-              <div className="flex h-1/2 w-full flex-col">
+              <div className="tablet:h-1/2 flex h-[150px] w-full flex-col">
                 <PriceCharts data={CHART_DATA} />
               </div>
-              <div className="px-7U pt-4U">
+              <div className="px-7U py-2U tablet:pt-4U tablet:pb-0">
                 <Button color="green" content="BUY" fullWidth />
               </div>
             </div>

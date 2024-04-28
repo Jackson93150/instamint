@@ -67,6 +67,7 @@ describe('MinterService', () => {
         drafts: null,
         nft: null,
         follow: null,
+        mint: null,
       };
       const hashedPassword = await bcrypt.hash(minter.password, 10);
       jest.spyOn(repository, 'findOne').mockResolvedValueOnce(null);
@@ -100,6 +101,7 @@ describe('MinterService', () => {
         drafts: null,
         nft: null,
         follow: null,
+        mint: null,
       };
       jest
         .spyOn(deletedMinterRepository, 'findOne')
@@ -129,6 +131,7 @@ describe('MinterService', () => {
         drafts: null,
         nft: null,
         follow: null,
+        mint: null,
       };
       jest.spyOn(repository, 'findOne').mockResolvedValueOnce(null);
       await expect(service.createMinter(minter)).rejects.toThrowError(
@@ -172,6 +175,7 @@ describe('MinterService', () => {
         drafts: null,
         nft: null,
         follow: null,
+        mint: null,
       };
       const deletedMinter = {
         id: 123,

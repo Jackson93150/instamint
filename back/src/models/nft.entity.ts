@@ -1,5 +1,13 @@
-import { Entity, Column, PrimaryGeneratedColumn, ManyToOne } from 'typeorm';
+import {
+  Entity,
+  Column,
+  PrimaryGeneratedColumn,
+  ManyToOne,
+  OneToMany,
+  JoinColumn,
+} from 'typeorm';
 
+import { MintEntity } from './mint.entity';
 import { MinterEntity } from './minter.entity';
 
 @Entity({ name: 'nft' })
@@ -42,6 +50,12 @@ export class NftEntity {
 
   @ManyToOne(() => MinterEntity, (minter) => minter.nft)
   minter: MinterEntity;
+
+  @OneToMany(() => MintEntity, (mint) => mint.nft, {
+    nullable: true,
+  })
+  @JoinColumn()
+  mint: MintEntity[] | null;
 
   @Column({ type: 'timestamp', default: () => 'CURRENT_TIMESTAMP' })
   createdAt: Date;

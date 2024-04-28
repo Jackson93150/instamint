@@ -56,7 +56,7 @@ export const ProfilePage = () => {
             {nft &&
               nft.map((nft, key) => (
                 <Grid key={key} item>
-                  <MinterNftCard nft={nft} username={minter?.username} mint={0} unmint={0} />
+                  <MinterNftCard nft={nft} username={minter?.username} />
                 </Grid>
               ))}
           </div>

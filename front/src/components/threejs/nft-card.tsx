@@ -18,7 +18,8 @@ interface Props {
 export const Background = () => {
   const video = useRef(document.createElement('video'));
   const geometry = new THREE.PlaneGeometry(5, 6);
-  video.current.src = './scene.mp4';
+  video.current.src =
+    'https://firebasestorage.googleapis.com/v0/b/instamint-446da.appspot.com/o/instamint%2Fscene.mp4?alt=media&token=20c63364-f862-4b00-bbce-4aa98f73ab38';
   video.current.crossOrigin = 'anonymous';
   video.current.loop = true;
   video.current.muted = true;

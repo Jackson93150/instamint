@@ -11,6 +11,7 @@ import { ContentModule } from './modules/content/content.module';
 import { DraftModule } from './modules/draft/draft.module';
 import { FollowModule } from './modules/follow/follow.module';
 import { MailModule } from './modules/mail/mail.module';
+import { MintModule } from './modules/mint/mint.module';
 import { NftModule } from './modules/nft/nft.module';
 
 @Module({
@@ -41,6 +42,7 @@ import { NftModule } from './modules/nft/nft.module';
     DraftModule,
     FollowModule,
     NftModule,
+    MintModule,
   ],
   controllers: [AppController],
 })
