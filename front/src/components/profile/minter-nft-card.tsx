@@ -62,7 +62,9 @@ export const MinterNftCard = ({ nft, username, isMe }: Props) => {
           {nft.price && (
             <div className="gap-1U flex items-center">
               <img className="h-[25px]" src={EtherLogo} alt="ether" />
-              <span className="text-heading leading-none text-white">{nft.price.toString()}</span>
+              <span className="text-heading leading-none text-white">
+                {typeof nft.price === 'number' ? nft.price.toFixed(2) : parseFloat(nft.price).toFixed(2)}
+              </span>
             </div>
           )}
         </div>
@@ -80,12 +82,23 @@ export const MinterNftCard = ({ nft, username, isMe }: Props) => {
               onClick={() => {
                 toggleModal({
                   modalType: 'list-nft',
-                  data: { nft: nft },
+                  data: { nft: nft, actionType: 'list' },
                 });
               }}
             />
           ) : (
-            <Button color="green" content="BUY" size="small" isDisabled={!nft.listed} />
+            <Button
+              color="green"
+              content="BUY"
+              size="small"
+              isDisabled={!nft.listed}
+              onClick={() => {
+                toggleModal({
+                  modalType: 'list-nft',
+                  data: { nft: nft, actionType: 'buy' },
+                });
+              }}
+            />
           )}
         </div>
       </div>

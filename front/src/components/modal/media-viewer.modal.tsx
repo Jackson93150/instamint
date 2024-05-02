@@ -127,7 +127,7 @@ export const MediaViewerModal = ({ url, mediaType, content, type = 'content', da
             />
           )}
         </div>
-        {nftContext.isLoading && <LinearProgress color="success" />}
+        {nftContext.isSaveLoading && <LinearProgress color="success" />}
       </div>
     </div>
   );

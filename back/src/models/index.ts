@@ -5,3 +5,4 @@ export * from './follow.entity';
 export * from './nft.entity';
 export * from './mint.entity';
 export * from './mint.dto';
+export * from './transaction.entity';

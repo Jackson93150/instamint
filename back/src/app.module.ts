@@ -13,6 +13,7 @@ import { FollowModule } from './modules/follow/follow.module';
 import { MailModule } from './modules/mail/mail.module';
 import { MintModule } from './modules/mint/mint.module';
 import { NftModule } from './modules/nft/nft.module';
+import { TransactionModule } from './modules/transaction/transaction.module';
 
 @Module({
   imports: [
@@ -43,6 +44,7 @@ import { NftModule } from './modules/nft/nft.module';
     FollowModule,
     NftModule,
     MintModule,
+    TransactionModule,
   ],
   controllers: [AppController],
 })

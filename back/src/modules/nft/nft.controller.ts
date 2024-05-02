@@ -54,4 +54,18 @@ export class NftController {
   ): Promise<NftEntity> {
     return this.nftService.updateNftPriceAndListed(id, price, listed);
   }
+
+  @Patch('minter')
+  @UseGuards(AuthGuard('jwt'))
+  async updateMinterInfo(
+    @Body('tokenId') tokenId: number,
+    @Body('minterAddress') newMinterAddress: string,
+    @Body('minter') newMinterId: number,
+  ): Promise<NftEntity> {
+    return this.nftService.updateMinterInfo(
+      tokenId,
+      newMinterAddress,
+      newMinterId,
+    );
+  }
 }

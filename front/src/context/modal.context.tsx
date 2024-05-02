@@ -5,7 +5,7 @@ import { useLocation } from 'react-router-dom';
 
 import Close from '@/assets/icons/close.svg?react';
 import { MediaModal, MediaViewerModal, Modal } from '@/components';
-import { ListNftModal } from '@/components/modal/list-nft.modal';
+import { ListBuyNftModal } from '@/components/modal/list-buy-nft.modal';
 import { MediaDeleteModal } from '@/components/modal/media-delete.modal';
 import { gsapOpacityAnimation, gsapTranslateYAnimation } from '@/utils';
 
@@ -15,7 +15,7 @@ export interface ModalDataMap {
   'media-upload': ComponentProps<typeof MediaModal>;
   'media-viewer': ComponentProps<typeof MediaViewerModal>;
   'media-delete': ComponentProps<typeof MediaDeleteModal>;
-  'list-nft': ComponentProps<typeof ListNftModal>;
+  'list-nft': ComponentProps<typeof ListBuyNftModal>;
 }
 
 export interface ToggleModalArgs<T extends keyof ModalDataMap> {
@@ -72,7 +72,7 @@ export const ModalProvider = <T extends keyof ModalDataMap>({ children }: PropsW
         closeModal,
       }}
     >
-      <span className="gsapModalBlur left-O z-navbar fixed top-0 hidden h-screen w-full bg-black/30 backdrop-blur-[15px]" />
+      <span className="gsapModalBlur left-O z-modal fixed top-0 hidden h-screen w-full bg-black/80 backdrop-blur-[15px]" />
       <div className="gsapModal z-modal fixed inset-0 hidden items-center justify-center">
         <div className="p-6U relative rounded-[10px] border border-white/25 bg-black/70 backdrop-blur-[15px]">
           <Close className="top-2U right-2U size-3U absolute cursor-pointer" onClick={() => closeModal()} />

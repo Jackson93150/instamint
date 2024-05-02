@@ -51,3 +51,15 @@ export const updateNftList = async (data: UpdateNftList) => {
     withCredentials: true,
   });
 };
+
+interface UpdateNftMinter {
+  tokenId: number;
+  minterAddress: string;
+  minter: number;
+}
+
+export const updateNftMinter = async (data: UpdateNftMinter) => {
+  await axios.patch(`${import.meta.env.VITE_BACKEND_URL}/nft/minter`, data, {
+    withCredentials: true,
+  });
+};
