@@ -39,3 +39,15 @@ export const getNftByTokenId = async (tokenId: number) => {
   const nfts = await axios.get(`${import.meta.env.VITE_BACKEND_URL}/nft/token/${tokenId}`);
   return nfts.data;
 };
+
+interface UpdateNftList {
+  id: number;
+  price: number;
+  listed: boolean;
+}
+
+export const updateNftList = async (data: UpdateNftList) => {
+  await axios.patch(`${import.meta.env.VITE_BACKEND_URL}/nft/list`, data, {
+    withCredentials: true,
+  });
+};

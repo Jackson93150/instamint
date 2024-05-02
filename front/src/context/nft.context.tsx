@@ -2,9 +2,9 @@ import { createContext, PropsWithChildren, Dispatch, useContext, useEffect, useS
 import { useWaitForTransactionReceipt, useWriteContract } from 'wagmi';
 
 import { ToggleAlertArgs, useAlert } from './alert.context';
-import { handleMint } from '@/components/modal/modal-actions';
+import { handleListing, handleMint } from '@/components/modal/modal-actions';
 import { DraftInterface } from '@/interfaces';
-import { createNft, getTotalNft } from '@/services/api/nft';
+import { createNft, getTotalNft, updateNftList } from '@/services/api/nft';
 
 export interface HandleMintArgs {
   closeModal: () => void;
@@ -22,8 +22,16 @@ export interface HandleMintArgs {
   minter: number;
 }
 
+export interface HandleListArgs {
+  closeModal: () => void;
+  toggleAlert: Dispatch<ToggleAlertArgs>;
+  tokenId: number;
+  price: number;
+}
+
 export type NftContextProps = {
   handleMint: Dispatch<HandleMintArgs>;
+  handleList: Dispatch<HandleListArgs>;
   isLoading: boolean;
 };
 
@@ -31,6 +39,7 @@ const NftContext = createContext<NftContextProps | undefined>(undefined);
 
 export const NftProvider = ({ children }: PropsWithChildren) => {
   const [mintData, setMintData] = useState<HandleMintArgs>();
+  const [listData, setListData] = useState<HandleListArgs>();
   const { toggleAlert } = useAlert();
   const { data: hash, writeContract } = useWriteContract();
   const {
@@ -40,11 +49,21 @@ export const NftProvider = ({ children }: PropsWithChildren) => {
   } = useWaitForTransactionReceipt({
     hash,
   });
+  const { data: hashList, writeContract: writeContractList } = useWriteContract();
+  const { isLoading: isConfirmingList, isSuccess: isConfirmedList } = useWaitForTransactionReceipt({
+    hash: hashList,
+  });
 
   const handleMintAction = async (args: HandleMintArgs) => {
     const data = { writeContract, ...args };
     setMintData(data);
     await handleMint(data);
+  };
+
+  const handleListAction = async (args: HandleListArgs) => {
+    const data = { writeContract: writeContractList, ...args };
+    setListData(data);
+    await handleListing(data);
   };
 
   const saveNft = async () => {
@@ -81,15 +100,40 @@ export const NftProvider = ({ children }: PropsWithChildren) => {
     }
   };
 
+  const saveList = async () => {
+    if (isConfirmedList && !isConfirmingList && listData) {
+      updateNftList({ id: listData.tokenId, price: listData.price, listed: true })
+        .then(() => {
+          listData.closeModal();
+          toggleAlert({
+            alertType: 'success',
+            content: `Your Nft as been listed. Transaction Hash: ${hashList}`,
+          });
+        })
+        .catch((error) => {
+          toggleAlert({
+            alertType: 'error',
+            content: `Failed to list NFT on server: ${error}`,
+          });
+        });
+    }
+  };
+
   useEffect(() => {
     saveNft();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [isConfirmed, isConfirming]);
 
+  useEffect(() => {
+    saveList();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [isConfirmedList, isConfirmingList]);
+
   return (
     <NftContext.Provider
       value={{
         handleMint: (args) => handleMintAction(args as HandleMintArgs),
+        handleList: (args) => handleListAction(args as HandleListArgs),
         isLoading: isConfirming,
       }}
     >

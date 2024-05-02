@@ -2,11 +2,12 @@ import { Dispatch } from 'react';
 import { Config } from 'wagmi';
 import { WriteContractMutate } from 'wagmi/query';
 
-import { ABI, NFT_CONTRACT } from '@/constants';
+import { ABI, LIST_NFT_ABI, MARKETPLACE_CONTRACT, NFT_CONTRACT } from '@/constants';
 import { ToggleAlertArgs } from '@/context';
 import { DraftInterface, MinterInterface } from '@/interfaces';
 import { createDraft, updateDraft, uploadFirebase } from '@/services';
 import { getTotalNft } from '@/services/api/nft';
+import { ethToWeiConverter } from '@/utils';
 
 interface SaveProps {
   minterData: MinterInterface | null;
@@ -29,6 +30,14 @@ export interface MintProps {
   description: string;
   content: number;
   url: string;
+  writeContract: WriteContractMutate<Config, unknown>;
+}
+
+export interface ListProps {
+  closeModal: () => void;
+  toggleAlert: Dispatch<ToggleAlertArgs>;
+  tokenId: number;
+  price: number;
   writeContract: WriteContractMutate<Config, unknown>;
 }
 
@@ -105,6 +114,24 @@ export const handleMint = async ({
       abi: ABI,
       functionName: 'mint',
       args: [firebaseUrl],
+    });
+  } catch (error) {
+    toggleAlert({
+      alertType: 'error',
+      content: error as string,
+    });
+    closeModal();
+  }
+};
+
+export const handleListing = async ({ closeModal, toggleAlert, tokenId, price, writeContract }: ListProps) => {
+  try {
+    writeContract({
+      address: MARKETPLACE_CONTRACT,
+      abi: LIST_NFT_ABI,
+      functionName: 'listNft',
+      value: BigInt(100000000000000),
+      args: [NFT_CONTRACT, BigInt(tokenId), ethToWeiConverter(price)],
     });
   } catch (error) {
     toggleAlert({

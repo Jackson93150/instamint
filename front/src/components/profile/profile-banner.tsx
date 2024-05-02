@@ -29,7 +29,7 @@ export const ProfileBanner = ({ minter, nfts }: Props) => {
       setFollowed(allFollowed);
     };
     fetchData();
-  });
+  }, [minter.id]);
   return (
     minter && (
       <div className="relative z-10 h-[35vh] w-full">

@@ -13,6 +13,7 @@ import { getNftByAddress, getNftByMinter } from '@/services/api/nft';
 export const ProfilePage = () => {
   const [minter, setMinter] = useState<MinterInterface | null>(null);
   const [nft, setNft] = useState<NftInterface[] | null>();
+  const [isMe, setIsMe] = useState(false);
   const sidebarContext = useContext(SidebarContext);
   const location = useLocation();
   const { uniqueUrl } = useParams();
@@ -26,6 +27,11 @@ export const ProfilePage = () => {
         const minterNft = await getNftByMinter(minterProfile.id);
         setNft(minterNft);
       }
+      if (sidebarContext.minterData?.id === minterProfile.id) {
+        setIsMe(true);
+      } else {
+        setIsMe(false);
+      }
     };
 
     const fetchMinterNftByAddress = async (address: string) => {
@@ -37,11 +43,13 @@ export const ProfilePage = () => {
       if (address) {
         fetchMinterNftByAddress(address);
       }
+      setIsMe(true);
     } else {
       fetchMinterByUrl();
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [location.pathname, uniqueUrl, sidebarContext.minterData, address]);
+
   return (
     minter && (
       <div className="gap-5U pb-10U bg-black-gradient flex h-fit min-h-screen w-full flex-col">
@@ -56,7 +64,7 @@ export const ProfilePage = () => {
             {nft &&
               nft.map((nft, key) => (
                 <Grid key={key} item>
-                  <MinterNftCard nft={nft} username={minter?.username} />
+                  <MinterNftCard nft={nft} username={minter?.username} isMe={isMe} />
                 </Grid>
               ))}
           </div>

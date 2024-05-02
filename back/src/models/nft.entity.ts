@@ -45,7 +45,7 @@ export class NftEntity {
   @Column()
   listed: boolean;
 
-  @Column({ nullable: true })
+  @Column({ type: 'numeric', precision: 10, scale: 4, nullable: true })
   price: number;
 
   @ManyToOne(() => MinterEntity, (minter) => minter.nft)

@@ -35,4 +35,18 @@ export class NftService {
       relations: ['minter'],
     });
   }
+
+  async updateNftPriceAndListed(
+    id: number,
+    price: number,
+    listed: boolean,
+  ): Promise<NftEntity> {
+    const nft = await this.nftRepository.findOne({ where: { id } });
+    if (nft) {
+      nft.price = price;
+      nft.listed = listed;
+      await this.nftRepository.save(nft);
+    }
+    return nft;
+  }
 }
