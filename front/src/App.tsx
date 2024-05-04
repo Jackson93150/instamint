@@ -10,6 +10,7 @@ import {
   ConfirmationPage,
   OriginalContentPage,
   ProfilePage,
+  NftPage,
 } from '@/pages';
 
 function App() {
@@ -25,6 +26,7 @@ function App() {
           <Route path="/settings" element={<SettingsPage />} />
           <Route path="/me" element={<ProfilePage />} />
           <Route path="/minter/:uniqueUrl" element={<ProfilePage />} />
+          <Route path="/nft/:tokenId" element={<NftPage />} />
         </Routes>
       </Layout>
     </Suspense>

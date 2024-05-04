@@ -34,3 +34,8 @@ export const getNftByMinter = async (minterId: number) => {
   const nfts = await axios.get(`${import.meta.env.VITE_BACKEND_URL}/nft/id/${minterId}`);
   return nfts.data;
 };
+
+export const getNftByTokenId = async (tokenId: number) => {
+  const nfts = await axios.get(`${import.meta.env.VITE_BACKEND_URL}/nft/token/${tokenId}`);
+  return nfts.data;
+};

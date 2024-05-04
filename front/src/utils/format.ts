@@ -6,3 +6,17 @@ export const formatThousand = (num: number) => {
     return num;
   }
 };
+
+export const formatType = (type: string): 'image' | 'audio' | 'video' => {
+  const category = type.split('/')[0];
+  switch (category) {
+    case 'image':
+      return 'image';
+    case 'audio':
+      return 'audio';
+    case 'video':
+      return 'video';
+    default:
+      return 'image';
+  }
+};

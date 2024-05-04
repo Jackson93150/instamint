@@ -64,3 +64,48 @@ export const NFT = [
     unmint: 27,
   },
 ];
+
+export const CHART_DATA = [
+  {
+    price: 0.3,
+  },
+  {
+    price: 3.0,
+  },
+  {
+    price: 1.2,
+  },
+  {
+    price: 2.78,
+  },
+  {
+    price: 1.89,
+  },
+  {
+    price: 2.39,
+  },
+  {
+    price: 3.49,
+  },
+  {
+    price: 0.3,
+  },
+  {
+    price: 3.0,
+  },
+  {
+    price: 1.2,
+  },
+  {
+    price: 2.78,
+  },
+  {
+    price: 1.89,
+  },
+  {
+    price: 2.39,
+  },
+  {
+    price: 3.49,
+  },
+];

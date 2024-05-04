@@ -79,6 +79,7 @@ export const SidebarProvider = ({ children }: Props) => {
           'gsapSidebarBlur',
           'left-O z-navbar fixed top-0 h-screen w-full bg-black/30 backdrop-blur-[15px]'
         )}
+        onClick={closeSidebar}
       />
       <Sidebar />
       {children}

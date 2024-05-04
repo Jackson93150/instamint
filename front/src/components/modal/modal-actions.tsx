@@ -21,7 +21,7 @@ interface SaveProps {
   content: number;
 }
 
-interface MintProps {
+export interface MintProps {
   closeModal: () => void;
   toggleAlert: Dispatch<ToggleAlertArgs>;
   data: DraftInterface | undefined;

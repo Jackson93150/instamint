@@ -12,6 +12,8 @@ interface Props {
 export const Layout = ({ children }: Props) => {
   const godRays = useRef<HTMLDivElement>(null);
   const location = useLocation();
+  const showRay = location.pathname === '/' || location.pathname === '/login' || location.pathname === '/register';
+
   useEffect(() => {
     gsap.to(godRays.current, {
       opacity: 0.8,
@@ -19,11 +21,12 @@ export const Layout = ({ children }: Props) => {
       delay: 0.3,
     });
   });
+
   return (
     <React.Fragment>
       <Navbar />
       <main className="h-fit w-full">{children}</main>
-      {location.pathname !== '/me' && (
+      {showRay && (
         <div ref={godRays} className="pointer-events-none absolute left-0 top-0 h-screen w-full opacity-0">
           <Canvas
             dpr={0.5}

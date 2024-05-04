@@ -98,6 +98,7 @@ export default {
         'green-bio-gradient': 'linear-gradient(180deg, rgba(39, 171, 92, 0.2), rgba(22, 80, 45, 0.2))',
         'green-bg-gradient': 'linear-gradient(0deg, #0f1314, #0f1a13)',
         'black-gradient': 'linear-gradient(0deg, #151D20, #000)',
+        'page-gradient': 'linear-gradient(0deg, #151D20, #05161a)',
       },
       zIndex: {
         ray: '90',
