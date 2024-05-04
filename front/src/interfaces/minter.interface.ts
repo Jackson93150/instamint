@@ -37,3 +37,8 @@ export interface SearchOutput {
   followerCount: string;
   nftCount: string;
 }
+
+export interface MinterChangePassword {
+  oldPassword: string;
+  newPassword: string;
+}

@@ -16,3 +16,4 @@ export * from './original-content/draft-content-view';
 export * from './profile/profile-banner';
 export * from './profile/minter-nft-card';
 export * from './search/search-bar';
+export * from './settings/change-password';

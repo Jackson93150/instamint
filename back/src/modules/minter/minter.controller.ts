@@ -98,4 +98,18 @@ export class MinterController {
   async searchMinters(@Query('query') query: string): Promise<MinterEntity[]> {
     return this.minterService.searchMinters(query);
   }
+
+  @Put('password')
+  @UseGuards(AuthGuard('jwt'))
+  async updatePassword(
+    @Req() req: any,
+    @Body('oldPassword') oldPassword: string,
+    @Body('newPassword') newPassword: string,
+  ): Promise<void> {
+    await this.minterService.updatePassword(
+      req.user.id,
+      oldPassword,
+      newPassword,
+    );
+  }
 }
