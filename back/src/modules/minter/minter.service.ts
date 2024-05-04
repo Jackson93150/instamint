@@ -207,4 +207,26 @@ export class MinterService {
     }
     await this.minterRepository.update(id, { bio });
   }
+
+  async updatePassword(
+    id: number,
+    oldPassword: string,
+    newPassword: string,
+  ): Promise<void> {
+    const minter = await this.minterRepository.findOne({ where: { id } });
+    if (!minter) {
+      throw new Error('Minter not found !');
+    }
+
+    if (!(await bcrypt.compare(oldPassword, minter.password))) {
+      throw new Error('Old password is wrong !');
+    }
+
+    if (!PASSWORD_REGEX.test(newPassword)) {
+      throw new Error('New password must be in valid format !');
+    }
+
+    const hashedPassword = await bcrypt.hash(newPassword, 10);
+    await this.minterRepository.update(id, { password: hashedPassword });
+  }
 }

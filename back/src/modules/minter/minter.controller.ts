@@ -104,4 +104,18 @@ export class MinterController {
   async updateBio(@Req() req: any, @Body('bio') newBio: string): Promise<void> {
     await this.minterService.updateBio(req.user.id, newBio);
   }
+
+  @Put('password')
+  @UseGuards(AuthGuard('jwt'))
+  async updatePassword(
+    @Req() req: any,
+    @Body('oldPassword') oldPassword: string,
+    @Body('newPassword') newPassword: string,
+  ): Promise<void> {
+    await this.minterService.updatePassword(
+      req.user.id,
+      oldPassword,
+      newPassword,
+    );
+  }
 }

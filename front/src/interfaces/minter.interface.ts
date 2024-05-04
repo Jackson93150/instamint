@@ -41,3 +41,8 @@ export interface SearchOutput {
 export interface MinterChangeBio {
   bio: string;
 }
+
+export interface MinterChangePassword {
+  oldPassword: string;
+  newPassword: string;
+}
