@@ -1,5 +1,5 @@
 import cx from 'classnames';
-import { memo, useEffect, useMemo, useState } from 'react';
+import { memo, useContext, useEffect, useMemo, useState } from 'react';
 import { useParams } from 'react-router-dom';
 
 import EtherLogo from '@/assets/icons/ether.png';
@@ -7,8 +7,11 @@ import Music from '@/assets/mock/music.jpeg';
 import { PriceCharts } from '@/components';
 import { NftCardScene } from '@/components/threejs/nft-card';
 import { CHART_DATA } from '@/constants';
+import { SidebarContext, useModal } from '@/context';
+import { ChartData } from '@/interfaces';
 import { NftInterface } from '@/interfaces/nft.interface';
 import { getNftByTokenId } from '@/services/api/nft';
+import { getTransactionPrices } from '@/services/api/transaction';
 import { Button, Chip } from '@/ui';
 import { Mint } from '@/ui/buttons/mint';
 import { formatType } from '@/utils';
@@ -17,6 +20,11 @@ export const NftPage = () => {
   const { tokenId } = useParams();
   const [nft, setNft] = useState<NftInterface | null>();
   const [changeView, setChangeView] = useState(false);
+  const [isMe, setIsMe] = useState(false);
+  const [priceHistory, setPricehistory] = useState<ChartData[]>();
+  const { toggleModal } = useModal();
+
+  const sidebarContext = useContext(SidebarContext);
 
   const MemoizedNftScene = useMemo(() => memo(NftCardScene), []);
 
@@ -25,10 +33,17 @@ export const NftPage = () => {
       if (tokenId) {
         const data = await getNftByTokenId(parseInt(tokenId));
         setNft(data);
+        const prices = await getTransactionPrices(parseInt(tokenId));
+        setPricehistory(prices);
       }
     };
     fetchData();
-  }, [tokenId]);
+    if (sidebarContext.minterData?.id === nft?.minter.id) {
+      setIsMe(true);
+    } else {
+      setIsMe(false);
+    }
+  }, [nft?.minter.id, sidebarContext.minterData?.id, tokenId]);
 
   return (
     nft && (
@@ -117,10 +132,36 @@ export const NftPage = () => {
                 </div>
               </div>
               <div className="tablet:h-1/2 flex h-[150px] w-full flex-col">
-                <PriceCharts data={CHART_DATA} />
+                <PriceCharts data={priceHistory!} />
               </div>
               <div className="px-7U py-2U tablet:pt-4U tablet:pb-0">
-                <Button color="green" content="BUY" fullWidth />
+                {isMe ? (
+                  <Button
+                    color="green"
+                    content="LIST"
+                    fullWidth
+                    isDisabled={nft.listed}
+                    onClick={() => {
+                      toggleModal({
+                        modalType: 'list-nft',
+                        data: { nft: nft, actionType: 'list' },
+                      });
+                    }}
+                  />
+                ) : (
+                  <Button
+                    color="green"
+                    content="BUY"
+                    fullWidth
+                    isDisabled={!nft.listed}
+                    onClick={() => {
+                      toggleModal({
+                        modalType: 'list-nft',
+                        data: { nft: nft, actionType: 'buy' },
+                      });
+                    }}
+                  />
+                )}
               </div>
             </div>
           </div>

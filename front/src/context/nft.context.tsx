@@ -62,15 +62,21 @@ export const NftProvider = ({ children }: PropsWithChildren) => {
     isSuccess: isConfirmed,
     data: transactionData,
   } = useWaitForTransactionReceipt({
+    confirmations: 2,
     hash,
+    pollingInterval: 1_000,
   });
   const { data: hashList, writeContract: writeContractList } = useWriteContract();
   const { isLoading: isConfirmingList, isSuccess: isConfirmedList } = useWaitForTransactionReceipt({
+    confirmations: 2,
     hash: hashList,
+    pollingInterval: 1_000,
   });
   const { data: hashBuy, writeContract: writeContractBuy } = useWriteContract();
   const { isLoading: isConfirmingBuy, isSuccess: isConfirmedBuy } = useWaitForTransactionReceipt({
+    confirmations: 2,
     hash: hashBuy,
+    pollingInterval: 1_000,
   });
 
   const handleMintAction = async (args: HandleMintArgs) => {
@@ -161,6 +167,7 @@ export const NftProvider = ({ children }: PropsWithChildren) => {
       txHash: hashBuy as string,
       tokenId: buyData!.nft.tokenId,
       from: buyData!.nft.minterAddress,
+      to: buyData?.address,
       type: txType,
       price: buyData!.nft.price,
       minter: buyData!.nft.minter.id,

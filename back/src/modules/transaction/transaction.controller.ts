@@ -1,4 +1,4 @@
-import { Controller, Post, Body, UseGuards } from '@nestjs/common';
+import { Controller, Post, Body, UseGuards, Get, Param } from '@nestjs/common';
 import { AuthGuard } from '@nestjs/passport';
 
 import { TransactionService } from './transaction.service';
@@ -15,5 +15,12 @@ export class TransactionController {
     @Body() transaction: TransactionEntity,
   ): Promise<TransactionEntity> {
     return this.transactionService.createTransaction(transaction);
+  }
+
+  @Get('prices/:tokenId')
+  async getTransactionPricesByTokenId(
+    @Param('tokenId') tokenId: number,
+  ): Promise<{ price: number }[]> {
+    return this.transactionService.getTransactionPricesByTokenId(tokenId);
   }
 }

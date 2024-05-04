@@ -19,4 +19,22 @@ export class TransactionService {
     );
     return createdTransaction;
   }
+
+  async getTransactionPricesByTokenId(
+    tokenId: number,
+  ): Promise<{ price: number }[]> {
+    const transactions = await this.transactionRepository.find({
+      where: { tokenId, type: 'list' },
+      select: ['price'],
+    });
+
+    if (transactions.length === 0) {
+      return [{ price: 0.0 }, { price: 0.0 }];
+    }
+
+    return [
+      { price: 0.0 },
+      ...transactions.map((transaction) => ({ price: transaction.price })),
+    ];
+  }
 }
