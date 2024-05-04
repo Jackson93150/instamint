@@ -4,6 +4,7 @@ import { ChangeEvent, memo, useContext, useMemo, useState } from 'react';
 import { useAccount } from 'wagmi';
 
 import { NftCardScene } from '../threejs/nft-card';
+import EtherLogo from '@/assets/icons/ether.png';
 import { SidebarContext, useAlert, useModal, useNft } from '@/context';
 import { NftInterface } from '@/interfaces/nft.interface';
 import { Button } from '@/ui';
@@ -40,7 +41,7 @@ export const ListBuyNftModal = ({ nft, actionType }: Props) => {
       </div>
       {actionType === 'list' && (
         <>
-          <div className="gap-2U flex w-full flex-col">
+          <div className="gap-2U relative flex w-full flex-col">
             <label htmlFor="text" className="ml-1U text-body block text-white/90">
               Price in ETH
             </label>
@@ -52,6 +53,7 @@ export const ListBuyNftModal = ({ nft, actionType }: Props) => {
               value={priceInput}
               onChange={handleNameChange}
             />
+            <img className="right-5U top-10U absolute h-[25px]" src={EtherLogo} alt="ether" />
           </div>
           <div className="gap-2U flex w-full flex-col">
             <Button
