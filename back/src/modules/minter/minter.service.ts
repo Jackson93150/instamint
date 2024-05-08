@@ -48,11 +48,15 @@ export class MinterService {
       throw new Error('Password must be in valid format.');
     }
 
+    if (!USERNAME_REGEX.test(minter.username)) {
+      throw new Error('Username must be in valid format.');
+    }
+
     const hashedPassword = await bcrypt.hash(minter.password, 10);
-    const hashedUniqueUrl = (await bcrypt.hash(minter.username, 1)).substring(
-      1,
-      16,
-    );
+    const hashedUniqueUrl = (await bcrypt.hash(minter.username, 1))
+      .replace(/[^A-Za-z0-9]/g, '')
+      .substring(0, 15);
+
     const newMinter = {
       username: minter.username,
       email: minter.email,
