@@ -27,3 +27,9 @@ export const confirm = async (token: string) => {
     },
   });
 };
+
+export const logout = async () => {
+  await axios.post(`${import.meta.env.VITE_BACKEND_URL}/auth/logout`, null, {
+    withCredentials: true,
+  });
+};

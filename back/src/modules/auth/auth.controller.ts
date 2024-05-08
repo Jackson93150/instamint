@@ -6,6 +6,7 @@ import {
   Get,
   UseGuards,
   Res,
+  HttpStatus,
 } from '@nestjs/common';
 import { AuthGuard } from '@nestjs/passport';
 import { Response } from 'express';
@@ -49,5 +50,18 @@ export class AuthController {
     } catch (error) {
       throw error;
     }
+  }
+
+  @Post('logout')
+  @UseGuards(AuthGuard('jwt'))
+  async logoutUser(@Res() res: Response) {
+    res.clearCookie('accessToken', {
+      httpOnly: true,
+      sameSite: 'none',
+      secure: true,
+    });
+    return res
+      .status(HttpStatus.OK)
+      .json({ message: 'Logged out successfully' });
   }
 }

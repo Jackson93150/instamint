@@ -9,6 +9,7 @@ import { useContext } from 'react';
 import { NavItem } from './nav-item';
 import Close from '@/assets/icons/close.svg?react';
 import { SidebarContext } from '@/context';
+import LogoutButton from '@/ui/buttons/logout-button';
 import { WalletConnectButton } from '@/ui/buttons/wallet-button';
 
 export const Sidebar = () => {
@@ -47,7 +48,8 @@ export const Sidebar = () => {
           <NavItem icon={<ChatIcon fontSize="large" />} title="Message" path="/messages" />
           <NavItem icon={<SettingsIcon fontSize="large" />} title="Settings" path="/settings" />
         </div>
-        <div className="gap-5U flex h-fit w-full flex-col items-center justify-center">
+        <div className="gap-3U flex h-fit w-full flex-col items-center justify-center">
+          <LogoutButton />
           <div className="h-px w-full bg-gradient-to-r from-transparent via-gray-100 to-transparent" />
           <WalletConnectButton />
         </div>
