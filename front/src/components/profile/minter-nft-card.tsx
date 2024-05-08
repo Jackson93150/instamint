@@ -3,7 +3,7 @@ import { useNavigate } from 'react-router-dom';
 
 import EtherLogo from '@/assets/icons/ether.png';
 import Music from '@/assets/mock/music.jpeg';
-import { SidebarContext } from '@/context';
+import { SidebarContext, useModal } from '@/context';
 import { NftInterface } from '@/interfaces/nft.interface';
 import { Button } from '@/ui';
 import { Mint } from '@/ui/buttons/mint';
@@ -11,11 +11,13 @@ import { Mint } from '@/ui/buttons/mint';
 interface Props {
   nft: NftInterface;
   username: string;
+  isMe: boolean;
 }
 
-export const MinterNftCard = ({ nft, username }: Props) => {
+export const MinterNftCard = ({ nft, username, isMe }: Props) => {
   const navigate = useNavigate();
   const sidebarContext = useContext(SidebarContext);
+  const { toggleModal } = useModal();
 
   return (
     <div className="bg-green-card-gradient p-3U gap-2U ease group z-10 flex h-fit min-w-[340px] max-w-[370px] flex-col overflow-hidden rounded-[10px] border border-white/50 transition-all duration-300 hover:shadow-2xl">
@@ -60,7 +62,9 @@ export const MinterNftCard = ({ nft, username }: Props) => {
           {nft.price && (
             <div className="gap-1U flex items-center">
               <img className="h-[25px]" src={EtherLogo} alt="ether" />
-              <span className="text-heading leading-none text-white">{nft.price.toString()}</span>
+              <span className="text-heading leading-none text-white">
+                {typeof nft.price === 'number' ? nft.price.toFixed(2) : parseFloat(nft.price).toFixed(2)}
+              </span>
             </div>
           )}
         </div>
@@ -69,7 +73,33 @@ export const MinterNftCard = ({ nft, username }: Props) => {
         </div>
 
         <div className="bottom-2U right-3U ease absolute translate-y-full opacity-0 transition-all duration-300 group-hover:translate-y-0 group-hover:opacity-100">
-          <Button color="green" content="BUY" size="small" isDisabled={!nft.listed} />
+          {isMe ? (
+            <Button
+              color="green"
+              content="LIST"
+              size="small"
+              isDisabled={nft.listed}
+              onClick={() => {
+                toggleModal({
+                  modalType: 'list-nft',
+                  data: { nft: nft, actionType: 'list' },
+                });
+              }}
+            />
+          ) : (
+            <Button
+              color="green"
+              content="BUY"
+              size="small"
+              isDisabled={!nft.listed}
+              onClick={() => {
+                toggleModal({
+                  modalType: 'list-nft',
+                  data: { nft: nft, actionType: 'buy' },
+                });
+              }}
+            />
+          )}
         </div>
       </div>
     </div>

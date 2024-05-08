@@ -1,4 +1,12 @@
-import { Controller, Post, Body, Get, UseGuards, Param } from '@nestjs/common';
+import {
+  Controller,
+  Post,
+  Body,
+  Get,
+  UseGuards,
+  Param,
+  Patch,
+} from '@nestjs/common';
 import { AuthGuard } from '@nestjs/passport';
 
 import { NftService } from './nft.service';
@@ -35,5 +43,29 @@ export class NftController {
   @Get('token/:id')
   async getNftByTokenId(@Param('id') tokenId: number): Promise<NftEntity> {
     return this.nftService.getNftByTokenId(tokenId);
+  }
+
+  @Patch('list')
+  @UseGuards(AuthGuard('jwt'))
+  async updateNftPriceAndList(
+    @Body('id') id: number,
+    @Body('price') price: number,
+    @Body('listed') listed: boolean,
+  ): Promise<NftEntity> {
+    return this.nftService.updateNftPriceAndListed(id, price, listed);
+  }
+
+  @Patch('minter')
+  @UseGuards(AuthGuard('jwt'))
+  async updateMinterInfo(
+    @Body('tokenId') tokenId: number,
+    @Body('minterAddress') newMinterAddress: string,
+    @Body('minter') newMinterId: number,
+  ): Promise<NftEntity> {
+    return this.nftService.updateMinterInfo(
+      tokenId,
+      newMinterAddress,
+      newMinterId,
+    );
   }
 }

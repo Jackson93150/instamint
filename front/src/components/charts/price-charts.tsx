@@ -1,8 +1,6 @@
 import { AreaChart, Area, YAxis, CartesianGrid, Tooltip, ResponsiveContainer } from 'recharts';
 
-interface ChartData {
-  price: number;
-}
+import { ChartData } from '@/interfaces';
 
 interface Props {
   data: ChartData[];

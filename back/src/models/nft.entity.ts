@@ -9,6 +9,7 @@ import {
 
 import { MintEntity } from './mint.entity';
 import { MinterEntity } from './minter.entity';
+import { TransactionEntity } from './transaction.entity';
 
 @Entity({ name: 'nft' })
 export class NftEntity {
@@ -45,7 +46,7 @@ export class NftEntity {
   @Column()
   listed: boolean;
 
-  @Column({ nullable: true })
+  @Column({ type: 'numeric', precision: 10, scale: 4, nullable: true })
   price: number;
 
   @ManyToOne(() => MinterEntity, (minter) => minter.nft)
@@ -56,6 +57,12 @@ export class NftEntity {
   })
   @JoinColumn()
   mint: MintEntity[] | null;
+
+  @OneToMany(() => TransactionEntity, (transaction) => transaction.nft, {
+    nullable: true,
+  })
+  @JoinColumn()
+  transaction: TransactionEntity[] | null;
 
   @Column({ type: 'timestamp', default: () => 'CURRENT_TIMESTAMP' })
   createdAt: Date;

@@ -77,6 +77,7 @@ describe('AuthService', () => {
         nft: null,
         follow: null,
         mint: null,
+        transaction: null,
       };
 
       jest.spyOn(minterService, 'getMinterByEmail').mockResolvedValue(minter);
@@ -114,6 +115,7 @@ describe('AuthService', () => {
         nft: null,
         follow: null,
         mint: null,
+        transaction: null,
       };
 
       jest.spyOn(minterService, 'getMinterByEmail').mockResolvedValue(minter);

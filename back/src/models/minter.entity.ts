@@ -11,6 +11,7 @@ import { DraftEntity } from './draft.entity';
 import { FollowEntity } from './follow.entity';
 import { MintEntity } from './mint.entity';
 import { NftEntity } from './nft.entity';
+import { TransactionEntity } from './transaction.entity';
 
 @Entity({ name: 'minter' })
 export class MinterEntity {
@@ -82,6 +83,12 @@ export class MinterEntity {
   })
   @JoinColumn()
   mint: MintEntity[] | null;
+
+  @OneToMany(() => TransactionEntity, (transaction) => transaction.minter, {
+    nullable: true,
+  })
+  @JoinColumn()
+  transaction: TransactionEntity[] | null;
 
   @Column({ type: 'timestamp', default: () => 'CURRENT_TIMESTAMP' })
   createdAt: Date;

@@ -1,3 +1,3 @@
 export interface ModalType {
-  modalType: 'media-upload' | 'media-viewer' | 'media-delete';
+  modalType: 'media-upload' | 'media-viewer' | 'media-delete' | 'list-nft';
 }

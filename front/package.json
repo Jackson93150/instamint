@@ -27,6 +27,7 @@
     "@types/three": "^0.162.0",
     "axios": "^1.6.7",
     "classnames": "^2.5.1",
+    "ethers": "^6.12.1",
     "gsap": "^3.12.5",
     "lint-staged": "^15.2.1",
     "postprocessing": "6.35",

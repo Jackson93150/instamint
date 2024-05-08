@@ -20,3 +20,7 @@ export const formatType = (type: string): 'image' | 'audio' | 'video' => {
       return 'image';
   }
 };
+
+export const formatEthDecimal = (num: number) => {
+  return num.toFixed(2);
+};
