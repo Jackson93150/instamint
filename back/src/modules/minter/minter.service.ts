@@ -1,4 +1,9 @@
-import { Injectable } from '@nestjs/common';
+/* eslint-disable max-lines */
+import {
+  BadRequestException,
+  Injectable,
+  NotFoundException,
+} from '@nestjs/common';
 import { Cron, CronExpression } from '@nestjs/schedule';
 import { InjectRepository } from '@nestjs/typeorm';
 import * as bcrypt from 'bcrypt';
@@ -188,5 +193,18 @@ export class MinterService {
       .getRawMany();
 
     return formatRowData(rawData);
+  }
+
+  async updateBio(id: number, bio: string): Promise<void> {
+    if (bio.length > 250) {
+      throw new BadRequestException('Bio is longer than 250 characters !');
+    }
+    const existingMinter = await this.minterRepository.findOne({
+      where: { id },
+    });
+    if (!existingMinter) {
+      throw new NotFoundException('Minter not found !');
+    }
+    await this.minterRepository.update(id, { bio });
   }
 }

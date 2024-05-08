@@ -98,4 +98,10 @@ export class MinterController {
   async searchMinters(@Query('query') query: string): Promise<MinterEntity[]> {
     return this.minterService.searchMinters(query);
   }
+
+  @Put('bio')
+  @UseGuards(AuthGuard('jwt'))
+  async updateBio(@Req() req: any, @Body('bio') newBio: string): Promise<void> {
+    await this.minterService.updateBio(req.user.id, newBio);
+  }
 }
