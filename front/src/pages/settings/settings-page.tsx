@@ -3,6 +3,7 @@ import { ChangeBioComponent } from '@/components/settings/change-bio';
 import { ChangeLinkComponent } from '@/components/settings/change-unique-link';
 import { ChangeUsernameComponent } from '@/components/settings/change-username';
 import { DeleteMinterComponent } from '@/components/settings/delete-minter';
+import { ToggleTwoFactorAuthComponent } from '@/components/settings/toggle-2fa';
 
 export const SettingsPage = () => {
   return (
@@ -12,6 +13,7 @@ export const SettingsPage = () => {
         <ChangeLinkComponent />
         <ChangeBioComponent />
         <ChangePasswordComponent />
+        <ToggleTwoFactorAuthComponent />
         <DeleteMinterComponent />
       </div>
     </div>

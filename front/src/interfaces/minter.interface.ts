@@ -46,3 +46,7 @@ export interface MinterChangePassword {
   oldPassword: string;
   newPassword: string;
 }
+
+export interface ToggleTwoFactorAuthData {
+  isEnabled: boolean;
+}

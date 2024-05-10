@@ -251,4 +251,18 @@ export class MinterService {
     const hashedPassword = await bcrypt.hash(newPassword, 10);
     await this.minterRepository.update(id, { password: hashedPassword });
   }
+
+  async toggleTwoFactorAuthentication(
+    id: number,
+    isEnabled: boolean,
+  ): Promise<void> {
+    const minter = await this.minterRepository.findOne({
+      where: { id: id },
+    });
+    if (!minter) {
+      throw new NotFoundException('Minter not found !');
+    }
+    minter.twoFactorEnabled = isEnabled;
+    await this.minterRepository.save(minter);
+  }
 }
