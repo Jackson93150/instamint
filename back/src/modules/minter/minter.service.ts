@@ -1,4 +1,5 @@
-import { Injectable } from '@nestjs/common';
+/* eslint-disable max-lines */
+import { Injectable, NotFoundException } from '@nestjs/common';
 import { Cron, CronExpression } from '@nestjs/schedule';
 import { InjectRepository } from '@nestjs/typeorm';
 import * as bcrypt from 'bcrypt';
@@ -188,5 +189,19 @@ export class MinterService {
       .getRawMany();
 
     return formatRowData(rawData);
+  }
+
+  async toggleTwoFactorAuthentication(
+    id: number,
+    isEnabled: boolean,
+  ): Promise<void> {
+    const minter = await this.minterRepository.findOne({
+      where: { id: id },
+    });
+    if (!minter) {
+      throw new NotFoundException('Minter not found !');
+    }
+    minter.twoFactorEnabled = isEnabled;
+    await this.minterRepository.save(minter);
   }
 }

@@ -9,6 +9,8 @@ import {
   Get,
   Param,
   Query,
+  HttpException,
+  HttpStatus,
 } from '@nestjs/common';
 import { AuthGuard } from '@nestjs/passport';
 
@@ -97,5 +99,27 @@ export class MinterController {
   @Get('search')
   async searchMinters(@Query('query') query: string): Promise<MinterEntity[]> {
     return this.minterService.searchMinters(query);
+  }
+
+  @Put('2fa-toggle')
+  @UseGuards(AuthGuard('jwt'))
+  async toggleTwoFactorAuthentication(
+    @Req() req: any,
+    @Body('isEnabled') isEnabled: boolean,
+  ): Promise<any> {
+    try {
+      await this.minterService.toggleTwoFactorAuthentication(
+        req.user.id,
+        isEnabled,
+      );
+      return {
+        message: 'Two-factor authentication status updated successfully.',
+      };
+    } catch (error) {
+      throw new HttpException(
+        'Failed to update two-factor authentication status.',
+        HttpStatus.INTERNAL_SERVER_ERROR,
+      );
+    }
   }
 }

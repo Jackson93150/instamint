@@ -1,6 +1,7 @@
 import { ChangeLinkComponent } from '@/components/settings/change-unique-link';
 import { ChangeUsernameComponent } from '@/components/settings/change-username';
 import { DeleteMinterComponent } from '@/components/settings/delete-minter';
+import { ToggleTwoFactorAuthComponent } from '@/components/settings/toggle-2fa';
 
 export const SettingsPage = () => {
   return (
@@ -8,6 +9,7 @@ export const SettingsPage = () => {
       <div className="flex h-fit w-[70vw] flex-col gap-y-4 rounded-[20px] bg-gray-400 p-4 shadow-xl">
         <ChangeUsernameComponent />
         <ChangeLinkComponent />
+        <ToggleTwoFactorAuthComponent />
         <DeleteMinterComponent />
       </div>
     </div>

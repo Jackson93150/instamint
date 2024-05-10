@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-import { MinterInterface, SearchOutput } from '@/interfaces';
+import { MinterInterface, SearchOutput, ToggleTwoFactorAuthData } from '@/interfaces';
 
 interface MinterRegister {
   username: string;
@@ -69,6 +69,13 @@ export const updateBanner = async (data: MinterChangeBanner) => {
 export const searchMinters = async (query: string): Promise<SearchOutput[]> => {
   const response = await axios.get(`${import.meta.env.VITE_BACKEND_URL}/minter/search`, {
     params: { query },
+    withCredentials: true,
+  });
+  return response.data;
+};
+
+export const toggleTwoFactorAuth = async (data: ToggleTwoFactorAuthData) => {
+  const response = await axios.put(`${import.meta.env.VITE_BACKEND_URL}/minter/2fa-toggle`, data, {
     withCredentials: true,
   });
   return response.data;

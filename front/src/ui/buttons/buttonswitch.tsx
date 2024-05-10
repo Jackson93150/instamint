@@ -16,23 +16,25 @@ export const SwitchButton = ({
   onToggle,
   className,
 }: SwitchButtonProps) => {
-  const switchButtonClass = cx('relative inline-flex items-center cursor-pointer', className);
+  const switchButtonClass = cx('relative inline-flex items-center cursor-pointer rounded-full', className, 'w-14 h-7');
 
   const switchKnobClass = cx(
     'absolute transform transition-transform ease-in-out duration-200',
     {
-      'translate-x-full': isOn,
+      'translate-x-6': isOn,
       'translate-x-0': !isOn,
       [onColor]: isOn,
       [offColor]: !isOn,
     },
-    'px-6U py-6U rounded-full shadow'
+    'w-6 h-6 rounded-full shadow border border-gray-300',
+    'left-1'
   );
 
   return (
-    <div className={switchButtonClass} onClick={onToggle}>
-      className={cx('px-12U py-6U rounded-full transition-colors duration-200 ease-in-out', { [offColor]: !isOn })}
-      <div className={switchKnobClass} />
+    <div className="flex items-center rounded-full bg-gray-200 p-1 shadow">
+      <div className={switchButtonClass} onClick={onToggle}>
+        <div className={switchKnobClass} />
+      </div>
     </div>
   );
 };

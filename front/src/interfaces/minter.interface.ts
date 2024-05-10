@@ -37,3 +37,7 @@ export interface SearchOutput {
   followerCount: string;
   nftCount: string;
 }
+
+export interface ToggleTwoFactorAuthData {
+  isEnabled: boolean;
+}
