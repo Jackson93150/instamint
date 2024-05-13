@@ -1,3 +1,4 @@
+import { ChangePasswordComponent } from '@/components';
 import { ChangeBioComponent } from '@/components/settings/change-bio';
 import { ChangeLinkComponent } from '@/components/settings/change-unique-link';
 import { ChangeUsernameComponent } from '@/components/settings/change-username';
@@ -10,6 +11,7 @@ export const SettingsPage = () => {
         <ChangeUsernameComponent />
         <ChangeLinkComponent />
         <ChangeBioComponent />
+        <ChangePasswordComponent />
         <DeleteMinterComponent />
       </div>
     </div>

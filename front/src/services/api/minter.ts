@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-import { MinterInterface, SearchOutput, MinterChangeBio } from '@/interfaces';
+import { MinterInterface, SearchOutput, MinterChangeBio, MinterChangePassword } from '@/interfaces';
 
 interface MinterRegister {
   username: string;
@@ -76,6 +76,12 @@ export const searchMinters = async (query: string): Promise<SearchOutput[]> => {
 
 export const updateBio = async (data: MinterChangeBio) => {
   await axios.put(`${import.meta.env.VITE_BACKEND_URL}/minter/bio`, data, {
+    withCredentials: true,
+  });
+};
+
+export const updatePassword = async (data: MinterChangePassword) => {
+  await axios.put(`${import.meta.env.VITE_BACKEND_URL}/minter/password`, data, {
     withCredentials: true,
   });
 };

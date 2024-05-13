@@ -82,6 +82,21 @@ This route allows searching for minters based on a query string. It filters the 
   |-------------|---------|--------------------------------------------|
   | `query`     | string  | The search string to filter minters by.    |
 
+### Update Username
+
+This route allows updating the password for a minter's profile.
+
+- **URL:** `/minter/password`
+- **Method:** `PUT`
+- **Request Body:**
+- **Authentication:** Requires a valid JWT token in the request headers.
+
+  | Parameter     | Type    | Description                                     |
+  |---------------|---------|-------------------------------------------------|
+  | `oldPassword` | string  | The current password of the minter.             |
+  | `newPassword` | string  | The new password to be set for the minter.      |
+
+
 ## Authentication
 
 ### Retrieve Current User

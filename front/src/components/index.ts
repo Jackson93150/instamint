@@ -18,3 +18,4 @@ export * from './profile/minter-nft-card';
 export * from './search/search-bar';
 export * from './charts/price-charts';
 export * from './settings/change-bio';
+export * from './settings/change-password';
