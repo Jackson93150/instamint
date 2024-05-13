@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
 
 import { containsSensitiveWord } from '@/assets/filter/sensitiveWords';
@@ -10,15 +10,23 @@ import { Button } from '@/ui';
 const ChangeUsernameComponent = () => {
   const navigate = useNavigate();
   const { toggleAlert } = useAlert();
-  const [newUsername, setNewUsername] = useState('');
-  const [currentUsername, setcurrentUsername] = useState('');
+  const [currentUsername, setCurrentUsername] = useState('');
+  const newUsernameRef = useRef<HTMLInputElement>(null);
 
   useEffect(() => {
     const fetchData = async () => {
-      const details = await connectedMinter();
-      if (details.username) {
-        setcurrentUsername(details.username);
-      } else {
+      try {
+        const details = await connectedMinter();
+        if (details.username) {
+          setCurrentUsername(details.username);
+        } else {
+          toggleAlert({
+            alertType: 'error',
+            content: 'Failed to fetch minter details.',
+          });
+          navigate('/login');
+        }
+      } catch (error) {
         toggleAlert({
           alertType: 'error',
           content: 'Failed to fetch minter details.',
@@ -30,25 +38,33 @@ const ChangeUsernameComponent = () => {
   }, [navigate, toggleAlert]);
 
   const handleUpdateUsername = async () => {
-    const trimmedNewUsername = newUsername.trim();
+    const newUsername = newUsernameRef.current?.value.trim();
 
-    if (containsSensitiveWord(trimmedNewUsername)) {
+    if (!newUsername) {
       toggleAlert({
         alertType: 'error',
-        content: 'The URL contains inappropriate content. Please choose another one.',
+        content: 'Please provide a username.',
       });
       return;
     }
 
-    if (!USERNAME_REGEX.test(trimmedNewUsername)) {
+    if (containsSensitiveWord(newUsername)) {
       toggleAlert({
         alertType: 'error',
-        content: 'Please insert a valid username !',
+        content: 'The username contains inappropriate content. Please choose another one.',
       });
       return;
     }
 
-    if (trimmedNewUsername === currentUsername) {
+    if (!USERNAME_REGEX.test(newUsername)) {
+      toggleAlert({
+        alertType: 'error',
+        content: 'Please insert a valid username!',
+      });
+      return;
+    }
+
+    if (newUsername === currentUsername) {
       toggleAlert({
         alertType: 'warning',
         content: 'No changes detected in the username.',
@@ -61,7 +77,7 @@ const ChangeUsernameComponent = () => {
         username: newUsername,
       };
       await updateUsername(data);
-      setcurrentUsername(newUsername);
+      setCurrentUsername(newUsername);
       toggleAlert({
         alertType: 'success',
         content: 'Username updated successfully!',
@@ -75,21 +91,22 @@ const ChangeUsernameComponent = () => {
   };
 
   return (
-    <div className="z-10 flex w-full flex-col">
-      <div className="flex w-full items-center justify-between rounded-lg bg-gray-400 p-4 shadow-xl sm:p-6">
-        <div className="flex w-full">
-          <label htmlFor="username" className="text-body mr-2 flex-1 whitespace-nowrap p-2">
-            Username :
-          </label>
-          <input
-            type="text"
-            id="username"
-            defaultValue={currentUsername}
-            onChange={(e) => setNewUsername(e.target.value)}
-            className="flex-3 w-full rounded-lg bg-white/50 p-2 text-gray-100"
-          />
-        </div>
-        <div className="flex w-1/5 items-center justify-center">
+    <div className="z-10 flex w-full flex-col items-center justify-between rounded-lg bg-gray-400 p-4 shadow-xl md:flex-row md:items-center md:justify-between md:p-6 lg:p-8">
+      <div className="flex w-full flex-col md:flex-row md:items-center">
+        <label
+          htmlFor="username"
+          className="text-body mb-2 block whitespace-nowrap p-2 text-center md:mb-0 md:mr-2 md:flex-1 lg:flex-1"
+        >
+          Username :
+        </label>
+        <input
+          ref={newUsernameRef}
+          type="text"
+          id="username"
+          defaultValue={currentUsername}
+          className="flex-3 w-full rounded-lg bg-white/50 p-2 text-gray-100 md:mr-2 lg:mr-4"
+        />
+        <div className="mt-4 flex w-full items-center justify-center md:mt-0 md:w-1/4 lg:w-1/5">
           <Button size="regular" color="green" content="Update" onClick={handleUpdateUsername} />
         </div>
       </div>

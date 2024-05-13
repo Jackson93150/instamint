@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
 
 import { UNIQUE_URL_REGEX } from '@/constants';
@@ -11,8 +11,8 @@ import { containsSensitiveWord } from '../../assets/filter/sensitiveWords';
 const ChangeLinkComponent = () => {
   const navigate = useNavigate();
   const [currentUrl, setCurrentUrl] = useState('');
-  const [newUrl, setNewUrl] = useState('');
   const { toggleAlert } = useAlert();
+  const newUrlRef = useRef<HTMLInputElement>(null);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -35,68 +35,71 @@ const ChangeLinkComponent = () => {
   }, [navigate, toggleAlert]);
 
   const handleUpdateUniqueUrl = async () => {
-    const trimmedNewUrl = newUrl.trim();
+    const newUrl = newUrlRef.current?.value.trim();
+    if (!newUrl) {
+      toggleAlert({
+        alertType: 'error',
+        content: 'Please provide a URL.',
+      });
+      return;
+    }
 
-    if (containsSensitiveWord(trimmedNewUrl.toLowerCase())) {
+    if (containsSensitiveWord(newUrl.toLowerCase())) {
       toggleAlert({
         alertType: 'error',
         content: 'The URL contains inappropriate content. Please choose another one.',
       });
-
       return;
     }
 
-    if (!UNIQUE_URL_REGEX.test(trimmedNewUrl)) {
+    if (!UNIQUE_URL_REGEX.test(newUrl)) {
       toggleAlert({
         alertType: 'error',
         content: 'Please insert a valid URL.',
       });
       return;
     }
-    if (trimmedNewUrl === currentUrl) {
+    if (newUrl === currentUrl) {
       toggleAlert({
         alertType: 'warning',
         content: 'No changes detected in the URL.',
       });
       return;
     }
-    trimmedNewUrl.split('').join(' ');
 
     try {
-      const data = {
-        uniqueUrl: trimmedNewUrl,
-      };
+      const data = { uniqueUrl: newUrl };
       await updateUniqueUrl(data);
-      setCurrentUrl(newUrl.trim());
+      setCurrentUrl(newUrl);
       toggleAlert({
         alertType: 'success',
         content: 'URL updated successfully!',
       });
     } catch (error) {
       toggleAlert({
-        alertType: 'warning',
+        alertType: 'error',
         content: 'This unique URL is already used.',
       });
     }
   };
 
   return (
-    <div className="z-10 flex w-full flex-col">
-      <div className="flex w-full items-center justify-between rounded-lg bg-gray-400 p-4 shadow-xl sm:p-6">
-        <div className="flex w-full items-center space-y-4 sm:flex-row sm:space-x-4 sm:space-y-0">
-          <label htmlFor="uniqueUrl" className="text-body">
-            Unique URL :
-          </label>
-          <input
-            type="text"
-            id="newUrl"
-            value={newUrl}
-            onChange={(e) => setNewUrl(e.target.value)}
-            className="flex w-4/5 rounded-lg bg-white/50 p-2 text-gray-100"
-            placeholder={currentUrl}
-          />
-        </div>
-        <div className="flex w-1/5 items-center justify-center">
+    <div className="z-10 flex w-full flex-col items-center justify-between rounded-lg bg-gray-400 p-4 shadow-xl md:flex-row md:items-center md:justify-between md:p-6 lg:p-8">
+      <div className="flex w-full flex-col md:flex-row md:items-center">
+        <label
+          htmlFor="uniqueUrl"
+          className="text-body mb-2 block whitespace-nowrap p-2 text-center md:mb-0 md:mr-2 md:flex-1 lg:flex-1"
+        >
+          Unique URL :
+        </label>
+        <input
+          ref={newUrlRef}
+          type="text"
+          id="newUrl"
+          defaultValue={currentUrl}
+          className="flex-3 w-full rounded-lg bg-white/50 p-2 text-gray-100 md:mr-2 lg:mr-4"
+        />
+        <div className="mt-4 flex w-full items-center justify-center md:mt-0 md:w-1/4 lg:w-1/5">
           <Button size="regular" color="green" content="Update" onClick={handleUpdateUniqueUrl} />
         </div>
       </div>
