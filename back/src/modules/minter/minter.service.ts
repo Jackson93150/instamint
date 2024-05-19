@@ -151,6 +151,24 @@ export class MinterService {
     }
   }
 
+  @Cron(CronExpression.EVERY_DAY_AT_MIDNIGHT)
+  async removeUnvalidatedMinters() {
+    const sevenDaysAgo = new Date();
+    sevenDaysAgo.setDate(sevenDaysAgo.getDay() - 7);
+
+    try {
+      await this.minterRepository
+        .createQueryBuilder()
+        .delete()
+        .from(MinterEntity)
+        .where('isValidate = :isValidate', { isValidate: false })
+        .andWhere('createdAt < :sevenDaysAgo', { sevenDaysAgo })
+        .execute();
+    } catch (error) {
+      console.error('Failed to remove old unvalidated minters:', error);
+    }
+  }
+
   async getMinterById(id: number): Promise<MinterEntity | undefined> {
     return this.minterRepository.findOne({ where: { id } });
   }
