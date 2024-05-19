@@ -1,4 +1,4 @@
-import { useContext, useEffect, useState } from 'react';
+import { useContext, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 
 import { SearchBar } from '../search/search-bar';
@@ -9,26 +9,13 @@ import LogoSmall from '@/assets/logo-small.png';
 import Logo from '@/assets/logo.png';
 import { SidebarContext } from '@/context';
 import { SearchOutput } from '@/interfaces';
-import { searchMinters, connectedMinter } from '@/services';
+import { searchMinters } from '@/services';
 import { Button } from '@/ui';
 
 export const Navbar = () => {
   const navigate = useNavigate();
   const sidebarContext = useContext(SidebarContext);
   const [minters, setMinters] = useState<SearchOutput[]>([]);
-  const [isAuthenticated, setIsAuthenticated] = useState<boolean>(false);
-
-  useEffect(() => {
-    const checkAuthentication = async () => {
-      try {
-        await connectedMinter();
-        setIsAuthenticated(true);
-      } catch {
-        setIsAuthenticated(false);
-      }
-    };
-    checkAuthentication();
-  }, []);
 
   const handleSearch = async (query: string) => {
     if (!query.trim()) {
@@ -62,7 +49,7 @@ export const Navbar = () => {
         }}
       />
       <div className="flex w-full flex-1">
-        {isAuthenticated && <SearchBar onSearch={handleSearch} minters={minters} />}
+        {sidebarContext.minterData && <SearchBar onSearch={handleSearch} minters={minters} />}
       </div>
       <div className="gap-1U flex items-center">
         {sidebarContext.minterData ? (

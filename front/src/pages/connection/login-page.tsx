@@ -36,7 +36,6 @@ export const LoginPage = () => {
       const minter = await connectedMinter();
       if (minter.isValidate) {
         navigate('/');
-        window.location.reload();
       } else {
         await sendVerificationMail({ email: minter.email });
         setIsConfirm(false);
