@@ -49,7 +49,7 @@ export const Navbar = () => {
         }}
       />
       <div className="flex w-full flex-1">
-        <SearchBar onSearch={handleSearch} minters={minters} />
+        {sidebarContext.minterData && <SearchBar onSearch={handleSearch} minters={minters} />}
       </div>
       <div className="gap-1U flex items-center">
         {sidebarContext.minterData ? (
